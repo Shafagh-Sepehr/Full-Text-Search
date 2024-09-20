@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeStar2", "CodeStar2\CodeStar2.csproj", "{72991E15-1ACA-4023-B98E-AEE159CED467}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FullTextSearch", "FullTextSearch\FullTextSearch.csproj", "{72991E15-1ACA-4023-B98E-AEE159CED467}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Porter2Stemmer", "porter2-stemmer\Porter2Stemmer\Porter2Stemmer.csproj", "{A302EB68-7895-4EE8-BC4D-D78FAFB3695F}"
 EndProject
