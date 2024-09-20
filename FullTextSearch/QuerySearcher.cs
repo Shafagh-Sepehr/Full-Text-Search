@@ -2,14 +2,13 @@ using Porter2Stemmer;
 
 namespace CodeStar2;
 
-internal class QuerySearcher(
+public class QuerySearcher(
     Dictionary<string, List<string>> _invertedIndex,
-    string _query,
     IPorter2Stemmer _stemmer)
 {
     private readonly Dictionary<string, List<string>> _invertedIndex = _invertedIndex;
-    private readonly string[]                         _queryWords    = _query.Trim().Split();
     private readonly IPorter2Stemmer                  _stemmer       = _stemmer;
+    private          string[]                         _queryWords    = null!;
 
     private List<string> AndWords
     {
@@ -55,8 +54,7 @@ internal class QuerySearcher(
         if (andDocsList.Count > 0)
             return andDocsList.Skip(1).Aggregate(new List<string>(andDocsList[0]),
                                                  (result, list) => result.Intersect(list).ToList());
-        else
-            return [];
+        return [];
     }
 
     private List<string> GetOrDocs()
@@ -73,9 +71,11 @@ internal class QuerySearcher(
             .Select(x => x.Value).SelectMany(x => x).ToList();
     }
 
-    public IEnumerable<string> Search()
+    public IEnumerable<string> Search(string query)
     {
-        if(OrWords.Count>0 && AndWords.Count>0)
+        _queryWords = query.Trim().Split();
+
+        if (OrWords.Count > 0 && AndWords.Count > 0)
             return GetAndDocs().Intersect(GetOrDocs()).Except(GetNotDocs());
         else if (AndWords.Count > 0)
             return GetAndDocs().Except(GetNotDocs());

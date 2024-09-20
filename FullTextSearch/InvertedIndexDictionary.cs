@@ -54,8 +54,8 @@ internal class InvertedIndexDictionary
     
     public IEnumerable<string> Search(string query)
     {
-        var searcher = new QuerySearcher(_invertedIndex, query, _stemmer);
-        return searcher.Search();
+        var searcher = new QuerySearcher(_invertedIndex, _stemmer);
+        return searcher.Search(query);
     }
     
 }
