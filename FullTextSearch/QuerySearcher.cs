@@ -2,15 +2,13 @@ using Porter2Stemmer;
 
 namespace CodeStar2;
 
-public class QuerySearcher(
-    Dictionary<string, List<string>> _invertedIndex,
-    IPorter2Stemmer _stemmer)
+public static class QuerySearcher
 {
-    private readonly Dictionary<string, List<string>> _invertedIndex = _invertedIndex;
-    private readonly IPorter2Stemmer                  _stemmer       = _stemmer;
-    private          string[]                         _queryWords    = null!;
+    private static Dictionary<string, List<string>> _invertedIndex = null!;
+    private static IPorter2Stemmer                  _stemmer       = null!;
+    private static string[]                         _queryWords    = null!;
 
-    private List<string> AndWords
+    private static List<string> AndWords
     {
         get
         {
@@ -21,7 +19,7 @@ public class QuerySearcher(
         }
     }
 
-    private List<string> OrWords
+    private static List<string> OrWords
     {
         get
         {
@@ -33,7 +31,7 @@ public class QuerySearcher(
         }
     }
 
-    private List<string> NotWords
+    private static List<string> NotWords
     {
         get
         {
@@ -45,41 +43,52 @@ public class QuerySearcher(
         }
     }
 
-    private List<string> GetAndDocs()
+    private static HashSet<string> GetDocumentsForAndQueries()
     {
         var andDocsList = _invertedIndex
             .Where(x => AndWords.Contains(x.Key))
             .Select(x => x.Value).ToList();
 
-        if (andDocsList.Count > 0)
-            return andDocsList.Skip(1).Aggregate(new List<string>(andDocsList[0]),
-                                                 (result, list) => result.Intersect(list).ToList());
-        return [];
+        
+        
+        if (andDocsList.Count == 0) return [];
+        
+        var result = new HashSet<string>(andDocsList[0]);
+        for (var i = 1; i < andDocsList.Count; i++)
+            result.IntersectWith(andDocsList[i]);
+        
+        return result;
+        
     }
 
-    private List<string> GetOrDocs()
+    private static HashSet<string> GetDocumentsForOrQueries()
     {
         return _invertedIndex
             .Where(x => OrWords.Contains(x.Key))
-            .Select(x => x.Value).SelectMany(x => x).ToList();
+            .Select(x => x.Value).SelectMany(x => x)
+            .ToHashSet();
     }
 
-    private List<string> GetNotDocs()
+    private static HashSet<string> GetDocumentsForNotQueries()
     {
         return _invertedIndex
             .Where(x => NotWords.Contains(x.Key))
-            .Select(x => x.Value).SelectMany(x => x).ToList();
+            .Select(x => x.Value).SelectMany(x => x)
+            .ToHashSet();
     }
 
-    public IEnumerable<string> Search(string query)
+    public static IEnumerable<string> Search(string query, Dictionary<string, List<string>> invertedIndex,
+                                             IPorter2Stemmer stemmer)
     {
         _queryWords = query.Trim().Split();
+        _invertedIndex = invertedIndex;
+        _stemmer = stemmer;
 
         if (OrWords.Count > 0 && AndWords.Count > 0)
-            return GetAndDocs().Intersect(GetOrDocs()).Except(GetNotDocs());
+            return GetDocumentsForAndQueries().Intersect(GetDocumentsForOrQueries()).Except(GetDocumentsForNotQueries());
         else if (AndWords.Count > 0)
-            return GetAndDocs().Except(GetNotDocs());
+            return GetDocumentsForAndQueries().Except(GetDocumentsForNotQueries());
         else
-            return GetOrDocs().Except(GetNotDocs());
+            return GetDocumentsForOrQueries().Except(GetDocumentsForNotQueries());
     }
 }

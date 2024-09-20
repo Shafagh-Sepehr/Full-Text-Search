@@ -28,7 +28,7 @@ public partial class StringToWordsProcessor
 
     
     
-    public StringToWordsProcessor(List<string>? banned)
+    public StringToWordsProcessor(IEnumerable<string>? banned)
     {
         if (banned != null) 
             _banned.AddRange(banned);
