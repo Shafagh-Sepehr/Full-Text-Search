@@ -3,56 +3,51 @@ using Porter2Stemmer;
 
 namespace CodeStar2;
 
-internal static class InvertedIndexDictionaryBuilder
+internal class InvertedIndexDictionaryBuilder(IPorter2Stemmer stemmer, IEnumerable<string>? banned = null)
 {
-    private static IPorter2Stemmer        _stemmer                = null!;
-    private static StringToWordsProcessor _stringToWordsProcessor = null!;
+    private readonly StringToWordsProcessor           _stringToWordsProcessor = new(banned);
+    private          Dictionary<string, List<string>> _invertedIndex          = new();
 
-
-    public static Dictionary<string, List<string>> Build(string filepath, IPorter2Stemmer stemmer,
-                                                         IEnumerable<string>? banned = null)
+    public Dictionary<string, List<string>> Build(string filepath)
     {
-        Dictionary<string, List<string>> invertedIndex = new();
-        _stemmer = stemmer;
 
-        _stringToWordsProcessor = new StringToWordsProcessor(banned);
+        
         string[] files = Directory.GetFiles(filepath);
 
         
         if (File.Exists("/home/shafagh/Desktop/EnglishData/inverted_index.json"))
         {
             var invertedIndexJson = File.ReadAllText("/home/shafagh/Desktop/EnglishData/inverted_index.json");
-            invertedIndex = JsonSerializer.Deserialize<Dictionary<string, List<string>>>(invertedIndexJson)!;
+            _invertedIndex = JsonSerializer.Deserialize<Dictionary<string, List<string>>>(invertedIndexJson)!;
         }
         else
         {
-            FillInvertedIndex(invertedIndex, files);
-            string invertedIndexJson = JsonSerializer.Serialize(invertedIndex);
+            FillInvertedIndex(files);
+            string invertedIndexJson = JsonSerializer.Serialize(_invertedIndex);
             File.WriteAllText("/home/shafagh/Desktop/EnglishData/inverted_index.json", invertedIndexJson);
         }
 
-        return invertedIndex;
+        return _invertedIndex;
     }
 
-    private static void FillInvertedIndex(Dictionary<string, List<string>> invertedIndex, string[] files)
+    private void FillInvertedIndex(string[] files)
     {
         foreach (var fileName in files)
         {
             var content = File.ReadAllText(fileName);
 
-            var words = _stringToWordsProcessor.TrimSplitAndStemString(content, _stemmer);
+            var words = _stringToWordsProcessor.TrimSplitAndStemString(content, stemmer);
 
             foreach (var word in words)
-                CreateOrUpdateValue(invertedIndex, word, fileName);
+                CreateOrUpdateValue(word, fileName);
         }
     }
 
-    private static void CreateOrUpdateValue(Dictionary<string, List<string>> invertedIndex, string word,
-                                            string fileName)
+    private void CreateOrUpdateValue( string word, string fileName)
     {
-        if (invertedIndex.TryGetValue(word, out var value))
+        if (_invertedIndex.TryGetValue(word, out var value))
             value.Add(fileName.Split('/')[^1]);
         else
-            invertedIndex[word] = [fileName.Split('/')[^1],];
+            _invertedIndex[word] = [fileName.Split('/')[^1],];
     }
 }
