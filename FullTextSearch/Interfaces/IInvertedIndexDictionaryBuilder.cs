@@ -1,6 +1,6 @@
 using Porter2Stemmer;
 
-namespace CodeStar2;
+namespace CodeStar2.Interfaces;
 
 public interface IInvertedIndexDictionaryBuilder
 {

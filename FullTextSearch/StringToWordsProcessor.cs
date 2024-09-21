@@ -1,4 +1,5 @@
 using System.Text.RegularExpressions;
+using CodeStar2.Interfaces;
 using Porter2Stemmer;
 
 namespace CodeStar2;
