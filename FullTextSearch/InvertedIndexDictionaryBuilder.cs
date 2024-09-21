@@ -3,18 +3,19 @@ using Porter2Stemmer;
 
 namespace CodeStar2;
 
-internal class InvertedIndexDictionaryBuilder(IPorter2Stemmer stemmer, IEnumerable<string>? banned = null) : IInvertedIndexDictionaryBuilder
+internal class InvertedIndexDictionaryBuilder(IEnumerable<string>? banned = null) : IInvertedIndexDictionaryBuilder
 {
     private readonly StringToWordsProcessor           _stringToWordsProcessor = new(banned);
     private          Dictionary<string, List<string>> _invertedIndex          = new();
+    private          IPorter2Stemmer                  _stemmer                = null!;
 
-    public Dictionary<string, List<string>> Build(string filepath)
+    public Dictionary<string, List<string>> Build(string filepath, IPorter2Stemmer stemmer)
     {
+        _stemmer = stemmer;
 
-        
-        string[] files = Directory.GetFiles(filepath);
+        var files = Directory.GetFiles(filepath);
 
-        
+
         if (File.Exists("/home/shafagh/Desktop/EnglishData/inverted_index.json"))
         {
             var invertedIndexJson = File.ReadAllText("/home/shafagh/Desktop/EnglishData/inverted_index.json");
@@ -23,7 +24,7 @@ internal class InvertedIndexDictionaryBuilder(IPorter2Stemmer stemmer, IEnumerab
         else
         {
             FillInvertedIndex(files);
-            string invertedIndexJson = JsonSerializer.Serialize(_invertedIndex);
+            var invertedIndexJson = JsonSerializer.Serialize(_invertedIndex);
             File.WriteAllText("/home/shafagh/Desktop/EnglishData/inverted_index.json", invertedIndexJson);
         }
 
@@ -36,16 +37,16 @@ internal class InvertedIndexDictionaryBuilder(IPorter2Stemmer stemmer, IEnumerab
         {
             var content = File.ReadAllText(fileName);
 
-            var words = _stringToWordsProcessor.TrimSplitAndStemString(content, stemmer);
+            IEnumerable<string> words = _stringToWordsProcessor.TrimSplitAndStemString(content, _stemmer);
 
             foreach (var word in words)
                 CreateOrUpdateValue(word, fileName);
         }
     }
 
-    private void CreateOrUpdateValue( string word, string fileName)
+    private void CreateOrUpdateValue(string word, string fileName)
     {
-        if (_invertedIndex.TryGetValue(word, out var value))
+        if (_invertedIndex.TryGetValue(word, out List<string>? value))
             value.Add(fileName.Split('/')[^1]);
         else
             _invertedIndex[word] = [fileName.Split('/')[^1],];
