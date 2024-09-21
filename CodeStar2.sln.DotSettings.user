@@ -1,0 +1,12 @@
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/Environment/Highlighting/HighlightingSourceSnapshotLocation/@EntryValue">/home/shafagh/snap/alacritty/common/.cache/JetBrains/Rider2024.1/resharper-host/temp/Rider/vAny/CoverageData/_CodeStar2.1038679880/Snapshot/snapshot.utdcvr</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=3716a5a9_002Db209_002D4420_002D9e4e_002Dc415809e2b47/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="TestDifferentQueries" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;xUnit::3BD39FDE-A66D-4658-AA08-FC50EBDA1369::net8.0::FullTextSearch.Tests.QuerySearcherTests.TestDifferentQueries&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=5be4ea91_002D2c51_002D48a3_002Da719_002D9dd3388f2ac5/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="TestDifferentQueries #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;xUnit::3BD39FDE-A66D-4658-AA08-FC50EBDA1369::net8.0::FullTextSearch.Tests.QuerySearcherTests.TestDifferentQueries&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
