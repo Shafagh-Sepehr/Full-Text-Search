@@ -3,7 +3,7 @@ using Porter2Stemmer;
 
 namespace CodeStar2;
 
-internal class InvertedIndexDictionaryBuilder(IPorter2Stemmer stemmer, IEnumerable<string>? banned = null)
+internal class InvertedIndexDictionaryBuilder(IPorter2Stemmer stemmer, IEnumerable<string>? banned = null) : IInvertedIndexDictionaryBuilder
 {
     private readonly StringToWordsProcessor           _stringToWordsProcessor = new(banned);
     private          Dictionary<string, List<string>> _invertedIndex          = new();
