@@ -42,7 +42,7 @@ public partial class StringToWordsProcessor
         return source
             .Trim()
             .Split()
-            .Where(x => !UrlRegex().IsMatch(x) || !EmailRegex().IsMatch(x) || !PhoneNumberRegex().IsMatch(x))
+            .Where(x => !UrlRegex().IsMatch(x) && !EmailRegex().IsMatch(x) && !PhoneNumberRegex().IsMatch(x))
             .Select(CleanseString).SelectMany(x => x) // flatten the string arrays
             .Select(x => stemmer.Stem(x).Value.ToLower())
             .Where(x => !string.IsNullOrWhiteSpace(x) && x.Length >= 3 && !_banned.Contains(x))
@@ -56,8 +56,9 @@ public partial class StringToWordsProcessor
         if (!IsNumberAndMoreThan2Digits(value))
             value = value.Trim("012345689".ToCharArray()); //trim digits of a string if the string isn't at least a two-digit number
         
-        return value.Split("-_.'()[]'\";:./,\\><".ToCharArray()); //split the string to extract words seperated by charachters other than space
+        return value.Split("-_'()[]'\";:/,\\><".ToCharArray()); //split the string to extract words seperated by characters other than space
     }
     
-    private bool IsNumberAndMoreThan2Digits(string value) => double.TryParse(value, out var result) && value.Length >= 3;
+    private bool IsNumberAndMoreThan2Digits(string value) =>
+        double.TryParse(value, out var result) && value.Length >= 3;
 }
