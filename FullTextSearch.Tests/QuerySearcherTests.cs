@@ -1,4 +1,3 @@
-using System.Collections;
 using CodeStar2;
 using FluentAssertions;
 using NSubstitute;
@@ -19,24 +18,23 @@ public class QuerySearcherTests
     };
 
     private readonly IPorter2Stemmer _stemmer = Substitute.For<IPorter2Stemmer>();
-    
-    
+
+
     [Theory]
     [MemberData(nameof(TestData))]
     public void TestDifferentQueries(string query, string[] expectedResult)
     {
         //Arrange
-        _stemmer.Stem(Arg.Any<string>()).Returns(callInfo => 
+        _stemmer.Stem(Arg.Any<string>()).Returns(callInfo =>
         {
             var input = callInfo.Arg<string>();
             return new StemmedWord(input, input);
         });
 
-        
-        
+
         //Act
         IEnumerable<string> documents = QuerySearcher.Search(query, _invertedIndex, _stemmer);
-        
+
         //Assert
         documents.Should().BeEquivalentTo(expectedResult);
     }
@@ -44,18 +42,19 @@ public class QuerySearcherTests
 
     public static IEnumerable<object[]> TestData()
     {
-        yield return ["blue +red +green -yellow", new[] {"2"}];
-        yield return ["+red", new[] {"1", "7"}];
-        yield return ["+blue +red -purple", new[] {"2", "1", "7"}];
-        yield return ["green yellow", new[] {"1"}];
-        yield return ["-green", Array.Empty<object>()];
-        yield return ["green", new[] {"1","2"}];
-        yield return ["blue purple +green +red +yellow", Array.Empty<object>()];
-        yield return ["blue purple +yellow", Array.Empty<object>()];
-        yield return ["blue purple -yellow", new[] {"3","4","5","6"}];
-        yield return ["blue purple +black -yellow", new[] {"3","4"}];
-        yield return ["blue purple -black", new[] {"5","6"}];
-        yield return ["blue purple", new[] {"3","4","5","6"}];
-        yield return ["green yellow -blue", Array.Empty<object>()];
+        yield return ["blue +red +green -yellow", new[] { "2", },];
+        yield return ["+red", new[] { "1", "7", },];
+        yield return ["+blue +red -purple", new[] { "2", "1", "7", },];
+        yield return ["green yellow", new[] { "1", },];
+        yield return ["green", new[] { "1", "2", },];
+        yield return ["blue purple -yellow", new[] { "3", "4", "5", "6", },];
+        yield return ["blue purple +black -yellow", new[] { "3", "4", },];
+        yield return ["blue purple -black", new[] { "5", "6", },];
+        yield return ["blue purple", new[] { "3", "4", "5", "6", },];
+        yield return ["-green", Array.Empty<object>(),];
+        yield return ["blue purple +green +red +yellow", Array.Empty<object>(),];
+        yield return ["blue purple +yellow", Array.Empty<object>(),];
+        yield return ["green yellow -blue", Array.Empty<object>(),];
+        yield return ["", Array.Empty<object>(),];
     }
 }
