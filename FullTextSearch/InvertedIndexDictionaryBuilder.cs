@@ -4,16 +4,14 @@ using Porter2Stemmer;
 
 namespace CodeStar2;
 
-internal class InvertedIndexDictionaryBuilder(IEnumerable<string>? banned = null) : IInvertedIndexDictionaryBuilder
+internal class InvertedIndexDictionaryBuilder(IStringToWordsProcessor stringToWordsProcessor, IPorter2Stemmer stemmer) : IInvertedIndexDictionaryBuilder
 {
-    private readonly StringToWordsProcessor           _stringToWordsProcessor = new(banned);
+    private readonly IStringToWordsProcessor          _stringToWordsProcessor = stringToWordsProcessor;
     private          Dictionary<string, List<string>> _invertedIndex          = new();
-    private          IPorter2Stemmer                  _stemmer                = null!;
+    private readonly IPorter2Stemmer                  _stemmer                = stemmer;
 
-    public Dictionary<string, List<string>> Build(string filepath, IPorter2Stemmer stemmer)
+    public Dictionary<string, List<string>> Build(string filepath)
     {
-        _stemmer = stemmer;
-
         var files = Directory.GetFiles(filepath);
 
 

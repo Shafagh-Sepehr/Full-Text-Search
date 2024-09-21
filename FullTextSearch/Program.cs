@@ -1,12 +1,16 @@
-﻿namespace CodeStar2;
+﻿using Porter2Stemmer;
+
+namespace CodeStar2;
 
 internal static class Program
 {
     private static void Main()
     {
+        IPorter2Stemmer stemmer = new EnglishPorter2Stemmer();
+        
         var invertedIndex = new InvertedIndexDictionary("/home/shafagh/Desktop/EnglishData",
-                                                        new InvertedIndexDictionaryBuilder(["will",]),
-                                                        new QuerySearcher());
+                                                        new InvertedIndexDictionaryBuilder(new StringToWordsProcessor(["will",]), stemmer),
+                                                        new QuerySearcher(stemmer));
 
 
         Console.Write("Search: ");

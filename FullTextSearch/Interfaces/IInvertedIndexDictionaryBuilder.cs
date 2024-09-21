@@ -4,5 +4,5 @@ namespace CodeStar2.Interfaces;
 
 public interface IInvertedIndexDictionaryBuilder
 {
-    Dictionary<string, List<string>> Build(string filepath, IPorter2Stemmer stemmer);
+    Dictionary<string, List<string>> Build(string filepath);
 }

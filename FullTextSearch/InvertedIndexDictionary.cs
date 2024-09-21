@@ -14,8 +14,8 @@ public class InvertedIndexDictionary
                                    IQuerySearcher querySearcher)
     {
         _querySearcher = querySearcher;
-        _invertedIndex = invertedIndexDictionaryBuilder.Build(filepath, _stemmer);
+        _invertedIndex = invertedIndexDictionaryBuilder.Build(filepath);
     }
 
-    public IEnumerable<string> Search(string query) => _querySearcher.Search(query, _invertedIndex, _stemmer);
+    public IEnumerable<string> Search(string query) => _querySearcher.Search(query, _invertedIndex);
 }

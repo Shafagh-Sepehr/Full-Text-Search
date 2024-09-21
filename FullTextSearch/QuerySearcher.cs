@@ -3,56 +3,19 @@ using Porter2Stemmer;
 
 namespace CodeStar2;
 
-public class QuerySearcher : IQuerySearcher
+public class QuerySearcher(IPorter2Stemmer stemmer) : IQuerySearcher
 {
     private Dictionary<string, List<string>> _invertedIndex = null!;
     private string[]                         _queryWords    = null!;
-    private IPorter2Stemmer                  _stemmer       = null!;
-
-    private List<string> AndWords
-    {
-        get
-        {
-            return _queryWords
-                .Where(x => x[0] != '+' && x[0] != '-')
-                .Select(x => _stemmer.Stem(x).Value)
-                .ToList();
-        }
-    }
-
-    private List<string> OrWords
-    {
-        get
-        {
-            return _queryWords
-                .Where(x => x[0] == '+')
-                .Select(x => x.Substring(1, x.Length - 1))
-                .Select(x => _stemmer.Stem(x).Value)
-                .ToList();
-        }
-    }
-
-    private List<string> NotWords
-    {
-        get
-        {
-            return _queryWords
-                .Where(x => x[0] == '-')
-                .Select(x => x.Substring(1, x.Length - 1))
-                .Select(x => _stemmer.Stem(x).Value)
-                .ToList();
-        }
-    }
-
-    public IEnumerable<string> Search(string query, Dictionary<string, List<string>> invertedIndex,
-                                      IPorter2Stemmer stemmer)
+    
+    
+    public IEnumerable<string> Search(string query, Dictionary<string, List<string>> invertedIndex)
     {
         if (string.IsNullOrWhiteSpace(query))
             return [];
 
         _queryWords = query.Trim().Split();
         _invertedIndex = invertedIndex;
-        _stemmer = stemmer;
 
 
         if (OrWords.Count > 0 && AndWords.Count > 0)
@@ -64,6 +27,42 @@ public class QuerySearcher : IQuerySearcher
             return GetDocumentsForOrQueries().Except(GetDocumentsForNotQueries());
         return [];
     }
+    
+    private List<string> AndWords
+    {
+        get
+        {
+            return _queryWords
+                .Where(x => x[0] != '+' && x[0] != '-')
+                .Select(x => stemmer.Stem(x).Value)
+                .ToList();
+        }
+    }
+
+    private List<string> OrWords
+    {
+        get
+        {
+            return _queryWords
+                .Where(x => x[0] == '+')
+                .Select(x => x.Substring(1, x.Length - 1))
+                .Select(x => stemmer.Stem(x).Value)
+                .ToList();
+        }
+    }
+
+    private List<string> NotWords
+    {
+        get
+        {
+            return _queryWords
+                .Where(x => x[0] == '-')
+                .Select(x => x.Substring(1, x.Length - 1))
+                .Select(x => stemmer.Stem(x).Value)
+                .ToList();
+        }
+    }
+
 
     private HashSet<string> GetDocumentsForAndQueries()
     {
@@ -71,7 +70,8 @@ public class QuerySearcher : IQuerySearcher
             .Where(x => AndWords.Contains(x.Key))
             .Select(x => x.Value).ToList();
 
-
+        if (andDocsList.Count < 0) return [];
+            
         var result = new HashSet<string>(andDocsList[0]);
         for (var i = 1; i < andDocsList.Count; i++)
             result.IntersectWith(andDocsList[i]);
