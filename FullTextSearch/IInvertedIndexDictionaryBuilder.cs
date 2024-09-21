@@ -1,6 +1,6 @@
 namespace CodeStar2;
 
-internal interface IInvertedIndexDictionaryBuilder
+public interface IInvertedIndexDictionaryBuilder
 {
     Dictionary<string, List<string>> Build(string filepath);
 }
