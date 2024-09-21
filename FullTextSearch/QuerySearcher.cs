@@ -48,10 +48,7 @@ public static class QuerySearcher
         var andDocsList = _invertedIndex
             .Where(x => AndWords.Contains(x.Key))
             .Select(x => x.Value).ToList();
-
         
-        
-        if (andDocsList.Count == 0) return [];
         
         var result = new HashSet<string>(andDocsList[0]);
         for (var i = 1; i < andDocsList.Count; i++)
@@ -77,8 +74,7 @@ public static class QuerySearcher
             .ToHashSet();
     }
 
-    public static IEnumerable<string> Search(string query, Dictionary<string, List<string>> invertedIndex,
-                                             IPorter2Stemmer stemmer)
+    public static IEnumerable<string> Search(string query, Dictionary<string, List<string>> invertedIndex, IPorter2Stemmer stemmer)
     {
         _queryWords = query.Trim().Split();
         _invertedIndex = invertedIndex;
