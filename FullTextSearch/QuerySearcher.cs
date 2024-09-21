@@ -76,6 +76,9 @@ public static class QuerySearcher
 
     public static IEnumerable<string> Search(string query, Dictionary<string, List<string>> invertedIndex, IPorter2Stemmer stemmer)
     {
+        if (string.IsNullOrWhiteSpace(query))
+            return [];
+        
         _queryWords = query.Trim().Split();
         _invertedIndex = invertedIndex;
         _stemmer = stemmer;
@@ -84,7 +87,9 @@ public static class QuerySearcher
             return GetDocumentsForAndQueries().Intersect(GetDocumentsForOrQueries()).Except(GetDocumentsForNotQueries());
         else if (AndWords.Count > 0)
             return GetDocumentsForAndQueries().Except(GetDocumentsForNotQueries());
-        else
+        else if (OrWords.Count > 0)
             return GetDocumentsForOrQueries().Except(GetDocumentsForNotQueries());
+        else
+            return [];
     }
 }
