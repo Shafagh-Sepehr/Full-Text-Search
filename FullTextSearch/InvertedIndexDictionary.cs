@@ -3,19 +3,15 @@ using Porter2Stemmer;
 
 namespace CodeStar2;
 
-public class InvertedIndexDictionary
+public class InvertedIndexDictionary(
+    string filepath,
+    IInvertedIndexDictionaryBuilder invertedIndexDictionaryBuilder,
+    IQuerySearcher querySearcher) : IInvertedIndexDictionary
 {
-    private readonly Dictionary<string, List<string>> _invertedIndex;
-
-    private readonly IQuerySearcher  _querySearcher;
-    private readonly IPorter2Stemmer _stemmer = new EnglishPorter2Stemmer();
-
-    public InvertedIndexDictionary(string filepath, IInvertedIndexDictionaryBuilder invertedIndexDictionaryBuilder,
-                                   IQuerySearcher querySearcher)
-    {
-        _querySearcher = querySearcher;
-        _invertedIndex = invertedIndexDictionaryBuilder.Build(filepath);
-    }
+    
+    private readonly Dictionary<string, List<string>> _invertedIndex = invertedIndexDictionaryBuilder.Build(filepath);
+    private readonly IQuerySearcher  _querySearcher = querySearcher;
+    private readonly IPorter2Stemmer _stemmer       = new EnglishPorter2Stemmer();
 
     public IEnumerable<string> Search(string query) => _querySearcher.Search(query, _invertedIndex);
 }
