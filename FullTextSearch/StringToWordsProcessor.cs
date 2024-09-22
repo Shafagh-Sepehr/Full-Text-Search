@@ -57,7 +57,7 @@ public partial class StringToWordsProcessor : IStringToWordsProcessor
         if (!IsNumberAndMoreThan2Digits(value))
             value = value.Trim("012345689".ToCharArray()); //trim digits of a string if the string isn't at least a two-digit number
         
-        return value.Split("-_'()[]'\";:/,\\><".ToCharArray()); //split the string to extract words seperated by characters other than space
+        return value.Split("-_'()[]'\";:/,\\><=".ToCharArray()); //split the string to extract words seperated by characters other than space
     }
     
     private bool IsNumberAndMoreThan2Digits(string value) =>
