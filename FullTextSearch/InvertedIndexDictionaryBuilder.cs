@@ -14,12 +14,12 @@ public class InvertedIndexDictionaryBuilder(IStringToWordsProcessor stringToWord
     {
         var files = Directory.GetFiles(filepath);
         
-        FillInvertedIndex(files);
+        FillInvertedIndexFromFile(files);
         
         return _invertedIndex;
     }
 
-    private void FillInvertedIndex(string[] files)
+    private void FillInvertedIndexFromFile(string[] files)
     {
         foreach (var fileName in files)
         {
