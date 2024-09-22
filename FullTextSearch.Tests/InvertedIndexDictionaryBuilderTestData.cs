@@ -7,7 +7,7 @@ public class TextTestPackage
     public required IEnumerable<string> Words    {get; init;}
 }
 
-public static class InvertedIndexTestData
+public static class InvertedIndexDictionaryBuilderTestData
 {
      public static readonly IEnumerable<TextTestPackage> TestData =
     [
