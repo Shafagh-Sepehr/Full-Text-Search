@@ -11,7 +11,6 @@ public class InvertedIndexDictionary(
     
     private readonly Dictionary<string, List<string>> _invertedIndex = invertedIndexDictionaryBuilder.Build(filepath);
     private readonly IQuerySearcher  _querySearcher = querySearcher;
-    private readonly IPorter2Stemmer _stemmer       = new EnglishPorter2Stemmer();
 
     public IEnumerable<string> Search(string query) => _querySearcher.Search(query, _invertedIndex);
 }
