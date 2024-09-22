@@ -19,7 +19,7 @@ public class InvertedIndexDictionaryBuilderTest
     private readonly IStringToWordsProcessor _stringToWordsProcessor = Substitute.For<IStringToWordsProcessor>();
 
     
-    private readonly Dictionary<string, List<string>>? _expectedInvertedIndex = JsonSerializer.Deserialize<Dictionary<string, List<string>>>(InvertedIndexDictionaryBuilderTestData.InvertedIndexJson);
+    private readonly Dictionary<string, List<string>>? _expectedInvertedIndex = JsonSerializer.Deserialize<Dictionary<string, List<string>>>(InvertedIndexTestData.InvertedIndexJson);
     
 
     [Fact]
@@ -27,7 +27,7 @@ public class InvertedIndexDictionaryBuilderTest
     {
         //Arrange
         Directory.CreateDirectory("/tmp/unit_test_temp");
-        foreach (TextTestPackage testPackage in InvertedIndexDictionaryBuilderTestData.TestData)
+        foreach (TextTestPackage testPackage in InvertedIndexTestData.TestData)
         {
             File.WriteAllText($"/tmp/unit_test_temp/{testPackage.FileName}", testPackage.Text);
             
