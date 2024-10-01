@@ -57,5 +57,6 @@ public class QuerySearcherTests
         yield return ["blue purple +yellow", Array.Empty<object>(),];
         yield return ["green yellow -blue", Array.Empty<object>(),];
         yield return ["", Array.Empty<object>(),];
+        yield return ["non-existent-word-returns-empty-list", Array.Empty<object>(),];
     }
 }

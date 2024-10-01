@@ -70,7 +70,7 @@ public class QuerySearcher(IPorter2Stemmer stemmer) : IQuerySearcher
             .Where(x => AndWords.Contains(x.Key))
             .Select(x => x.Value).ToList();
 
-        if (andDocsList.Count < 0) return [];
+        if (andDocsList.Count < 1) return [];
             
         var result = new HashSet<string>(andDocsList[0]);
         for (var i = 1; i < andDocsList.Count; i++)
