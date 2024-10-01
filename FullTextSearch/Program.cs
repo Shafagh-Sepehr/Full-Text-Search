@@ -14,14 +14,14 @@ internal static class Program
 
 
         Console.Write("Search: ");
-        var query = Console.ReadLine();
+        string? query = Console.ReadLine();
 
         if (string.IsNullOrWhiteSpace(query)) return;
 
         IEnumerable<string> result = invertedIndex.Search(query);
 
         Console.WriteLine("Result:");
-        foreach (var doc in result)
+        foreach (string doc in result)
             Console.WriteLine(doc);
     }
 }

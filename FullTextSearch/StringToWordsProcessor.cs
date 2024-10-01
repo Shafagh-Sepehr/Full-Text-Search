@@ -60,6 +60,6 @@ public partial class StringToWordsProcessor : IStringToWordsProcessor
         return value.Split("-_'()[]'\";:/,\\><=".ToCharArray()); //split the string to extract words seperated by characters other than space
     }
     
-    private bool IsNumberAndMoreThan2Digits(string value) =>
-        double.TryParse(value, out var result) && value.Length >= 3;
+    private static bool IsNumberAndMoreThan2Digits(string value) =>
+        double.TryParse(value, out double result) && value.Length >= 3;
 }

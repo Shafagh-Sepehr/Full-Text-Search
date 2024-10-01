@@ -11,7 +11,7 @@ public class InvertedIndexDictionaryBuilder(IStringToWordsProcessor stringToWord
 
     public Dictionary<string, List<string>> Build(string filepath)
     {
-        var files = Directory.GetFiles(filepath);
+        string[] files = Directory.GetFiles(filepath);
         
         FillInvertedIndexFromFile(files);
         
@@ -20,13 +20,13 @@ public class InvertedIndexDictionaryBuilder(IStringToWordsProcessor stringToWord
 
     private void FillInvertedIndexFromFile(string[] files)
     {
-        foreach (var fileName in files)
+        foreach (string fileName in files)
         {
-            var content = File.ReadAllText(fileName);
+            string content = File.ReadAllText(fileName);
 
             IEnumerable<string> words = _stringToWordsProcessor.TrimSplitAndStemString(content, _stemmer);
 
-            foreach (var word in words)
+            foreach (string word in words)
                 CreateOrUpdateValue(word, fileName);
         }
     }

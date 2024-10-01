@@ -11,21 +11,24 @@ public class QuerySearcher(IPorter2Stemmer stemmer) : IQuerySearcher
     
     public IEnumerable<string> Search(string query, Dictionary<string, List<string>> invertedIndex)
     {
+        IEnumerable<string> result = [];
+        
         if (string.IsNullOrWhiteSpace(query))
-            return [];
+            return result;
 
         _queryWords = query.Trim().Split();
         _invertedIndex = invertedIndex;
 
 
         if (OrWords.Count > 0 && AndWords.Count > 0)
-            return GetDocumentsForAndQueries().Intersect(GetDocumentsForOrQueries())
+            result = GetDocumentsForAndQueries().Intersect(GetDocumentsForOrQueries())
                 .Except(GetDocumentsForNotQueries());
         if (AndWords.Count > 0)
-            return GetDocumentsForAndQueries().Except(GetDocumentsForNotQueries());
+            result = GetDocumentsForAndQueries().Except(GetDocumentsForNotQueries());
         if (OrWords.Count > 0)
-            return GetDocumentsForOrQueries().Except(GetDocumentsForNotQueries());
-        return [];
+            result = GetDocumentsForOrQueries().Except(GetDocumentsForNotQueries());
+        
+        return result;
     }
     
     private List<string> AndWords
