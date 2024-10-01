@@ -2,25 +2,25 @@ name: publish
 
 on:
     release:
-        types: published
+        types: [published]
 
 jobs:
     publish:
-        runs-on: ubuntu-latest
+        runs-on: self-hosted
 
         steps:
-            - uses: actions/checkout@v3
+            - uses: actions/checkout@v4
 
             - name: Setup .NET
-              uses: actions/setup-dotnet@v2
+              uses: actions/setup-dotnet@v4
               with:
-                  dotnet-version: 8.0.x
+                  dotnet-version: 8.0.401
     
             - name: Get current release version
               id: version
               uses: pozetroninc/github-action-get-latest-release@master
               with:
-                  repository: Star-Academy/<repository name>
+                  repository: Shafagh-Sepehr/Full-Text-Search
 
             - name: Build library and generate NuGet Package
               run: dotnet pack -c Release -o artifacts -p:PackageVersion=${{ steps.version.outputs.release }}
