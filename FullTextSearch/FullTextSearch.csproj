@@ -5,7 +5,7 @@
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <RootNamespace>CodeStar2</RootNamespace>
+        <RootNamespace>FullTextSearch</RootNamespace>
         <PackageId>StarAcademy.CodeStar2023.TeamNull.FullTextSearch</PackageId>
         <Authors>Shafagh Sepehr</Authors>
         <Company>Star Academy</Company>
