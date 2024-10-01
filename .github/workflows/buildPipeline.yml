@@ -1,4 +1,5 @@
 name: build
+
 on:
     push:
         branches: [main]
@@ -29,4 +30,10 @@ jobs:
               run: dotnet test --no-restore --verbosity normal --collect:"XPlat Code Coverage"
               working-directory: /
 
-              
+            - name: Publish code coverage reports to codecove.io
+              uses: codecov/codecov-action@v1
+              with:
+                  token: ${{ secrets.CODECOV_TOKEN }}
+                  files: ./**/coverage.cobertura.xml
+                  fail_ci_if_error: true
+
