@@ -2,8 +2,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FullTextSearch", "FullTextSearch\FullTextSearch.csproj", "{72991E15-1ACA-4023-B98E-AEE159CED467}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Porter2Stemmer", "porter2-stemmer\Porter2Stemmer\Porter2Stemmer.csproj", "{A302EB68-7895-4EE8-BC4D-D78FAFB3695F}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FullTextSearch.Tests", "FullTextSearch.Tests\FullTextSearch.Tests.csproj", "{3BD39FDE-A66D-4658-AA08-FC50EBDA1369}"
 EndProject
 Global
@@ -16,10 +14,6 @@ Global
 		{72991E15-1ACA-4023-B98E-AEE159CED467}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{72991E15-1ACA-4023-B98E-AEE159CED467}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{72991E15-1ACA-4023-B98E-AEE159CED467}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A302EB68-7895-4EE8-BC4D-D78FAFB3695F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A302EB68-7895-4EE8-BC4D-D78FAFB3695F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A302EB68-7895-4EE8-BC4D-D78FAFB3695F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A302EB68-7895-4EE8-BC4D-D78FAFB3695F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3BD39FDE-A66D-4658-AA08-FC50EBDA1369}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3BD39FDE-A66D-4658-AA08-FC50EBDA1369}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3BD39FDE-A66D-4658-AA08-FC50EBDA1369}.Release|Any CPU.ActiveCfg = Release|Any CPU

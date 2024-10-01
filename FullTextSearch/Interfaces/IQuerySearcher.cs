@@ -1,5 +1,3 @@
-using Porter2Stemmer;
-
 namespace CodeStar2.Interfaces;
 
 public interface IQuerySearcher

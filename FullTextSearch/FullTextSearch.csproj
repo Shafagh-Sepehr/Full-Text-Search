@@ -9,7 +9,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\porter2-stemmer\Porter2Stemmer\Porter2Stemmer.csproj"/>
+      <PackageReference Include="Porter2Stemmer" Version="1.0.0" />
     </ItemGroup>
 
 </Project>
