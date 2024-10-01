@@ -3,7 +3,7 @@ using Porter2Stemmer;
 
 namespace CodeStar2;
 
-public class QuerySearcher(IPorter2Stemmer? stemmer = null) : IQuerySearcher
+internal class QuerySearcher(IPorter2Stemmer? stemmer = null) : IQuerySearcher
 {
     private          Dictionary<string, List<string>> _invertedIndex = null!;
     private          string[]                         _queryWords    = null!;

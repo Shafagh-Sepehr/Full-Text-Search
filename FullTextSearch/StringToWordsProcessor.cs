@@ -4,7 +4,7 @@ using Porter2Stemmer;
 
 namespace CodeStar2;
 
-public partial class StringToWordsProcessor : IStringToWordsProcessor
+internal partial class StringToWordsProcessor : IStringToWordsProcessor
 {
     private readonly List<string> _banned =
     [
