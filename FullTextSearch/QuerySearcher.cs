@@ -23,9 +23,9 @@ public class QuerySearcher(IPorter2Stemmer stemmer) : IQuerySearcher
         if (OrWords.Count > 0 && AndWords.Count > 0)
             result = GetDocumentsForAndQueries().Intersect(GetDocumentsForOrQueries())
                 .Except(GetDocumentsForNotQueries());
-        if (AndWords.Count > 0)
+        else if (AndWords.Count > 0)
             result = GetDocumentsForAndQueries().Except(GetDocumentsForNotQueries());
-        if (OrWords.Count > 0)
+        else if (OrWords.Count > 0)
             result = GetDocumentsForOrQueries().Except(GetDocumentsForNotQueries());
         
         return result;
