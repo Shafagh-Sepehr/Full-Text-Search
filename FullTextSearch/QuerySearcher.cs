@@ -3,12 +3,13 @@ using Porter2Stemmer;
 
 namespace CodeStar2;
 
-public class QuerySearcher(IPorter2Stemmer stemmer) : IQuerySearcher
+public class QuerySearcher(IPorter2Stemmer? stemmer = null) : IQuerySearcher
 {
-    private Dictionary<string, List<string>> _invertedIndex = null!;
-    private string[]                         _queryWords    = null!;
-    
-    
+    private          Dictionary<string, List<string>> _invertedIndex = null!;
+    private          string[]                         _queryWords    = null!;
+    private readonly IPorter2Stemmer                  _stemmer       = stemmer ?? new EnglishPorter2Stemmer();
+
+
     public IEnumerable<string> Search(string query, Dictionary<string, List<string>> invertedIndex)
     {
         IEnumerable<string> result = [];
@@ -37,7 +38,7 @@ public class QuerySearcher(IPorter2Stemmer stemmer) : IQuerySearcher
         {
             return _queryWords
                 .Where(x => x[0] != '+' && x[0] != '-')
-                .Select(x => stemmer.Stem(x).Value)
+                .Select(x => _stemmer.Stem(x).Value)
                 .ToList();
         }
     }
@@ -49,7 +50,7 @@ public class QuerySearcher(IPorter2Stemmer stemmer) : IQuerySearcher
             return _queryWords
                 .Where(x => x[0] == '+')
                 .Select(x => x.Substring(1, x.Length - 1))
-                .Select(x => stemmer.Stem(x).Value)
+                .Select(x => _stemmer.Stem(x).Value)
                 .ToList();
         }
     }
@@ -61,7 +62,7 @@ public class QuerySearcher(IPorter2Stemmer stemmer) : IQuerySearcher
             return _queryWords
                 .Where(x => x[0] == '-')
                 .Select(x => x.Substring(1, x.Length - 1))
-                .Select(x => stemmer.Stem(x).Value)
+                .Select(x => _stemmer.Stem(x).Value)
                 .ToList();
         }
     }
