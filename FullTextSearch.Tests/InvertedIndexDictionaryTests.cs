@@ -1,10 +1,6 @@
-
-
 using System.Text.Json;
-using System.Threading.Tasks.Sources;
-using CodeStar2;
-using CodeStar2.Interfaces;
 using FluentAssertions;
+using FullTextSearch.Interfaces;
 using NSubstitute;
 
 namespace FullTextSearch.Tests;

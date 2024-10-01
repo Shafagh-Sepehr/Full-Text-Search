@@ -1,4 +1,4 @@
-namespace CodeStar2.Interfaces;
+namespace FullTextSearch.Interfaces;
 
 public interface IQuerySearcher
 {

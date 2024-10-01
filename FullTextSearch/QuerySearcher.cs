@@ -1,7 +1,7 @@
-using CodeStar2.Interfaces;
+using FullTextSearch.Interfaces;
 using Porter2Stemmer;
 
-namespace CodeStar2;
+namespace FullTextSearch;
 
 internal class QuerySearcher(IPorter2Stemmer? stemmer = null) : IQuerySearcher
 {

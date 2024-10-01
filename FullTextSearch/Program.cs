@@ -1,6 +1,4 @@
-﻿using Porter2Stemmer;
-
-namespace CodeStar2;
+﻿namespace FullTextSearch;
 
 internal static class Program
 {

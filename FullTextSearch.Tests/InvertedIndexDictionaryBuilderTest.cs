@@ -1,7 +1,6 @@
 using System.Text.Json;
-using CodeStar2;
-using CodeStar2.Interfaces;
 using FluentAssertions;
+using FullTextSearch.Interfaces;
 using NSubstitute;
 using Porter2Stemmer;
 

@@ -1,6 +1,6 @@
 using Porter2Stemmer;
 
-namespace CodeStar2.Interfaces;
+namespace FullTextSearch.Interfaces;
 
 public interface IStringToWordsProcessor
 {

@@ -1,4 +1,3 @@
-using CodeStar2;
 using FluentAssertions;
 using NSubstitute;
 using Porter2Stemmer;
