@@ -20,10 +20,10 @@ internal static class Program
         var invertedIndex = new InvertedIndexDictionary(Configuration["documents_path"]!, ["will",]);
 
 
-        Console.Write("Search: ");
         string? query = Console.ReadLine();
 
         if (string.IsNullOrWhiteSpace(query)) throw new NullInputException();
+        UserOutput.AskForQuery();
 
         IEnumerable<string> result = invertedIndex.Search(query);
 
