@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using FullTextSearch.Exceptions;
+using Microsoft.Extensions.Configuration;
 
 namespace FullTextSearch;
 
@@ -22,7 +23,7 @@ internal static class Program
         Console.Write("Search: ");
         string? query = Console.ReadLine();
 
-        if (string.IsNullOrWhiteSpace(query)) return;
+        if (string.IsNullOrWhiteSpace(query)) throw new NullInputException();
 
         IEnumerable<string> result = invertedIndex.Search(query);
 
