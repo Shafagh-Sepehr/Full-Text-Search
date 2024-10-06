@@ -13,17 +13,15 @@ internal static class Program
     
     private static void Main()
     {
-
+        
         if (Configuration["documents_path"] == null)
             throw new Exception("documents_path is not set in appsetings.json");
-        
         var invertedIndex = new InvertedIndexDictionary(Configuration["documents_path"]!, ["will",]);
 
 
-        string? query = Console.ReadLine();
-
-        if (string.IsNullOrWhiteSpace(query)) throw new NullInputException();
         UserOutput.AskForQuery();
+        
+        string query = UserInput.GetUserQueryFromConsole();
 
         IEnumerable<string> result = invertedIndex.Search(query);
 
