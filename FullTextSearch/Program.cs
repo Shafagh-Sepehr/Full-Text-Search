@@ -1,11 +1,22 @@
-﻿namespace FullTextSearch;
+﻿using Microsoft.Extensions.Configuration;
+
+namespace FullTextSearch;
 
 internal static class Program
 {
+    
+    private static readonly IConfigurationRoot Configuration = new ConfigurationBuilder()
+        .SetBasePath(AppContext.BaseDirectory)
+        .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+        .Build();
+    
     private static void Main()
     {
+
+        if (Configuration["documents_path"] == null)
+            throw new Exception("documents_path is not set in appsetings.json");
         
-        var invertedIndex = new InvertedIndexDictionary("/home/shafagh/Desktop/EnglishData", ["will",]);
+        var invertedIndex = new InvertedIndexDictionary(Configuration["documents_path"]!, ["will",]);
 
 
         Console.Write("Search: ");
