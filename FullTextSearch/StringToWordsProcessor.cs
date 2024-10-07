@@ -31,29 +31,40 @@ internal partial class StringToWordsProcessor : IStringToWordsProcessor
     {
         
         return source
-            .Trim()
-            .Split()
-            .Where(IsNoise)
-            .Select(CleanseString).SelectMany(x => x) // flatten the string arrays
-            .Select(x => Stem(x))
-            .Where(x => !string.IsNullOrWhiteSpace(x) && x.Length >= 3 && !_banned.Contains(x))
-            .Distinct();
+            .Trim().Split().Where(IsNotNoise)
+            .Select(Cleanse).SelectMany(x => x) // flatten the string arrays
+            .Select(Stem).Where(IsValid).Distinct();
     }
+
+    private bool IsValid(string value) =>
+        !string.IsNullOrWhiteSpace(value) && IsLongEnough(value) && IsNotBanned(value);
     
-    private bool IsNoise(string value) =>
+    private bool IsNotBanned(string value) => !_banned.Contains(value);
+
+    private static bool IsLongEnough(string value) => value.Length >= 3;
+    
+    
+    private bool IsNotNoise(string value) =>
         !UrlRegex().IsMatch(value) && !EmailRegex().IsMatch(value) && !PhoneNumberRegex().IsMatch(value);
 
     private string Stem(string value) => _stemmer.Stem(value).Value.ToLower();
     
-    private string[] CleanseString(string value)
+    private static string[] Cleanse(string value)
     {
-        value = value.Trim(":.,<>?/\\\"\t'`~!@#$%^&*()_+=-*;\t |".ToCharArray()); //trim noise around probably important words
-        
+        value = TrimSpecialCharacters(value);
+
         if (!IsNumberAndMoreThan2Digits(value))
-            value = value.Trim("012345689".ToCharArray()); //trim digits of a string if the string isn't at least a two-digit number
+            value = TrimDigits(value);
         
-        return value.Split("-_'()[]'\";:/,\\><=".ToCharArray()); //split the string to extract words seperated by characters other than space
+        return SplitStringViaSpecialCharacters(value);
     }
+
+
+    private static string[] SplitStringViaSpecialCharacters(string value) => value.Split(AppSettings.SplitterSpecialCharacters);
+
+    private static string TrimDigits(string value) => value.Trim("012345689".ToCharArray());
+
+    private static string TrimSpecialCharacters(string value) => value.Trim(AppSettings.TrimableSpecialCharacters);
     
     private static bool IsNumberAndMoreThan2Digits(string value) =>
         double.TryParse(value, out double result) && value.Length >= 3;

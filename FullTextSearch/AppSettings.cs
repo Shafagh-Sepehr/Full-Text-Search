@@ -17,4 +17,8 @@ public static class AppSettings
         "other", "some", "such", "no", "nor", "not", "only", "own", "same", "so", "than", "too", "very", "s", "t",
         "can", "will", "just", "don", "should", "now",
     ];
+
+    public static readonly char[] TrimableSpecialCharacters = ":.,<>?/\\\"\t'`~!@#$%^&*()_+=-*;\t |".ToArray();
+    
+    public static readonly char[] SplitterSpecialCharacters = "-_'()[]'\";:/,\\><=".ToArray();
 }
