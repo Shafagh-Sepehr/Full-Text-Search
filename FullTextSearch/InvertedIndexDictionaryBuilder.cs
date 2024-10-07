@@ -3,11 +3,10 @@ using Porter2Stemmer;
 
 namespace FullTextSearch;
 
-internal class InvertedIndexDictionaryBuilder(IStringToWordsProcessor stringToWordsProcessor, IPorter2Stemmer stemmer) : IInvertedIndexDictionaryBuilder
+internal class InvertedIndexDictionaryBuilder(IStringToWordsProcessor stringToWordsProcessor) : IInvertedIndexDictionaryBuilder
 {
     private readonly IStringToWordsProcessor          _stringToWordsProcessor = stringToWordsProcessor;
     private readonly Dictionary<string, List<string>> _invertedIndex          = new();
-    private readonly IPorter2Stemmer                  _stemmer                = stemmer;
 
     public Dictionary<string, List<string>> Build(string filepath)
     {
@@ -24,7 +23,7 @@ internal class InvertedIndexDictionaryBuilder(IStringToWordsProcessor stringToWo
         {
             string content = File.ReadAllText(fileName);
 
-            IEnumerable<string> words = _stringToWordsProcessor.TrimSplitAndStemString(content, _stemmer);
+            IEnumerable<string> words = _stringToWordsProcessor.TrimSplitAndStemString(content);
 
             foreach (string word in words)
                 CreateOrUpdateValue(word, fileName);

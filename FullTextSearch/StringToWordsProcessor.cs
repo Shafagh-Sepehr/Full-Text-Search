@@ -6,7 +6,8 @@ namespace FullTextSearch;
 
 internal partial class StringToWordsProcessor : IStringToWordsProcessor
 {
-    private readonly List<string> _banned = AppSettings.BannedWords.ToList();
+    private readonly IPorter2Stemmer _stemmer;
+    private readonly List<string>    _banned = AppSettings.BannedWords.ToList();
     
     [GeneratedRegex(@"(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z]{2,}(\.[a-zA-Z]{2,})(\.[a-zA-Z]{2,})?\/[a-zA-Z0-9]{2,}|((https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z]{2,}(\.[a-zA-Z]{2,})(\.[a-zA-Z]{2,})?)|(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z0-9]{2,}\.[a-zA-Z0-9]{2,}\.[a-zA-Z0-9]{2,}(\.[a-zA-Z0-9]{2,})?")]
     private partial Regex UrlRegex();
@@ -17,26 +18,32 @@ internal partial class StringToWordsProcessor : IStringToWordsProcessor
 
     
     
-    public StringToWordsProcessor(IEnumerable<string>? banned)
+    public StringToWordsProcessor(IEnumerable<string>? banned, IPorter2Stemmer stemmer)
     {
+        _stemmer = stemmer;
         if (banned != null) 
             _banned.AddRange(banned);
     }
     
     
     
-    public IEnumerable<string> TrimSplitAndStemString(string source, IPorter2Stemmer stemmer)
+    public IEnumerable<string> TrimSplitAndStemString(string source)
     {
         
         return source
             .Trim()
             .Split()
-            .Where(x => !UrlRegex().IsMatch(x) && !EmailRegex().IsMatch(x) && !PhoneNumberRegex().IsMatch(x))
+            .Where(IsNoise)
             .Select(CleanseString).SelectMany(x => x) // flatten the string arrays
-            .Select(x => stemmer.Stem(x).Value.ToLower())
+            .Select(x => Stem(x))
             .Where(x => !string.IsNullOrWhiteSpace(x) && x.Length >= 3 && !_banned.Contains(x))
             .Distinct();
     }
+    
+    private bool IsNoise(string value) =>
+        !UrlRegex().IsMatch(value) && !EmailRegex().IsMatch(value) && !PhoneNumberRegex().IsMatch(value);
+
+    private string Stem(string value) => _stemmer.Stem(value).Value.ToLower();
     
     private string[] CleanseString(string value)
     {

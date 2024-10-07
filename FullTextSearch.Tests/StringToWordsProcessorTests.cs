@@ -19,11 +19,11 @@ public class StringToWordsProcessorTests
             var input = callInfo.Arg<string>();
             return new StemmedWord(input, input);
         });
-        var wordsProcessor = new StringToWordsProcessor(banned);
+        var wordsProcessor = new StringToWordsProcessor(banned, _stemmer);
         
 
         //Act
-        IEnumerable<string> words = wordsProcessor.TrimSplitAndStemString(text, _stemmer);
+        IEnumerable<string> words = wordsProcessor.TrimSplitAndStemString(text);
 
         //Assert
         words.Should().BeEquivalentTo(expectedResult);

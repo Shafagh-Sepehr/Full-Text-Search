@@ -12,9 +12,9 @@ public class InvertedIndexDictionary : IInvertedIndexDictionary
                                    IInvertedIndexDictionaryBuilder? invertedIndexDictionaryBuilder = null,
                                    IQuerySearcher? querySearcher = null)
     {
-        var stringToWordsProcessor = new StringToWordsProcessor(banned);
         var englishPorter2Stemmer = new EnglishPorter2Stemmer();
-        invertedIndexDictionaryBuilder ??= new InvertedIndexDictionaryBuilder(stringToWordsProcessor, englishPorter2Stemmer);
+        var stringToWordsProcessor = new StringToWordsProcessor(banned, englishPorter2Stemmer);
+        invertedIndexDictionaryBuilder ??= new InvertedIndexDictionaryBuilder(stringToWordsProcessor);
         
         
         _querySearcher = querySearcher ?? new QuerySearcher();

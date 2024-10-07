@@ -25,7 +25,7 @@ public class InvertedIndexDictionaryBuilderTest
             File.WriteAllText($"/tmp/unit_test_temp/{testPackage.FileName}", testPackage.Text);
 
             //mock IStringToWordProcessor
-            _stringToWordsProcessor.TrimSplitAndStemString(testPackage.Text, _stemmer).Returns(testPackage.Words);
+            _stringToWordsProcessor.TrimSplitAndStemString(testPackage.Text).Returns(testPackage.Words);
         }
 
         //mock IPorter2Stemmer
@@ -36,7 +36,7 @@ public class InvertedIndexDictionaryBuilderTest
         });
 
 
-        var invertedIndexDictionaryBuilder = new InvertedIndexDictionaryBuilder(_stringToWordsProcessor, _stemmer);
+        var invertedIndexDictionaryBuilder = new InvertedIndexDictionaryBuilder(_stringToWordsProcessor);
 
         //Act
         Dictionary<string, List<string>> invertedIndex = invertedIndexDictionaryBuilder.Build("/tmp/unit_test_temp/");

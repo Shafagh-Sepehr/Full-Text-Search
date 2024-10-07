@@ -4,5 +4,5 @@ namespace FullTextSearch.Interfaces;
 
 public interface IStringToWordsProcessor
 {
-    IEnumerable<string> TrimSplitAndStemString(string source, IPorter2Stemmer stemmer);
+    IEnumerable<string> TrimSplitAndStemString(string source);
 }
