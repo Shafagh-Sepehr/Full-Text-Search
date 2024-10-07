@@ -11,22 +11,28 @@ internal static class Program
         .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
         .Build();
     
+    private static readonly IOutput Output = new ConsoleOutput();
+    private static readonly IInput  Input  = new ConsoleInput();
+    
     private static void Main()
     {
         
         if (Configuration["documents_path"] == null)
             throw new Exception("documents_path is not set in appsetings.json");
         var invertedIndex = new InvertedIndexDictionary(Configuration["documents_path"]!, ["will",]);
-
-
-        UserOutput.AskForQuery();
         
-        string query = UserInput.GetUserQueryFromConsole();
+        
+        Output.Write("Search: ");
+        string query = Input.ReadLine();
 
+        
         IEnumerable<string> result = invertedIndex.Search(query);
-
-        Console.WriteLine("Result:");
+        
+        Output.WriteLine("Result:");
+        
         foreach (string doc in result)
-            Console.WriteLine(doc);
+        {
+            Output.WriteLine(doc);
+        }
     }
 }

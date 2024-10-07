@@ -2,9 +2,9 @@ using FullTextSearch.Exceptions;
 
 namespace FullTextSearch;
 
-public static class UserInput
+public class ConsoleInput : IInput
 {
-   public static string GetUserQueryFromConsole()
+   public string ReadLine()
    {
       string? query = Console.ReadLine();
 
