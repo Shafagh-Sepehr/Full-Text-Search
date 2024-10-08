@@ -24,8 +24,15 @@ internal class InvertedIndexDictionaryBuilder(IStringToWordsProcessor stringToWo
 
             IEnumerable<string> words = _stringToWordsProcessor.TrimSplitAndStemString(content);
 
-            foreach (string word in words)
-                CreateOrUpdateValue(word, fileName);
+            AddWordsToInvertedIndex(words, fileName);
+        }
+    }
+
+    private void AddWordsToInvertedIndex(IEnumerable<string> words, string fileName)
+    {
+        foreach (string word in words)
+        {
+            CreateOrUpdateValue(word, fileName);
         }
     }
 
