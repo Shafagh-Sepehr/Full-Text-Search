@@ -1,5 +1,4 @@
 using FullTextSearch.Application.DocumentsReader;
-using FullTextSearch.Application.DocumentsReader.Interfaces;
 using FullTextSearch.Application.InvertedIndex.Interfaces;
 using FullTextSearch.Application.WordsProcessor.Interfaces;
 using Porter2Stemmer;
@@ -12,17 +11,18 @@ internal class QuerySearcher : IQuerySearcher
     private          string[]                         _queryWords    = null!;
     private readonly IWordsProcessor                  _wordsProcessor;
 
-    private IDocumentReader _documentReader;
+    private readonly IDocumentReader _documentReader;
     
-    public QuerySearcher(Dictionary<string, List<string>> invertedIndex, IPorter2Stemmer? injectedStemmer = null)
+    public QuerySearcher(Dictionary<string, List<string>> invertedIndex,
+                         IPorter2Stemmer? injectedStemmer = null, IDocumentReader? documentReader = null)
     {
         IPorter2Stemmer stemmer = injectedStemmer ?? new EnglishPorter2Stemmer();
         _wordsProcessor = new WordsProcessor.WordsProcessor(stemmer);
         _invertedIndex = invertedIndex;
         
-        _documentReader = new DocumentReader(new AndDocumentsReader(invertedIndex,AndWords),
-                                            new OrDocumentsReader(invertedIndex,AndWords),
-                                            new NotDocumentsReader(invertedIndex,AndWords));
+        _documentReader = documentReader ?? new DocumentReader(new AndDocumentsReader(invertedIndex,AndWords),
+                                                               new OrDocumentsReader(invertedIndex,AndWords),
+                                                               new NotDocumentsReader(invertedIndex,AndWords));
     }
 
     public IEnumerable<string> Search(string query)
