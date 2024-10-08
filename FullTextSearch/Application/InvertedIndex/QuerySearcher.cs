@@ -32,26 +32,30 @@ internal class QuerySearcher : IQuerySearcher
         if (string.IsNullOrWhiteSpace(query))
             return result;
 
-        _queryWords = query.Trim().Split();
-       
-
-
-        if (OrWords.Count > 0 && AndWords.Count > 0)
+        SetQueryWords(query);        
+        
+        if (AreAllWordKindsPresent())
         {
-            result = GetDocumentsForAndQueries().Intersect(GetDocumentsForOrQueries())
-                .Except(GetDocumentsForNotQueries());
+            result = _documentReader.GetAndDocuments().Intersect(_documentReader.GetOrDocuments())
+                .Except(_documentReader.GetNotDocuments());
         }
-        else if (AndWords.Count > 0)
+        else if (AreAndWordsPresent())
         {
-            result = GetDocumentsForAndQueries().Except(GetDocumentsForNotQueries());
+            result = _documentReader.GetAndDocuments().Except(_documentReader.GetNotDocuments());
         }
-        else if (OrWords.Count > 0)
+        else if (AreOrWordsPresent())
         {
-            result = GetDocumentsForOrQueries().Except(GetDocumentsForNotQueries());
+            result = _documentReader.GetOrDocuments().Except(_documentReader.GetNotDocuments());
         }
         
         return result;
     }
+
+    private bool AreAllWordKindsPresent() => OrWords.Count > 0 && AndWords.Count > 0;
+    private bool AreAndWordsPresent() => AndWords.Count > 0;
+    private bool AreOrWordsPresent() => OrWords.Count > 0;
+    
+    private void SetQueryWords(string query) => _queryWords = query.Trim().Split();
     
     private List<string> AndWords => _wordsProcessor.GetAndWords(_queryWords);
     private List<string> OrWords => _wordsProcessor.GetOrWords(_queryWords);
