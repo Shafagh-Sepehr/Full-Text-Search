@@ -24,7 +24,7 @@ public class InvertedIndexDictionaryTests
         
         //Arrange
         _indexDictionaryBuilder.Build("/file/path").Returns(_testInvertedIndex);
-        _querySearcher.Search(query, _testInvertedIndex!).Returns(expectedResult);
+        _querySearcher.Search(query).Returns(expectedResult);
         
         var invertedIndexDictionary = new InvertedIndexDictionary("/file/path", [], _indexDictionaryBuilder, _querySearcher);
 

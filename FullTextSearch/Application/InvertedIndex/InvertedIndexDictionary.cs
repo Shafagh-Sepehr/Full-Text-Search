@@ -5,7 +5,6 @@ namespace FullTextSearch.Application.InvertedIndex;
 
 public class InvertedIndexDictionary : IInvertedIndexDictionary
 {
-    private readonly Dictionary<string, List<string>> _invertedIndex;
     private readonly IQuerySearcher                   _querySearcher;
 
     public InvertedIndexDictionary(string filepath, IEnumerable<string>? banned,
@@ -17,11 +16,11 @@ public class InvertedIndexDictionary : IInvertedIndexDictionary
         invertedIndexDictionaryBuilder ??= new InvertedIndexDictionaryBuilder(stringToWordsProcessor);
         
         
-        _querySearcher = querySearcher ?? new QuerySearcher();
+        Dictionary<string, List<string>> invertedIndex = invertedIndexDictionaryBuilder.Build(filepath);
         
-        _invertedIndex = invertedIndexDictionaryBuilder.Build(filepath);
+        _querySearcher = querySearcher ?? new QuerySearcher(invertedIndex);
     }
 
 
-    public IEnumerable<string> Search(string query) => _querySearcher.Search(query, _invertedIndex);
+    public IEnumerable<string> Search(string query) => _querySearcher.Search(query);
 }

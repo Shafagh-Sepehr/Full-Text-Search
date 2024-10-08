@@ -30,11 +30,11 @@ public class QuerySearcherTests
             var input = callInfo.Arg<string>();
             return new StemmedWord(input, input);
         });
-        var querySearcher = new QuerySearcher(_stemmer);
+        var querySearcher = new QuerySearcher(_invertedIndex, _stemmer);
 
 
         //Act
-        IEnumerable<string> documents = querySearcher.Search(query, _invertedIndex);
+        IEnumerable<string> documents = querySearcher.Search(query);
 
         //Assert
         documents.Should().BeEquivalentTo(expectedResult);

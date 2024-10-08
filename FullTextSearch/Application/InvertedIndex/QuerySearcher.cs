@@ -6,17 +6,18 @@ namespace FullTextSearch.Application.InvertedIndex;
 
 internal class QuerySearcher : IQuerySearcher
 {
-    private          Dictionary<string, List<string>> _invertedIndex = null!;
+    private readonly Dictionary<string, List<string>> _invertedIndex;
     private          string[]                         _queryWords    = null!;
     private readonly IWordsProcessor                  _wordsProcessor;
     
-    public QuerySearcher(IPorter2Stemmer? injectedStemmer = null)
+    public QuerySearcher(Dictionary<string, List<string>> invertedIndex, IPorter2Stemmer? injectedStemmer = null)
     {
         IPorter2Stemmer stemmer = injectedStemmer ?? new EnglishPorter2Stemmer();
         _wordsProcessor = new WordsProcessor.WordsProcessor(stemmer);
+        _invertedIndex = invertedIndex;
     }
 
-    public IEnumerable<string> Search(string query, Dictionary<string, List<string>> invertedIndex)
+    public IEnumerable<string> Search(string query)
     {
         IEnumerable<string> result = [];
         
@@ -24,7 +25,7 @@ internal class QuerySearcher : IQuerySearcher
             return result;
 
         _queryWords = query.Trim().Split();
-        _invertedIndex = invertedIndex;
+       
 
 
         if (OrWords.Count > 0 && AndWords.Count > 0)
@@ -56,7 +57,7 @@ internal class QuerySearcher : IQuerySearcher
             .Select(x => x.Value).ToList();
 
         if (andDocsList.Count < 1) return [];
-            
+        
         var result = new HashSet<string>(andDocsList[0]);
         
         for (var i = 1; i < andDocsList.Count; i++)
