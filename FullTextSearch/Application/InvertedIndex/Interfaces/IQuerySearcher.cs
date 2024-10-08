@@ -1,4 +1,4 @@
-namespace FullTextSearch.InvertedIndex.Interfaces;
+namespace FullTextSearch.Application.InvertedIndex.Interfaces;
 
 public interface IQuerySearcher
 {

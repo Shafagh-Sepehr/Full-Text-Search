@@ -1,8 +1,8 @@
 using System.Text.RegularExpressions;
-using FullTextSearch.InvertedIndex.Interfaces;
+using FullTextSearch.Application.InvertedIndex.Interfaces;
 using Porter2Stemmer;
 
-namespace FullTextSearch.InvertedIndex;
+namespace FullTextSearch.Application.InvertedIndex;
 
 internal partial class StringToWordsProcessor : IStringToWordsProcessor
 {

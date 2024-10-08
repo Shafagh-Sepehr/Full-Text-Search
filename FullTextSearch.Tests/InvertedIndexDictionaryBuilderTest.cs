@@ -1,7 +1,7 @@
 using System.Text.Json;
 using FluentAssertions;
-using FullTextSearch.InvertedIndex;
-using FullTextSearch.InvertedIndex.Interfaces;
+using FullTextSearch.Application.InvertedIndex;
+using FullTextSearch.Application.InvertedIndex.Interfaces;
 using NSubstitute;
 using Porter2Stemmer;
 

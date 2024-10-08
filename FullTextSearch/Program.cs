@@ -1,6 +1,5 @@
 ﻿
-
-using FullTextSearch.InvertedIndex;
+using FullTextSearch.Application.InvertedIndex;
 using FullTextSearch.IO;
 using FullTextSearch.IO.Interfaces;
 

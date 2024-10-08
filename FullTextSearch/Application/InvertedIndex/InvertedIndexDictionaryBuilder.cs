@@ -1,6 +1,6 @@
-using FullTextSearch.InvertedIndex.Interfaces;
+using FullTextSearch.Application.InvertedIndex.Interfaces;
 
-namespace FullTextSearch.InvertedIndex;
+namespace FullTextSearch.Application.InvertedIndex;
 
 internal class InvertedIndexDictionaryBuilder(IStringToWordsProcessor stringToWordsProcessor) : IInvertedIndexDictionaryBuilder
 {
