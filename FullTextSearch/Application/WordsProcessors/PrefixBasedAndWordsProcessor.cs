@@ -1,7 +1,7 @@
-using FullTextSearch.Application.WordsProcessor.Interfaces;
+using FullTextSearch.Application.WordsProcessors.Interfaces;
 using Porter2Stemmer;
 
-namespace FullTextSearch.Application.WordsProcessor;
+namespace FullTextSearch.Application.WordsProcessors;
 
 public class PrefixBasedAndWordsProcessor(IPorter2Stemmer stemmer) : IAndWordsProcessor
 {

@@ -1,6 +1,7 @@
 using FullTextSearch.Application.DocumentsReader;
 using FullTextSearch.Application.InvertedIndex.Interfaces;
-using FullTextSearch.Application.WordsProcessor.Interfaces;
+using FullTextSearch.Application.WordsProcessors;
+using FullTextSearch.Application.WordsProcessors.Interfaces;
 using Porter2Stemmer;
 
 namespace FullTextSearch.Application.InvertedIndex;
@@ -17,7 +18,7 @@ internal class QuerySearcher : IQuerySearcher
                          IPorter2Stemmer? injectedStemmer = null, IDocumentReader? documentReader = null)
     {
         IPorter2Stemmer stemmer = injectedStemmer ?? new EnglishPorter2Stemmer();
-        _wordsProcessor = new WordsProcessor.WordsProcessor(stemmer);
+        _wordsProcessor = new WordsProcessor(stemmer);
         _invertedIndex = invertedIndex;
         
         _documentReader = documentReader ?? new DocumentReader(new AndDocumentsReader(invertedIndex,AndWords),
