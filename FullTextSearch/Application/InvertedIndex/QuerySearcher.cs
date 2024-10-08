@@ -1,3 +1,5 @@
+using FullTextSearch.Application.DocumentsReader;
+using FullTextSearch.Application.DocumentsReader.Interfaces;
 using FullTextSearch.Application.InvertedIndex.Interfaces;
 using FullTextSearch.Application.WordsProcessor.Interfaces;
 using Porter2Stemmer;
@@ -9,12 +11,18 @@ internal class QuerySearcher : IQuerySearcher
     private readonly Dictionary<string, List<string>> _invertedIndex;
     private          string[]                         _queryWords    = null!;
     private readonly IWordsProcessor                  _wordsProcessor;
+
+    private IDocumentReader _documentReader;
     
     public QuerySearcher(Dictionary<string, List<string>> invertedIndex, IPorter2Stemmer? injectedStemmer = null)
     {
         IPorter2Stemmer stemmer = injectedStemmer ?? new EnglishPorter2Stemmer();
         _wordsProcessor = new WordsProcessor.WordsProcessor(stemmer);
         _invertedIndex = invertedIndex;
+        
+        _documentReader = new DocumentReader(new AndDocumentsReader(invertedIndex,AndWords),
+                                            new OrDocumentsReader(invertedIndex,AndWords),
+                                            new NotDocumentsReader(invertedIndex,AndWords));
     }
 
     public IEnumerable<string> Search(string query)
@@ -50,37 +58,5 @@ internal class QuerySearcher : IQuerySearcher
     private List<string> NotWords => _wordsProcessor.GetNotWords(_queryWords);
 
 
-    private HashSet<string> GetDocumentsForAndQueries()
-    {
-        List<List<string>> andDocsList = _invertedIndex
-            .Where(x => AndWords.Contains(x.Key))
-            .Select(x => x.Value).ToList();
-
-        if (andDocsList.Count < 1) return [];
-        
-        var result = new HashSet<string>(andDocsList[0]);
-        
-        for (var i = 1; i < andDocsList.Count; i++)
-        {
-            result.IntersectWith(andDocsList[i]);
-        }
-
-        return result;
-    }
-
-    private HashSet<string> GetDocumentsForOrQueries()
-    {
-        return _invertedIndex
-            .Where(x => OrWords.Contains(x.Key))
-            .Select(x => x.Value).SelectMany(x => x)
-            .ToHashSet();
-    }
-
-    private HashSet<string> GetDocumentsForNotQueries()
-    {
-        return _invertedIndex
-            .Where(x => NotWords.Contains(x.Key))
-            .Select(x => x.Value).SelectMany(x => x)
-            .ToHashSet();
-    }
+    
 }
