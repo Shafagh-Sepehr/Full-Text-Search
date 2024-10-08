@@ -1,6 +1,5 @@
 using FullTextSearch.Application.InvertedIndex.Interfaces;
-using FullTextSearch.Application.QueryProcessor;
-using FullTextSearch.Application.QueryProcessor.Interfaces;
+using FullTextSearch.Application.WordsProcessor.Interfaces;
 using Porter2Stemmer;
 
 namespace FullTextSearch.Application.InvertedIndex;
@@ -14,7 +13,7 @@ internal class QuerySearcher : IQuerySearcher
     public QuerySearcher(IPorter2Stemmer? injectedStemmer = null)
     {
         IPorter2Stemmer stemmer = injectedStemmer ?? new EnglishPorter2Stemmer();
-        _wordsProcessor = new WordsProcessor(stemmer);
+        _wordsProcessor = new WordsProcessor.WordsProcessor(stemmer);
     }
 
     public IEnumerable<string> Search(string query, Dictionary<string, List<string>> invertedIndex)
@@ -59,8 +58,11 @@ internal class QuerySearcher : IQuerySearcher
         if (andDocsList.Count < 1) return [];
             
         var result = new HashSet<string>(andDocsList[0]);
+        
         for (var i = 1; i < andDocsList.Count; i++)
+        {
             result.IntersectWith(andDocsList[i]);
+        }
 
         return result;
     }
