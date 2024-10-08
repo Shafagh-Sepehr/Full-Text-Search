@@ -36,24 +36,38 @@ internal class QuerySearcher : IQuerySearcher
 
         SetQueryWords(query);        
         
-        if (AreAllWordKindsPresent())
+        if (AreAllWordTypesPresent())
         {
-            result = _documentReader.GetAndDocuments().Intersect(_documentReader.GetOrDocuments())
-                .Except(_documentReader.GetNotDocuments());
+            result = AllWordTypesPresentSearch();
         }
         else if (AreAndWordsPresent())
         {
-            result = _documentReader.GetAndDocuments().Except(_documentReader.GetNotDocuments());
+            result = OrWordsMissingSearch();
         }
         else if (AreOrWordsPresent())
         {
-            result = _documentReader.GetOrDocuments().Except(_documentReader.GetNotDocuments());
+            result = AndWordsMissingSearch();
         }
         
         return result;
     }
+    
+    private IEnumerable<string> AllWordTypesPresentSearch() =>
+        _documentReader.GetAndDocuments(AndWords)
+            .Intersect(_documentReader.GetOrDocuments(OrWords))
+            .Except(_documentReader.GetNotDocuments(NotWords));
+    
+    private IEnumerable<string> OrWordsMissingSearch() =>
+        _documentReader.GetAndDocuments(AndWords)
+            .Except(_documentReader.GetNotDocuments(NotWords));
 
-    private bool AreAllWordKindsPresent() => OrWords.Count > 0 && AndWords.Count > 0;
+    private IEnumerable<string> AndWordsMissingSearch() =>
+        _documentReader.GetOrDocuments(OrWords)
+            .Except(_documentReader.GetNotDocuments(NotWords));
+    
+    
+
+    private bool AreAllWordTypesPresent() => OrWords.Count > 0 && AndWords.Count > 0;
     private bool AreAndWordsPresent() => AndWords.Count > 0;
     private bool AreOrWordsPresent() => OrWords.Count > 0;
     
