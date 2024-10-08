@@ -13,9 +13,8 @@ internal static class Program
     
     private static void Main()
     {
-        
-        var invertedIndex = new InvertedIndexDictionary(AppSettings.DocumentsPath, ["will",]);
-        
+
+        var invertedIndex = InvertedIndexBuilder.CreateFromScratch(AppSettings.DocumentsPath, ["will",]);
         
         Output.Write("Search: ");
         string query = Input.ReadLine();

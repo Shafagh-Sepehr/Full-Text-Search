@@ -7,7 +7,7 @@ using Porter2Stemmer;
 
 namespace FullTextSearch.Tests;
 
-public class InvertedIndexDictionaryBuilderTest
+public class InvertedIndexDictionaryFillerTest
 {
     private readonly Dictionary<string, List<string>>? _expectedInvertedIndex =
         JsonSerializer.Deserialize<Dictionary<string, List<string>>>(InvertedIndexDictionaryBuilderTestData.InvertedIndexJson);
@@ -37,7 +37,7 @@ public class InvertedIndexDictionaryBuilderTest
         });
 
 
-        var invertedIndexDictionaryBuilder = new InvertedIndexDictionaryBuilder(_stringToWordsProcessor);
+        var invertedIndexDictionaryBuilder = new InvertedIndexDictionaryFiller(_stringToWordsProcessor);
 
         //Act
         Dictionary<string, List<string>> invertedIndex = invertedIndexDictionaryBuilder.Build("/tmp/unit_test_temp/");

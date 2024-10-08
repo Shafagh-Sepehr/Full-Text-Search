@@ -2,7 +2,7 @@ using FullTextSearch.Application.InvertedIndex.Interfaces;
 
 namespace FullTextSearch.Application.InvertedIndex;
 
-internal class InvertedIndexDictionaryBuilder(IStringToWordsProcessor stringToWordsProcessor) : IInvertedIndexDictionaryBuilder
+internal class InvertedIndexDictionaryFiller(IStringToWordsProcessor stringToWordsProcessor) : IInvertedIndexDictionaryBuilder
 {
     private readonly IStringToWordsProcessor          _stringToWordsProcessor = stringToWordsProcessor;
     private readonly Dictionary<string, List<string>> _invertedIndex          = new();
