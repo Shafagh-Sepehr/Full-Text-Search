@@ -1,5 +1,9 @@
 ﻿
 
+using FullTextSearch.InvertedIndex;
+using FullTextSearch.IO;
+using FullTextSearch.IO.Interfaces;
+
 namespace FullTextSearch;
 
 internal static class Program

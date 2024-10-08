@@ -1,4 +1,4 @@
-namespace FullTextSearch.Interfaces;
+namespace FullTextSearch.InvertedIndex.Interfaces;
 
 public interface IInvertedIndexDictionaryBuilder
 {

@@ -1,6 +1,4 @@
-using Porter2Stemmer;
-
-namespace FullTextSearch.Interfaces;
+namespace FullTextSearch.InvertedIndex.Interfaces;
 
 public interface IStringToWordsProcessor
 {

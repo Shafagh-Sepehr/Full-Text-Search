@@ -1,6 +1,7 @@
 using System.Text.Json;
 using FluentAssertions;
-using FullTextSearch.Interfaces;
+using FullTextSearch.InvertedIndex;
+using FullTextSearch.InvertedIndex.Interfaces;
 using NSubstitute;
 
 namespace FullTextSearch.Tests;

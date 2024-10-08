@@ -1,4 +1,4 @@
-namespace FullTextSearch;
+namespace FullTextSearch.IO.Interfaces;
 
 public interface IInput
 {

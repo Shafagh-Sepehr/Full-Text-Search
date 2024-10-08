@@ -1,7 +1,7 @@
-using FullTextSearch.Interfaces;
+using FullTextSearch.InvertedIndex.Interfaces;
 using Porter2Stemmer;
 
-namespace FullTextSearch;
+namespace FullTextSearch.InvertedIndex;
 
 internal class QuerySearcher(IPorter2Stemmer? stemmer = null) : IQuerySearcher
 {

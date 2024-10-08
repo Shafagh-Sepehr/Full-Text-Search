@@ -1,6 +1,7 @@
 using FullTextSearch.Exceptions;
+using FullTextSearch.IO.Interfaces;
 
-namespace FullTextSearch;
+namespace FullTextSearch.IO;
 
 public class ConsoleInput : IInput
 {

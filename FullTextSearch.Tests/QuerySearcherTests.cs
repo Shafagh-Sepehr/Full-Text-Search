@@ -1,4 +1,5 @@
 using FluentAssertions;
+using FullTextSearch.InvertedIndex;
 using NSubstitute;
 using Porter2Stemmer;
 

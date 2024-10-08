@@ -1,4 +1,6 @@
-namespace FullTextSearch;
+using FullTextSearch.IO.Interfaces;
+
+namespace FullTextSearch.IO;
 
 public class ConsoleOutput : IOutput
 {
