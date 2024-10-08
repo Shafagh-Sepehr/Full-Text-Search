@@ -38,30 +38,30 @@ internal class QuerySearcher : IQuerySearcher
         
         if (AreAllWordTypesPresent())
         {
-            result = AllWordTypesPresentSearch();
+            result = AndOrNotSearch();
         }
         else if (AreAndWordsPresent())
         {
-            result = OrWordsMissingSearch();
+            result = AndNotSearch();
         }
         else if (AreOrWordsPresent())
         {
-            result = AndWordsMissingSearch();
+            result = OrNotSearch();
         }
         
         return result;
     }
     
-    private IEnumerable<string> AllWordTypesPresentSearch() =>
+    private IEnumerable<string> AndOrNotSearch() =>
         _documentReader.GetAndDocuments(AndWords)
             .Intersect(_documentReader.GetOrDocuments(OrWords))
             .Except(_documentReader.GetNotDocuments(NotWords));
     
-    private IEnumerable<string> OrWordsMissingSearch() =>
+    private IEnumerable<string> AndNotSearch() =>
         _documentReader.GetAndDocuments(AndWords)
             .Except(_documentReader.GetNotDocuments(NotWords));
 
-    private IEnumerable<string> AndWordsMissingSearch() =>
+    private IEnumerable<string> OrNotSearch() =>
         _documentReader.GetOrDocuments(OrWords)
             .Except(_documentReader.GetNotDocuments(NotWords));
     
@@ -76,7 +76,4 @@ internal class QuerySearcher : IQuerySearcher
     private List<string> AndWords => _wordsProcessor.GetAndWords(_queryWords);
     private List<string> OrWords => _wordsProcessor.GetOrWords(_queryWords);
     private List<string> NotWords => _wordsProcessor.GetNotWords(_queryWords);
-
-
-    
 }
