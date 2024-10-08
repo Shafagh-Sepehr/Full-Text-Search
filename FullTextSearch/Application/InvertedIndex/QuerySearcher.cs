@@ -1,14 +1,21 @@
 using FullTextSearch.Application.InvertedIndex.Interfaces;
+using FullTextSearch.Application.QueryProcessor;
+using FullTextSearch.Application.QueryProcessor.Interfaces;
 using Porter2Stemmer;
 
 namespace FullTextSearch.Application.InvertedIndex;
 
-internal class QuerySearcher(IPorter2Stemmer? stemmer = null) : IQuerySearcher
+internal class QuerySearcher : IQuerySearcher
 {
     private          Dictionary<string, List<string>> _invertedIndex = null!;
     private          string[]                         _queryWords    = null!;
-    private readonly IPorter2Stemmer                  _stemmer       = stemmer ?? new EnglishPorter2Stemmer();
-
+    private readonly IWordsProcessor                  _wordsProcessor;
+    
+    public QuerySearcher(IPorter2Stemmer? injectedStemmer = null)
+    {
+        IPorter2Stemmer stemmer = injectedStemmer ?? new EnglishPorter2Stemmer();
+        _wordsProcessor = new WordsProcessor(stemmer);
+    }
 
     public IEnumerable<string> Search(string query, Dictionary<string, List<string>> invertedIndex)
     {
@@ -22,50 +29,25 @@ internal class QuerySearcher(IPorter2Stemmer? stemmer = null) : IQuerySearcher
 
 
         if (OrWords.Count > 0 && AndWords.Count > 0)
+        {
             result = GetDocumentsForAndQueries().Intersect(GetDocumentsForOrQueries())
                 .Except(GetDocumentsForNotQueries());
+        }
         else if (AndWords.Count > 0)
+        {
             result = GetDocumentsForAndQueries().Except(GetDocumentsForNotQueries());
+        }
         else if (OrWords.Count > 0)
+        {
             result = GetDocumentsForOrQueries().Except(GetDocumentsForNotQueries());
+        }
         
         return result;
     }
     
-    private List<string> AndWords
-    {
-        get
-        {
-            return _queryWords
-                .Where(x => x[0] != '+' && x[0] != '-')
-                .Select(x => _stemmer.Stem(x).Value)
-                .ToList();
-        }
-    }
-
-    private List<string> OrWords
-    {
-        get
-        {
-            return _queryWords
-                .Where(x => x[0] == '+')
-                .Select(x => x.Substring(1, x.Length - 1))
-                .Select(x => _stemmer.Stem(x).Value)
-                .ToList();
-        }
-    }
-
-    private List<string> NotWords
-    {
-        get
-        {
-            return _queryWords
-                .Where(x => x[0] == '-')
-                .Select(x => x.Substring(1, x.Length - 1))
-                .Select(x => _stemmer.Stem(x).Value)
-                .ToList();
-        }
-    }
+    private List<string> AndWords => _wordsProcessor.GetAndWords(_queryWords);
+    private List<string> OrWords => _wordsProcessor.GetOrWords(_queryWords);
+    private List<string> NotWords => _wordsProcessor.GetNotWords(_queryWords);
 
 
     private HashSet<string> GetDocumentsForAndQueries()
