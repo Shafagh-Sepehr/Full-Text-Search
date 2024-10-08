@@ -4,15 +4,14 @@ namespace FullTextSearch.Application.DocumentsReader;
 
 
 
-public class AndDocumentsReader(Dictionary<string, List<string>> invertedIndex, List<string> andWords) : IAndDocumentsReader
+public class AndDocumentsReader(Dictionary<string, List<string>> invertedIndex) : IAndDocumentsReader
 {
     private readonly Dictionary<string, List<string>> _invertedIndex = invertedIndex;
-    private readonly List<string>                     _andWords      = andWords;
 
-    public HashSet<string> GetAndDocuments()
+    public HashSet<string> GetAndDocuments(List<string> andWords)
     {
         List<List<string>> andDocsList = _invertedIndex
-            .Where(x => _andWords.Contains(x.Key))
+            .Where(x => andWords.Contains(x.Key))
             .Select(x => x.Value).ToList();
 
         if (andDocsList.Count < 1) return [];

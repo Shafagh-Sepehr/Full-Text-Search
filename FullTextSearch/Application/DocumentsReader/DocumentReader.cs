@@ -12,7 +12,7 @@ public class DocumentReader(
     private readonly INotDocumentsReader _notDocumentsReader = notDocumentsReader;
 
 
-    public HashSet<string> GetAndDocuments() => _andDocumentsReader.GetAndDocuments();
-    public HashSet<string> GetOrDocuments() => _orDocumentsReader.GetOrDocuments();
-    public HashSet<string> GetNotDocuments() => _notDocumentsReader.GetNotDocuments();
+    public HashSet<string> GetAndDocuments(List<string> andWords) => _andDocumentsReader.GetAndDocuments(andWords);
+    public HashSet<string> GetOrDocuments(List<string> orWords) => _orDocumentsReader.GetOrDocuments(orWords);
+    public HashSet<string> GetNotDocuments(List<string> notWords) => _notDocumentsReader.GetNotDocuments(notWords);
 }

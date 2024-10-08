@@ -1,4 +1,5 @@
 using FullTextSearch.Application.DocumentsReader;
+using FullTextSearch.Application.DocumentsReader.Interfaces;
 using FullTextSearch.Application.InvertedIndex.Interfaces;
 using FullTextSearch.Application.WordsProcessors;
 using FullTextSearch.Application.WordsProcessors.Interfaces;
@@ -21,9 +22,9 @@ internal class QuerySearcher : IQuerySearcher
         _wordsProcessor = new WordsProcessor(stemmer);
         _invertedIndex = invertedIndex;
         
-        _documentReader = documentReader ?? new DocumentReader(new AndDocumentsReader(invertedIndex,AndWords),
-                                                               new OrDocumentsReader(invertedIndex,AndWords),
-                                                               new NotDocumentsReader(invertedIndex,AndWords));
+        _documentReader = documentReader ?? new DocumentReader(new AndDocumentsReader(invertedIndex),
+                                                               new OrDocumentsReader(invertedIndex),
+                                                               new NotDocumentsReader(invertedIndex));
     }
 
     public IEnumerable<string> Search(string query)
