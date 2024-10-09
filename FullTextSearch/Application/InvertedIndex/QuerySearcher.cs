@@ -3,6 +3,7 @@ using FullTextSearch.Application.DocumentsReader.Interfaces;
 using FullTextSearch.Application.InvertedIndex.Interfaces;
 using FullTextSearch.Application.WordsProcessors;
 using FullTextSearch.Application.WordsProcessors.Interfaces;
+using FullTextSearch.Exceptions;
 using Porter2Stemmer;
 
 namespace FullTextSearch.Application.InvertedIndex;
@@ -14,10 +15,22 @@ internal class QuerySearcher(IWordsProcessor wordsProcessor, IDocumentReader doc
     private          Dictionary<string, List<string>>? _invertedIndex;
     private readonly IWordsProcessor                   _wordsProcessor = wordsProcessor;
     private          string[]                          _queryWords     = null!;
+    private          bool                              _isConstructed;
+
 
     public void Construct(Dictionary<string, List<string>> invertedIndex)
     {
         _invertedIndex = invertedIndex;
+
+        _isConstructed = true;
+    }
+    
+    private void AssertConstructMethodCalled()
+    {
+        if (!_isConstructed)
+        {
+            throw new ConstructMethodNotCalledException();
+        }
     }
 
     private List<string> AndWords => _wordsProcessor.GetAndWords(_queryWords);
@@ -26,6 +39,8 @@ internal class QuerySearcher(IWordsProcessor wordsProcessor, IDocumentReader doc
 
     public IEnumerable<string> Search(string query)
     {
+        AssertConstructMethodCalled();
+        
         IEnumerable<string> result = [];
 
         if (string.IsNullOrWhiteSpace(query))
