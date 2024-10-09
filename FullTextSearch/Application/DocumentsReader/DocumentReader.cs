@@ -8,17 +8,17 @@ public class DocumentReader(
     INotDocumentsReader notDocumentsReader)
     : IDocumentReader
 {
-    private readonly IAndDocumentsReader _andDocumentsReader = andDocumentsReader;
-    private readonly INotDocumentsReader _notDocumentsReader = notDocumentsReader;
-    private readonly IOrDocumentsReader  _orDocumentsReader  = orDocumentsReader;
+    private IAndDocumentsReader AndDocumentsReader { get; } = andDocumentsReader;
+    private INotDocumentsReader NotDocumentsReader { get; } = notDocumentsReader;
+    private IOrDocumentsReader  OrDocumentsReader  { get; } = orDocumentsReader;
 
 
     public HashSet<string> GetAndDocuments(Dictionary<string, List<string>> invertedIndex, List<string> andWords)
-        => _andDocumentsReader.GetAndDocuments(invertedIndex, andWords);
+        => AndDocumentsReader.GetAndDocuments(invertedIndex, andWords);
 
     public HashSet<string> GetOrDocuments(Dictionary<string, List<string>> invertedIndex, List<string> orWords) =>
-        _orDocumentsReader.GetOrDocuments(invertedIndex, orWords);
+        OrDocumentsReader.GetOrDocuments(invertedIndex, orWords);
 
     public HashSet<string> GetNotDocuments(Dictionary<string, List<string>> invertedIndex, List<string> notWords) =>
-        _notDocumentsReader.GetNotDocuments(invertedIndex, notWords);
+        NotDocumentsReader.GetNotDocuments(invertedIndex, notWords);
 }

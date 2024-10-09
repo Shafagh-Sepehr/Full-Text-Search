@@ -6,10 +6,10 @@ namespace FullTextSearch.Application.Searchers;
 
 internal class AndOrNotSearcher(IDocumentReader documentReader) : IAndOrNotSearcher
 {
-    private readonly IDocumentReader _documentReader = documentReader;
+    private IDocumentReader DocumentReader { get; } = documentReader;
 
     public IEnumerable<string> AndOrNotSearch(Dictionary<string, List<string>> invertedIndex, Words words) =>
-        _documentReader.GetAndDocuments(invertedIndex, words.AndWords)
-            .Intersect(_documentReader.GetOrDocuments(invertedIndex, words.OrWords))
-            .Except(_documentReader.GetNotDocuments(invertedIndex, words.NotWords));
+        DocumentReader.GetAndDocuments(invertedIndex, words.AndWords)
+            .Intersect(DocumentReader.GetOrDocuments(invertedIndex, words.OrWords))
+            .Except(DocumentReader.GetNotDocuments(invertedIndex, words.NotWords));
 }

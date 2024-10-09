@@ -6,9 +6,9 @@ namespace FullTextSearch.Application.Searchers;
 
 internal class OrNotSearcher(IDocumentReader documentReader) : IOrNotSearcher
 {
-    private readonly IDocumentReader _documentReader = documentReader;
+    private IDocumentReader DocumentReader { get; } = documentReader;
 
     public IEnumerable<string> OrNotSearch(Dictionary<string, List<string>> invertedIndex, Words words) =>
-        _documentReader.GetOrDocuments(invertedIndex, words.OrWords)
-            .Except(_documentReader.GetNotDocuments(invertedIndex, words.NotWords));
+        DocumentReader.GetOrDocuments(invertedIndex, words.OrWords)
+            .Except(DocumentReader.GetNotDocuments(invertedIndex, words.NotWords));
 }

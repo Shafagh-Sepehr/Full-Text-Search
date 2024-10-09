@@ -5,21 +5,21 @@ namespace FullTextSearch.Application.InvertedIndex;
 internal class InvertedIndexDictionaryFiller(IStringToWordsProcessor stringToWordsProcessor)
     : IInvertedIndexDictionaryFiller
 {
-    private readonly IStringToWordsProcessor          _stringToWordsProcessor = stringToWordsProcessor;
-    private readonly Dictionary<string, List<string>> _invertedIndex          = new();
+    private IStringToWordsProcessor          ToWordsProcessor { get; } = stringToWordsProcessor;
+    private Dictionary<string, List<string>> InvertedIndex    { get; } = new();
 
     public Dictionary<string, List<string>> Build(string filepath)
     {
         string[] files = Directory.GetFiles(filepath);
-        
+
         FillInvertedIndexFromFile(files);
-        
-        return _invertedIndex;
+
+        return InvertedIndex;
     }
-    
+
     public void Construct(IEnumerable<string>? banned)
     {
-        _stringToWordsProcessor.Construct(banned);
+        ToWordsProcessor.Construct(banned);
     }
 
     private void FillInvertedIndexFromFile(string[] files)
@@ -28,7 +28,7 @@ internal class InvertedIndexDictionaryFiller(IStringToWordsProcessor stringToWor
         {
             string content = File.ReadAllText(fileName);
 
-            IEnumerable<string> words = _stringToWordsProcessor.TrimSplitAndStemString(content);
+            var words = ToWordsProcessor.TrimSplitAndStemString(content);
 
             AddWordsToInvertedIndex(words, fileName);
         }
@@ -36,17 +36,14 @@ internal class InvertedIndexDictionaryFiller(IStringToWordsProcessor stringToWor
 
     private void AddWordsToInvertedIndex(IEnumerable<string> words, string fileName)
     {
-        foreach (string word in words)
-        {
-            CreateOrUpdateValue(word, fileName);
-        }
+        foreach (string word in words) CreateOrUpdateValue(word, fileName);
     }
 
     private void CreateOrUpdateValue(string word, string fileName)
     {
-        if (_invertedIndex.TryGetValue(word, out List<string>? value))
+        if (InvertedIndex.TryGetValue(word, out var value))
             value.Add(fileName.Split('/')[^1]);
         else
-            _invertedIndex[word] = [fileName.Split('/')[^1],];
+            InvertedIndex[word] = [fileName.Split('/')[^1],];
     }
 }

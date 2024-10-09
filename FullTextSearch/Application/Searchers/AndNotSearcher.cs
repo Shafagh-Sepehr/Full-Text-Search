@@ -6,10 +6,10 @@ namespace FullTextSearch.Application.Searchers;
 
 internal class AndNotSearcher(IDocumentReader documentReader) : IAndNotSearcher
 {
-    private readonly IDocumentReader _documentReader = documentReader;
-    
-    
+    private IDocumentReader DocumentReader { get; } = documentReader;
+
+
     public IEnumerable<string> AndNotSearch(Dictionary<string, List<string>> invertedIndex, Words words) =>
-        _documentReader.GetAndDocuments(invertedIndex, words.AndWords)
-            .Except(_documentReader.GetNotDocuments(invertedIndex, words.NotWords));
+        DocumentReader.GetAndDocuments(invertedIndex, words.AndWords)
+            .Except(DocumentReader.GetNotDocuments(invertedIndex, words.NotWords));
 }

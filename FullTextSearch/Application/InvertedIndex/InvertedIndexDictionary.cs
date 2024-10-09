@@ -3,32 +3,32 @@ using FullTextSearch.Exceptions;
 
 namespace FullTextSearch.Application.InvertedIndex;
 
-public class InvertedIndexDictionary(IQuerySearcher querySearcher, IInvertedIndexDictionaryFiller invertedIndexDictionaryFiller)
+public class InvertedIndexDictionary(
+    IQuerySearcher querySearcher,
+    IInvertedIndexDictionaryFiller invertedIndexDictionaryFiller)
     : IInvertedIndexDictionary
 {
-    private readonly IQuerySearcher                 _querySearcher                 = querySearcher;
-    private readonly IInvertedIndexDictionaryFiller _invertedIndexDictionaryFiller = invertedIndexDictionaryFiller;
-    private          bool                           _isConstructed;
+    private IQuerySearcher                 Searcher              { get; } = querySearcher;
+    private IInvertedIndexDictionaryFiller IndexDictionaryFiller { get; } = invertedIndexDictionaryFiller;
+    private bool                           IsConstructed         { get; set; }
 
-    public void Construct(string path,IEnumerable<string>? banned)
+    public void Construct(string path, IEnumerable<string>? banned)
     {
-        _invertedIndexDictionaryFiller.Construct(banned);
-        var invertedIndex = _invertedIndexDictionaryFiller.Build(path);
-        _querySearcher.Construct(invertedIndex);
+        IndexDictionaryFiller.Construct(banned);
+        var invertedIndex = IndexDictionaryFiller.Build(path);
+        Searcher.Construct(invertedIndex);
 
-        _isConstructed = true;
+        IsConstructed = true;
+    }
+
+    public IEnumerable<string> Search(string query)
+    {
+        AssertConstructMethodCalled();
+        return Searcher.Search(query);
     }
 
     private void AssertConstructMethodCalled()
     {
-        if (!_isConstructed)
-        {
-            throw new ConstructMethodNotCalledException();
-        }
-    }
-    public IEnumerable<string> Search(string query)
-    {
-        AssertConstructMethodCalled();
-        return _querySearcher.Search(query);
+        if (!IsConstructed) throw new ConstructMethodNotCalledException();
     }
 }
