@@ -1,20 +1,18 @@
-using FullTextSearch.Application.DocumentsReader;
-using FullTextSearch.Application.DocumentsReader.Interfaces;
 using FullTextSearch.Application.InvertedIndex.Interfaces;
-using FullTextSearch.Application.WordsProcessors;
+using FullTextSearch.Application.Searchers;
+using FullTextSearch.Application.Searchers.DataViewModels;
 using FullTextSearch.Application.WordsProcessors.Interfaces;
 using FullTextSearch.Exceptions;
-using Porter2Stemmer;
 
 namespace FullTextSearch.Application.InvertedIndex;
 
-internal class QuerySearcher(IWordsProcessor wordsProcessor, IDocumentReader documentReader)
+internal class QuerySearcher(IWordsProcessor wordsProcessor, ISearcher searcher)
     : IQuerySearcher
 {
-    private readonly IDocumentReader                   _documentReader = documentReader;
-    private          Dictionary<string, List<string>>? _invertedIndex;
+    private readonly ISearcher                         _searcher       = searcher;
     private readonly IWordsProcessor                   _wordsProcessor = wordsProcessor;
-    private          string[]                          _queryWords     = null!;
+    private          Dictionary<string, List<string>>? _invertedIndex;
+    private          string[]                         _queryWords     = null!;
     private          bool                              _isConstructed;
 
 
@@ -32,11 +30,7 @@ internal class QuerySearcher(IWordsProcessor wordsProcessor, IDocumentReader doc
             throw new ConstructMethodNotCalledException();
         }
     }
-
-    private List<string> AndWords => _wordsProcessor.GetAndWords(_queryWords);
-    private List<string> OrWords  => _wordsProcessor.GetOrWords(_queryWords);
-    private List<string> NotWords => _wordsProcessor.GetNotWords(_queryWords);
-
+    
     public IEnumerable<string> Search(string query)
     {
         AssertConstructMethodCalled();
@@ -48,29 +42,40 @@ internal class QuerySearcher(IWordsProcessor wordsProcessor, IDocumentReader doc
 
         SetQueryWords(query);
 
+        result = ExecuteSearch(result);
+        
+        return result;
+    }
+
+    private IEnumerable<string> ExecuteSearch(IEnumerable<string> result)
+    {
         if (AreAllWordTypesPresent())
-            result = AndOrNotSearch();
+        {
+            result = _searcher.AndOrNotSearch(_invertedIndex!, Words);
+        }
         else if (AreAndWordsPresent())
-            result = AndNotSearch();
-        else if (AreOrWordsPresent()) result = OrNotSearch();
+        {
+            result = _searcher.AndNotSearch(_invertedIndex!, Words);
+        }
+        else if (AreOrWordsPresent())
+        {
+            result = _searcher.OrNotSearch(_invertedIndex!, Words);
+        }
 
         return result;
     }
 
-    private IEnumerable<string> AndOrNotSearch() =>
-        _documentReader.GetAndDocuments(_invertedIndex, AndWords)
-            .Intersect(_documentReader.GetOrDocuments(_invertedIndex, OrWords))
-            .Except(_documentReader.GetNotDocuments(_invertedIndex, NotWords));
+    private List<string> AndWords => _wordsProcessor.GetAndWords(_queryWords);
+    private List<string> OrWords  => _wordsProcessor.GetOrWords(_queryWords);
+    private List<string> NotWords => _wordsProcessor.GetNotWords(_queryWords);
 
-    private IEnumerable<string> AndNotSearch() =>
-        _documentReader.GetAndDocuments(_invertedIndex, AndWords)
-            .Except(_documentReader.GetNotDocuments(_invertedIndex, NotWords));
-
-    private IEnumerable<string> OrNotSearch() =>
-        _documentReader.GetOrDocuments(_invertedIndex, OrWords)
-            .Except(_documentReader.GetNotDocuments(_invertedIndex, NotWords));
-
-
+    private Words Words => new()
+    {
+        AndWords = AndWords,
+        OrWords = OrWords,
+        NotWords = NotWords,
+    };
+    
     private bool AreAllWordTypesPresent() => OrWords.Count > 0 && AndWords.Count > 0;
     private bool AreAndWordsPresent() => AndWords.Count > 0;
     private bool AreOrWordsPresent() => OrWords.Count > 0;

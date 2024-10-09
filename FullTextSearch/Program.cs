@@ -3,6 +3,8 @@ using FullTextSearch.Application.DocumentsReader;
 using FullTextSearch.Application.DocumentsReader.Interfaces;
 using FullTextSearch.Application.InvertedIndex;
 using FullTextSearch.Application.InvertedIndex.Interfaces;
+using FullTextSearch.Application.Searchers;
+using FullTextSearch.Application.Searchers.Interfaces;
 using FullTextSearch.Application.WordsProcessors;
 using FullTextSearch.Application.WordsProcessors.Interfaces;
 using FullTextSearch.IO;
@@ -62,8 +64,10 @@ internal static class Program
         serviceCollector.AddSingleton<IOrWordsProcessor, PrefixBasedOrWordsProcessor>();
         serviceCollector.AddSingleton<INotWordsProcessor, PrefixBasedNotWordsProcessor>();
         
-        
-        
+        serviceCollector.AddSingleton<ISearcher, Searcher>();
+        serviceCollector.AddSingleton<IAndOrNotSearcher, AndOrNotSearcher>();
+        serviceCollector.AddSingleton<IAndNotSearcher, AndNotSearcher>();
+        serviceCollector.AddSingleton<IOrNotSearcher, OrNotSearcher>();
         
         return serviceCollector.BuildServiceProvider();
     }
