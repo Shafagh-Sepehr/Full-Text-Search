@@ -56,5 +56,5 @@ internal class StringToWordsProcessor(IPorter2Stemmer stemmer) : IStringToWordsP
     private static string TrimSpecialCharacters(string value) => value.Trim(AppSettings.TrimableSpecialCharacters);
 
     private static bool IsNumberAndMoreThan2Digits(string value) =>
-        double.TryParse(value, out double _) && value.Length >= 3;
+        double.TryParse(value, out var _) && value.Length >= 3;
 }

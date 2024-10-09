@@ -22,9 +22,9 @@ internal class InvertedIndexDictionaryFiller(IStringToWordsProcessor stringToWor
 
     private void FillInvertedIndexFromFile(string[] files)
     {
-        foreach (string fileName in files)
+        foreach (var fileName in files)
         {
-            string content = File.ReadAllText(fileName);
+            var content = File.ReadAllText(fileName);
 
             var words = ToWordsProcessor.TrimSplitAndStemString(content);
 
@@ -34,7 +34,7 @@ internal class InvertedIndexDictionaryFiller(IStringToWordsProcessor stringToWor
 
     private void AddWordsToInvertedIndex(IEnumerable<string> words, string fileName)
     {
-        foreach (string word in words) CreateOrUpdateValue(word, fileName);
+        foreach (var word in words) CreateOrUpdateValue(word, fileName);
     }
 
     private void CreateOrUpdateValue(string word, string fileName)

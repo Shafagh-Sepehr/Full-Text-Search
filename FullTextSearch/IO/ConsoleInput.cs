@@ -6,7 +6,7 @@ public class ConsoleInput : IInput
 {
    public string ReadLine()
    {
-      string? query = Console.ReadLine();
+      var query = Console.ReadLine();
 
       if (string.IsNullOrWhiteSpace(query)) throw new NullInputException();
 
