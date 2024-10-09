@@ -1,4 +1,3 @@
-using System.Text.RegularExpressions;
 using FullTextSearch.Application.InvertedIndex.Interfaces;
 using Porter2Stemmer;
 

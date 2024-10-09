@@ -1,6 +1,5 @@
 using FullTextSearch.Application.InvertedIndex.Interfaces;
 using FullTextSearch.Exceptions;
-using Porter2Stemmer;
 
 namespace FullTextSearch.Application.InvertedIndex;
 
