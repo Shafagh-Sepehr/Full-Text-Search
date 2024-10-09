@@ -2,15 +2,11 @@ using FullTextSearch.Application.DocumentsReader.Interfaces;
 
 namespace FullTextSearch.Application.DocumentsReader;
 
-
-
-public class OrDocumentsReader(Dictionary<string, List<string>> invertedIndex) : IOrDocumentsReader
+public class OrDocumentsReader : IOrDocumentsReader
 {
-    private readonly Dictionary<string, List<string>> _invertedIndex = invertedIndex;
-
-    public HashSet<string> GetOrDocuments(List<string> orWords)
+    public HashSet<string> GetOrDocuments(Dictionary<string, List<string>> invertedIndex, List<string> orWords)
     {
-        return _invertedIndex
+        return invertedIndex
             .Where(x => orWords.Contains(x.Key))
             .Select(x => x.Value).SelectMany(x => x)
             .ToHashSet();

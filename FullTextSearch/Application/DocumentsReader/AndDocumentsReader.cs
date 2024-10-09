@@ -2,20 +2,16 @@ using FullTextSearch.Application.DocumentsReader.Interfaces;
 
 namespace FullTextSearch.Application.DocumentsReader;
 
-
-
-public class AndDocumentsReader(Dictionary<string, List<string>> invertedIndex) : IAndDocumentsReader
+public class AndDocumentsReader : IAndDocumentsReader
 {
-    private readonly Dictionary<string, List<string>> _invertedIndex = invertedIndex;
-
-    public HashSet<string> GetAndDocuments(List<string> andWords)
+    public HashSet<string> GetAndDocuments(Dictionary<string, List<string>> invertedIndex, List<string> andWords)
     {
-        List<List<string>> andDocsList = _invertedIndex
+        var andDocsList = invertedIndex
             .Where(x => andWords.Contains(x.Key))
             .Select(x => x.Value).ToList();
 
         if (andDocsList.Count < 1) return [];
-            
+        
         var result = new HashSet<string>(andDocsList[0]);
         
         for (var i = 1; i < andDocsList.Count; i++)

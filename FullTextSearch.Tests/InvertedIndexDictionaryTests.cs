@@ -13,7 +13,7 @@ public class InvertedIndexDictionaryTests
         JsonSerializer.Deserialize<Dictionary<string, List<string>>>(InvertedIndexDictionaryBuilderTestData.InvertedIndexJson);
 
     private readonly IQuerySearcher                  _querySearcher          = Substitute.For<IQuerySearcher>();
-    private readonly IInvertedIndexDictionaryBuilder _indexDictionaryBuilder = Substitute.For<IInvertedIndexDictionaryBuilder>();
+    private readonly IInvertedIndexDictionaryFiller _indexDictionaryFiller = Substitute.For<IInvertedIndexDictionaryFiller>();
 
     [Theory]
     [MemberData(nameof(TestData))]
@@ -23,7 +23,7 @@ public class InvertedIndexDictionaryTests
         _testInvertedIndex.Should().NotBeNull();
         
         //Arrange
-        _indexDictionaryBuilder.Build("/file/path").Returns(_testInvertedIndex);
+        _indexDictionaryFiller.Build("/file/path").Returns(_testInvertedIndex);
         _querySearcher.Search(query).Returns(expectedResult);
         
         var invertedIndexDictionary = new InvertedIndexDictionary(_querySearcher);

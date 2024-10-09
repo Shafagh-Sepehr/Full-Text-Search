@@ -21,7 +21,7 @@ public class InvertedIndexDictionaryFillerTest
     {
         //Arrange
         Directory.CreateDirectory("/tmp/unit_test_temp");
-        foreach (TextTestPackage testPackage in InvertedIndexDictionaryBuilderTestData.TestData)
+        foreach (var testPackage in InvertedIndexDictionaryBuilderTestData.TestData)
         {
             File.WriteAllText($"/tmp/unit_test_temp/{testPackage.FileName}", testPackage.Text);
 
@@ -40,7 +40,7 @@ public class InvertedIndexDictionaryFillerTest
         var invertedIndexDictionaryBuilder = new InvertedIndexDictionaryFiller(_stringToWordsProcessor);
 
         //Act
-        Dictionary<string, List<string>> invertedIndex = invertedIndexDictionaryBuilder.Build("/tmp/unit_test_temp/");
+        var invertedIndex = invertedIndexDictionaryBuilder.Build("/tmp/unit_test_temp/");
 
         File.WriteAllText("/tmp/unit_test_temp/inv.json", JsonSerializer.Serialize(invertedIndex));
 

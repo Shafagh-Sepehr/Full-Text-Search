@@ -1,8 +1,10 @@
 using FullTextSearch.Application.InvertedIndex.Interfaces;
+using Porter2Stemmer;
 
 namespace FullTextSearch.Application.InvertedIndex;
 
-internal class InvertedIndexDictionaryFiller(IStringToWordsProcessor stringToWordsProcessor) : IInvertedIndexDictionaryBuilder
+internal class InvertedIndexDictionaryFiller(IStringToWordsProcessor stringToWordsProcessor)
+    : IInvertedIndexDictionaryFiller
 {
     private readonly IStringToWordsProcessor          _stringToWordsProcessor = stringToWordsProcessor;
     private readonly Dictionary<string, List<string>> _invertedIndex          = new();
@@ -14,6 +16,11 @@ internal class InvertedIndexDictionaryFiller(IStringToWordsProcessor stringToWor
         FillInvertedIndexFromFile(files);
         
         return _invertedIndex;
+    }
+    
+    public void Construct(IEnumerable<string>? banned)
+    {
+        _stringToWordsProcessor.Construct(banned);
     }
 
     private void FillInvertedIndexFromFile(string[] files)

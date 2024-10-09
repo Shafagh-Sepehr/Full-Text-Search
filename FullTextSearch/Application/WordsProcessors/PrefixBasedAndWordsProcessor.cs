@@ -5,7 +5,7 @@ namespace FullTextSearch.Application.WordsProcessors;
 
 public class PrefixBasedAndWordsProcessor(IPorter2Stemmer stemmer) : IAndWordsProcessor
 {
-    private readonly IPorter2Stemmer _stemmer    = stemmer;
+    private readonly IPorter2Stemmer _stemmer = stemmer;
 
     public List<string> GetAndWords(string[] queryWords)
     {

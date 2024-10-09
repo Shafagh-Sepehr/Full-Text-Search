@@ -2,7 +2,7 @@ namespace FullTextSearch.Application.DocumentsReader.Interfaces;
 
 public interface IDocumentReader
 {
-    HashSet<string> GetAndDocuments(List<string> andWords);
-    HashSet<string> GetOrDocuments(List<string> orWords);
-    HashSet<string> GetNotDocuments(List<string> notWords);
+    HashSet<string> GetAndDocuments(Dictionary<string, List<string>> invertedIndex, List<string> andWords);
+    HashSet<string> GetOrDocuments(Dictionary<string, List<string>> invertedIndex, List<string> orWords);
+    HashSet<string> GetNotDocuments(Dictionary<string, List<string>> invertedIndex, List<string> notWords);
 }

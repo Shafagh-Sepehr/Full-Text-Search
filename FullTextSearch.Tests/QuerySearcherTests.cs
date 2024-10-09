@@ -1,5 +1,7 @@
 using FluentAssertions;
+using FullTextSearch.Application.DocumentsReader.Interfaces;
 using FullTextSearch.Application.InvertedIndex;
+using FullTextSearch.Application.WordsProcessors.Interfaces;
 using NSubstitute;
 using Porter2Stemmer;
 
@@ -18,6 +20,8 @@ public class QuerySearcherTests
     };
 
     private readonly IPorter2Stemmer _stemmer = Substitute.For<IPorter2Stemmer>();
+    private readonly IWordsProcessor _wordsProcessor = Substitute.For<IWordsProcessor>();
+    private readonly IDocumentReader _documentReader = Substitute.For<IDocumentReader>();
 
 
     [Theory]
@@ -30,11 +34,13 @@ public class QuerySearcherTests
             var input = callInfo.Arg<string>();
             return new StemmedWord(input, input);
         });
-        var querySearcher = new QuerySearcher(_invertedIndex, _stemmer);
+        
+        var querySearcher = new QuerySearcher(_wordsProcessor, _documentReader);
+        querySearcher.Construct(_invertedIndex);
 
 
         //Act
-        IEnumerable<string> documents = querySearcher.Search(query);
+        var documents = querySearcher.Search(query);
 
         //Assert
         documents.Should().BeEquivalentTo(expectedResult);

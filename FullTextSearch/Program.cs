@@ -1,7 +1,14 @@
 ﻿
+using FullTextSearch.Application.DocumentsReader;
+using FullTextSearch.Application.DocumentsReader.Interfaces;
 using FullTextSearch.Application.InvertedIndex;
+using FullTextSearch.Application.InvertedIndex.Interfaces;
+using FullTextSearch.Application.WordsProcessors;
+using FullTextSearch.Application.WordsProcessors.Interfaces;
 using FullTextSearch.IO;
 using FullTextSearch.IO.Interfaces;
+using Microsoft.Extensions.DependencyInjection;
+using Porter2Stemmer;
 
 namespace FullTextSearch;
 
@@ -13,14 +20,18 @@ internal static class Program
     
     private static void Main()
     {
+        var serviceProvider = ConfigureServices();
 
-        var invertedIndex = InvertedIndexBuilder.CreateFromScratch(AppSettings.DocumentsPath, ["will",]);
+
+        var invertedIndex = serviceProvider.GetService<IInvertedIndexDictionary>();
+        ArgumentNullException.ThrowIfNull(invertedIndex);
+        invertedIndex.Construct(AppSettings.DocumentsPath, ["will",]);
         
         Output.Write("Search: ");
         string query = Input.ReadLine();
 
         
-        IEnumerable<string> result = invertedIndex.Search(query);
+        var result = invertedIndex.Search(query);
         
         Output.WriteLine("Result:");
         
@@ -28,5 +39,32 @@ internal static class Program
         {
             Output.WriteLine(doc);
         }
+    }
+
+    private static ServiceProvider ConfigureServices()
+    {
+        var serviceCollector = new ServiceCollection();
+        
+        serviceCollector.AddSingleton<IPorter2Stemmer, EnglishPorter2Stemmer>();
+        
+        serviceCollector.AddTransient<IInvertedIndexDictionary, InvertedIndexDictionary>();
+        serviceCollector.AddTransient<IInvertedIndexDictionaryFiller, InvertedIndexDictionaryFiller>();
+        serviceCollector.AddTransient<IQuerySearcher, QuerySearcher>();
+        serviceCollector.AddTransient<IStringToWordsProcessor, StringToWordsProcessor>();
+        
+        serviceCollector.AddSingleton<IDocumentReader, DocumentReader>();
+        serviceCollector.AddSingleton<IAndDocumentsReader, AndDocumentsReader>();
+        serviceCollector.AddSingleton<IOrDocumentsReader, OrDocumentsReader>();
+        serviceCollector.AddSingleton<INotDocumentsReader, NotDocumentsReader>();
+        
+        serviceCollector.AddSingleton<IWordsProcessor, WordsProcessor>();
+        serviceCollector.AddSingleton<IAndWordsProcessor, PrefixBasedAndWordsProcessor>();
+        serviceCollector.AddSingleton<IOrWordsProcessor, PrefixBasedOrWordsProcessor>();
+        serviceCollector.AddSingleton<INotWordsProcessor, PrefixBasedNotWordsProcessor>();
+        
+        
+        
+        
+        return serviceCollector.BuildServiceProvider();
     }
 }
