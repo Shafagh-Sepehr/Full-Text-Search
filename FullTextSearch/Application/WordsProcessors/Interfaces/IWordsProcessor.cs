@@ -1,6 +1,6 @@
 namespace FullTextSearch.Application.WordsProcessors;
 
-public interface IWordsProcessor
+internal interface IWordsProcessor
 {
     List<string> GetAndWords(string[] query);
     List<string> GetOrWords(string[] query);

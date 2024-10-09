@@ -1,6 +1,6 @@
 namespace FullTextSearch.Application.DocumentsReader;
 
-public class OrDocumentsReader : IOrDocumentsReader
+internal class OrDocumentsReader : IOrDocumentsReader
 {
     public HashSet<string> GetOrDocuments(Dictionary<string, List<string>> invertedIndex, List<string> orWords)
     {

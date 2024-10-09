@@ -1,6 +1,6 @@
 namespace FullTextSearch.Application.DocumentsReader;
 
-public class AndDocumentsReader : IAndDocumentsReader
+internal class AndDocumentsReader : IAndDocumentsReader
 {
     public HashSet<string> GetAndDocuments(Dictionary<string, List<string>> invertedIndex, List<string> andWords)
     {

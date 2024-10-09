@@ -1,6 +1,6 @@
 namespace FullTextSearch.Application.DocumentsReader;
 
-public class DocumentReader(
+internal class DocumentReader(
     IAndDocumentsReader andDocumentsReader,
     IOrDocumentsReader orDocumentsReader,
     INotDocumentsReader notDocumentsReader)

@@ -1,6 +1,6 @@
 namespace FullTextSearch.Application.WordsProcessors;
 
-public interface INotWordsProcessor
+internal interface INotWordsProcessor
 {
     List<string> GetNotWords(string[] queryWords);
 }

@@ -2,7 +2,7 @@ using Porter2Stemmer;
 
 namespace FullTextSearch.Application.WordsProcessors;
 
-public class PrefixBasedAndWordsProcessor(IPorter2Stemmer stemmer) : IAndWordsProcessor
+internal class PrefixBasedAndWordsProcessor(IPorter2Stemmer stemmer) : IAndWordsProcessor
 {
     private IPorter2Stemmer Stemmer { get; } = stemmer;
 

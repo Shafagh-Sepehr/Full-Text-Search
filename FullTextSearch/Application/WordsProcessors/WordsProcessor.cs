@@ -1,7 +1,7 @@
 
 namespace FullTextSearch.Application.WordsProcessors;
 
-public class WordsProcessor(
+internal class WordsProcessor(
     IAndWordsProcessor andWordsProcessor,
     IOrWordsProcessor orWordsProcessor,
     INotWordsProcessor notWordsProcessor)

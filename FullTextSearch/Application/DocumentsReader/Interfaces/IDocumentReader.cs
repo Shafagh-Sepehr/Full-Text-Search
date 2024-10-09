@@ -1,6 +1,6 @@
 namespace FullTextSearch.Application.DocumentsReader;
 
-public interface IDocumentReader
+internal interface IDocumentReader
 {
     HashSet<string> GetAndDocuments(Dictionary<string, List<string>> invertedIndex, List<string> andWords);
     HashSet<string> GetOrDocuments(Dictionary<string, List<string>> invertedIndex, List<string> orWords);
