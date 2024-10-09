@@ -1,6 +1,6 @@
 using FullTextSearch.Application.Searchers.DataViewModels;
 
-namespace FullTextSearch.Application.Searchers.Interfaces;
+namespace FullTextSearch.Application.Searchers;
 
 internal interface IAndOrNotSearcher
 {

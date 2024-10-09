@@ -1,4 +1,3 @@
-using FullTextSearch.Application.InvertedIndex.Interfaces;
 using Porter2Stemmer;
 
 namespace FullTextSearch.Application.InvertedIndex;

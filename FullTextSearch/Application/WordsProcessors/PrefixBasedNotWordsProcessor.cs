@@ -1,4 +1,3 @@
-using FullTextSearch.Application.WordsProcessors.Interfaces;
 using Porter2Stemmer;
 
 namespace FullTextSearch.Application.WordsProcessors;

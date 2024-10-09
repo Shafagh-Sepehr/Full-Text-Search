@@ -1,5 +1,4 @@
 using FullTextSearch.Application.Searchers.DataViewModels;
-using FullTextSearch.Application.Searchers.Interfaces;
 
 namespace FullTextSearch.Application.Searchers;
 

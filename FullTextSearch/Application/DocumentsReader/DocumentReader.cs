@@ -1,5 +1,3 @@
-using FullTextSearch.Application.DocumentsReader.Interfaces;
-
 namespace FullTextSearch.Application.DocumentsReader;
 
 public class DocumentReader(

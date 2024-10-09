@@ -1,4 +1,3 @@
-using FullTextSearch.Application.InvertedIndex.Interfaces;
 using FullTextSearch.Exceptions;
 
 namespace FullTextSearch.Application.InvertedIndex;

@@ -1,5 +1,4 @@
 using FullTextSearch.Exceptions;
-using FullTextSearch.IO.Interfaces;
 
 namespace FullTextSearch.IO;
 

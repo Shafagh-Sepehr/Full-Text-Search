@@ -1,7 +1,6 @@
-using FullTextSearch.Application.InvertedIndex.Interfaces;
 using FullTextSearch.Application.Searchers;
 using FullTextSearch.Application.Searchers.DataViewModels;
-using FullTextSearch.Application.WordsProcessors.Interfaces;
+using FullTextSearch.Application.WordsProcessors;
 using FullTextSearch.Exceptions;
 
 namespace FullTextSearch.Application.InvertedIndex;

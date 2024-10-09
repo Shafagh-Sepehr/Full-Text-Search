@@ -1,7 +1,7 @@
 using FluentAssertions;
-using FullTextSearch.Application.DocumentsReader.Interfaces;
+using FullTextSearch.Application.DocumentsReader;
 using FullTextSearch.Application.InvertedIndex;
-using FullTextSearch.Application.WordsProcessors.Interfaces;
+using FullTextSearch.Application.WordsProcessors;
 using NSubstitute;
 using Porter2Stemmer;
 

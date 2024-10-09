@@ -1,6 +1,5 @@
-using FullTextSearch.Application.DocumentsReader.Interfaces;
+using FullTextSearch.Application.DocumentsReader;
 using FullTextSearch.Application.Searchers.DataViewModels;
-using FullTextSearch.Application.Searchers.Interfaces;
 
 namespace FullTextSearch.Application.Searchers;
 

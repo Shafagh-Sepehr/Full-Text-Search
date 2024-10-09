@@ -1,4 +1,3 @@
-using FullTextSearch.Application.WordsProcessors.Interfaces;
 
 namespace FullTextSearch.Application.WordsProcessors;
 

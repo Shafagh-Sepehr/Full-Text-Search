@@ -1,4 +1,4 @@
-namespace FullTextSearch.Application.WordsProcessors.Interfaces;
+namespace FullTextSearch.Application.WordsProcessors;
 
 public interface IOrWordsProcessor
 {

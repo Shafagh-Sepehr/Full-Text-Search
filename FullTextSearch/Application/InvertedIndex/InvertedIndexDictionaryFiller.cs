@@ -1,5 +1,3 @@
-using FullTextSearch.Application.InvertedIndex.Interfaces;
-
 namespace FullTextSearch.Application.InvertedIndex;
 
 internal class InvertedIndexDictionaryFiller(IStringToWordsProcessor stringToWordsProcessor)

@@ -1,4 +1,4 @@
-namespace FullTextSearch.Application.DocumentsReader.Interfaces;
+namespace FullTextSearch.Application.DocumentsReader;
 
 public interface IOrDocumentsReader
 {

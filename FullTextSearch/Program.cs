@@ -1,13 +1,8 @@
 ﻿using FullTextSearch.Application.DocumentsReader;
-using FullTextSearch.Application.DocumentsReader.Interfaces;
 using FullTextSearch.Application.InvertedIndex;
-using FullTextSearch.Application.InvertedIndex.Interfaces;
 using FullTextSearch.Application.Searchers;
-using FullTextSearch.Application.Searchers.Interfaces;
 using FullTextSearch.Application.WordsProcessors;
-using FullTextSearch.Application.WordsProcessors.Interfaces;
 using FullTextSearch.IO;
-using FullTextSearch.IO.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using Porter2Stemmer;
 
