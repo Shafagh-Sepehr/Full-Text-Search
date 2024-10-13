@@ -11,12 +11,12 @@ internal class Searcher(
     private readonly IAndOrNotSearcher _andOrNotSearcher = andOrNotSearcher ?? throw new ArgumentNullException(nameof(andOrNotSearcher));
     private readonly IOrNotSearcher    _orNotSearcher    = orNotSearcher ?? throw new ArgumentNullException(nameof(orNotSearcher));
 
-    public IEnumerable<string> AndOrNotSearch(Dictionary<string, List<string>> invertedIndex, Words words) =>
+    public IReadOnlySet<string> AndOrNotSearch(Dictionary<string, List<string>> invertedIndex, Words words) =>
         _andOrNotSearcher.AndOrNotSearch(invertedIndex, words);
 
-    public IEnumerable<string> AndNotSearch(Dictionary<string, List<string>> invertedIndex, Words words) =>
+    public IReadOnlySet<string> AndNotSearch(Dictionary<string, List<string>> invertedIndex, Words words) =>
         _andNotSearcher.AndNotSearch(invertedIndex, words);
 
-    public IEnumerable<string> OrNotSearch(Dictionary<string, List<string>> invertedIndex, Words words) =>
+    public IReadOnlySet<string> OrNotSearch(Dictionary<string, List<string>> invertedIndex, Words words) =>
         _orNotSearcher.OrNotSearch(invertedIndex, words);
 }

@@ -4,5 +4,5 @@ namespace FullTextSearch.Application.Searchers;
 
 internal interface IAndOrNotSearcher
 {
-    IEnumerable<string> AndOrNotSearch(Dictionary<string, List<string>> invertedIndex, Words words);
+    IReadOnlySet<string> AndOrNotSearch(Dictionary<string, List<string>> invertedIndex, Words words);
 }
