@@ -6,7 +6,7 @@ internal class PrefixBasedOrWordsProcessor(IPorter2Stemmer stemmer) : IOrWordsPr
 {
     private readonly IPorter2Stemmer _stemmer = stemmer ?? throw new ArgumentNullException(nameof(stemmer));
 
-    public List<string> GetOrWords(string[] queryWords)
+    public IReadOnlyList<string> GetOrWords(string[] queryWords)
     {
         return queryWords
             .Where(x => x[0] == '+')

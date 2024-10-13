@@ -14,9 +14,9 @@ internal class QuerySearcher(IWordsProcessor wordsProcessor, ISearcher searcher)
     private          bool                              _isConstructed;
     private          string[]                          _queryWords = null!;
 
-    private List<string> AndWords => _wordsProcessor.GetAndWords(_queryWords);
-    private List<string> OrWords  => _wordsProcessor.GetOrWords(_queryWords);
-    private List<string> NotWords => _wordsProcessor.GetNotWords(_queryWords);
+    private IReadOnlyList<string> AndWords => _wordsProcessor.GetAndWords(_queryWords);
+    private IReadOnlyList<string> OrWords  => _wordsProcessor.GetOrWords(_queryWords);
+    private IReadOnlyList<string> NotWords => _wordsProcessor.GetNotWords(_queryWords);
 
     private Words Words => new()
     {

@@ -6,7 +6,7 @@ internal class PrefixBasedAndWordsProcessor(IPorter2Stemmer stemmer) : IAndWords
 {
     private readonly IPorter2Stemmer _stemmer = stemmer ?? throw new ArgumentNullException(nameof(stemmer));
 
-    public List<string> GetAndWords(string[] queryWords)
+    public IReadOnlyList<string> GetAndWords(string[] queryWords)
     {
         return queryWords
             .Where(x => x[0] != '+' && x[0] != '-')

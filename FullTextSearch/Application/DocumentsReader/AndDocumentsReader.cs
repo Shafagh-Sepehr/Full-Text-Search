@@ -2,7 +2,7 @@ namespace FullTextSearch.Application.DocumentsReader;
 
 internal class AndDocumentsReader : IAndDocumentsReader
 {
-    public HashSet<string> GetAndDocuments(Dictionary<string, List<string>> invertedIndex, List<string> andWords)
+    public HashSet<string> GetAndDocuments(Dictionary<string, List<string>> invertedIndex, IReadOnlyList<string> andWords)
     {
         var andDocsList = invertedIndex
             .Where(x => andWords.Contains(x.Key))

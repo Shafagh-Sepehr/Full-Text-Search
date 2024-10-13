@@ -11,7 +11,7 @@ internal class WordsProcessor(
     private readonly IOrWordsProcessor  _orWordsProcessor  = orWordsProcessor ?? throw new ArgumentNullException(nameof(orWordsProcessor));
 
 
-    public List<string> GetAndWords(string[] query) => _andWordsProcessor.GetAndWords(query);
-    public List<string> GetOrWords(string[] query) => _orWordsProcessor.GetOrWords(query);
-    public List<string> GetNotWords(string[] query) => _notWordsProcessor.GetNotWords(query);
+    public IReadOnlyList<string> GetAndWords(string[] query) => _andWordsProcessor.GetAndWords(query);
+    public IReadOnlyList<string> GetOrWords(string[] query) => _orWordsProcessor.GetOrWords(query);
+    public IReadOnlyList<string> GetNotWords(string[] query) => _notWordsProcessor.GetNotWords(query);
 }

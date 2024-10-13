@@ -2,7 +2,7 @@ namespace FullTextSearch.Application.WordsProcessors;
 
 internal interface IWordsProcessor
 {
-    List<string> GetAndWords(string[] query);
-    List<string> GetOrWords(string[] query);
-    List<string> GetNotWords(string[] query);
+    IReadOnlyList<string> GetAndWords(string[] query);
+    IReadOnlyList<string> GetOrWords(string[] query);
+    IReadOnlyList<string> GetNotWords(string[] query);
 }

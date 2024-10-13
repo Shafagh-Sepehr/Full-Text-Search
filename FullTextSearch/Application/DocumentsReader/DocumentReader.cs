@@ -11,12 +11,12 @@ internal class DocumentReader(
     private readonly IOrDocumentsReader  _orDocumentsReader  = orDocumentsReader ?? throw new ArgumentNullException(nameof(orDocumentsReader));
 
 
-    public HashSet<string> GetAndDocuments(Dictionary<string, List<string>> invertedIndex, List<string> andWords)
+    public HashSet<string> GetAndDocuments(Dictionary<string, List<string>> invertedIndex, IReadOnlyList<string> andWords)
         => _andDocumentsReader.GetAndDocuments(invertedIndex, andWords);
 
-    public HashSet<string> GetOrDocuments(Dictionary<string, List<string>> invertedIndex, List<string> orWords) =>
+    public HashSet<string> GetOrDocuments(Dictionary<string, List<string>> invertedIndex, IReadOnlyList<string> orWords) =>
         _orDocumentsReader.GetOrDocuments(invertedIndex, orWords);
 
-    public HashSet<string> GetNotDocuments(Dictionary<string, List<string>> invertedIndex, List<string> notWords) =>
+    public HashSet<string> GetNotDocuments(Dictionary<string, List<string>> invertedIndex, IReadOnlyList<string> notWords) =>
         _notDocumentsReader.GetNotDocuments(invertedIndex, notWords);
 }

@@ -2,5 +2,5 @@ namespace FullTextSearch.Application.WordsProcessors;
 
 internal interface IAndWordsProcessor
 {
-    List<string> GetAndWords(string[] queryWords);
+    IReadOnlyList<string> GetAndWords(string[] queryWords);
 }

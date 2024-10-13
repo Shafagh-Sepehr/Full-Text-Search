@@ -2,7 +2,7 @@ namespace FullTextSearch.Application.DocumentsReader;
 
 internal class NotDocumentsReader : INotDocumentsReader
 {
-    public HashSet<string> GetNotDocuments(Dictionary<string, List<string>> invertedIndex, List<string> notWords)
+    public HashSet<string> GetNotDocuments(Dictionary<string, List<string>> invertedIndex, IReadOnlyList<string> notWords)
     {
         return invertedIndex
             .Where(x => notWords.Contains(x.Key))
