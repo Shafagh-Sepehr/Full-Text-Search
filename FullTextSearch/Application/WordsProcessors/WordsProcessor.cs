@@ -1,4 +1,3 @@
-
 namespace FullTextSearch.Application.WordsProcessors;
 
 internal class WordsProcessor(
@@ -7,12 +6,12 @@ internal class WordsProcessor(
     INotWordsProcessor notWordsProcessor)
     : IWordsProcessor
 {
-    private IAndWordsProcessor AndWordsProcessor { get; } = andWordsProcessor;
-    private IOrWordsProcessor  OrWordsProcessor  { get; } = orWordsProcessor;
-    private INotWordsProcessor NotWordsProcessor { get; } = notWordsProcessor;
+    private readonly IAndWordsProcessor _andWordsProcessor = andWordsProcessor;
+    private readonly INotWordsProcessor _notWordsProcessor = notWordsProcessor;
+    private readonly IOrWordsProcessor  _orWordsProcessor  = orWordsProcessor;
 
 
-    public List<string> GetAndWords(string[] query) => AndWordsProcessor.GetAndWords(query);
-    public List<string> GetOrWords(string[] query) => OrWordsProcessor.GetOrWords(query);
-    public List<string> GetNotWords(string[] query) => NotWordsProcessor.GetNotWords(query);
+    public List<string> GetAndWords(string[] query) => _andWordsProcessor.GetAndWords(query);
+    public List<string> GetOrWords(string[] query) => _orWordsProcessor.GetOrWords(query);
+    public List<string> GetNotWords(string[] query) => _notWordsProcessor.GetNotWords(query);
 }

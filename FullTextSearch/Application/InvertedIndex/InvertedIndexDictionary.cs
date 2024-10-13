@@ -7,27 +7,27 @@ internal class InvertedIndexDictionary(
     IInvertedIndexDictionaryFiller invertedIndexDictionaryFiller)
     : IInvertedIndexDictionary
 {
-    private IQuerySearcher                 Searcher              { get; } = querySearcher;
-    private IInvertedIndexDictionaryFiller IndexDictionaryFiller { get; } = invertedIndexDictionaryFiller;
-    private bool                           IsConstructed         { get; set; }
+    private readonly IInvertedIndexDictionaryFiller _indexDictionaryFiller = invertedIndexDictionaryFiller;
+    private readonly IQuerySearcher                 _searcher              = querySearcher;
+    private          bool                           _isConstructed;
 
     public void Construct(string path, IEnumerable<string>? banned)
     {
-        IndexDictionaryFiller.Construct(banned);
-        var invertedIndex = IndexDictionaryFiller.Build(path);
-        Searcher.Construct(invertedIndex);
+        _indexDictionaryFiller.Construct(banned);
+        var invertedIndex = _indexDictionaryFiller.Build(path);
+        _searcher.Construct(invertedIndex);
 
-        IsConstructed = true;
+        _isConstructed = true;
     }
 
     public IEnumerable<string> Search(string query)
     {
         AssertConstructMethodCalled();
-        return Searcher.Search(query);
+        return _searcher.Search(query);
     }
 
     private void AssertConstructMethodCalled()
     {
-        if (!IsConstructed) throw new ConstructMethodNotCalledException();
+        if (!_isConstructed) throw new ConstructMethodNotCalledException();
     }
 }

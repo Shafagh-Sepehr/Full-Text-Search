@@ -3,21 +3,21 @@ namespace FullTextSearch.Application.InvertedIndex;
 internal class InvertedIndexDictionaryFiller(IStringToWordsProcessor stringToWordsProcessor)
     : IInvertedIndexDictionaryFiller
 {
-    private IStringToWordsProcessor          ToWordsProcessor { get; } = stringToWordsProcessor;
-    private Dictionary<string, List<string>> InvertedIndex    { get; } = new();
+    private readonly Dictionary<string, List<string>> _invertedIndex    = new();
+    private readonly IStringToWordsProcessor          _toWordsProcessor = stringToWordsProcessor;
 
     public Dictionary<string, List<string>> Build(string filepath)
     {
-        string[] files = Directory.GetFiles(filepath);
+        var files = Directory.GetFiles(filepath);
 
         FillInvertedIndexFromFile(files);
 
-        return InvertedIndex;
+        return _invertedIndex;
     }
 
     public void Construct(IEnumerable<string>? banned)
     {
-        ToWordsProcessor.Construct(banned);
+        _toWordsProcessor.Construct(banned);
     }
 
     private void FillInvertedIndexFromFile(string[] files)
@@ -26,7 +26,7 @@ internal class InvertedIndexDictionaryFiller(IStringToWordsProcessor stringToWor
         {
             var content = File.ReadAllText(fileName);
 
-            var words = ToWordsProcessor.TrimSplitAndStemString(content);
+            var words = _toWordsProcessor.TrimSplitAndStemString(content);
 
             AddWordsToInvertedIndex(words, fileName);
         }
@@ -39,9 +39,9 @@ internal class InvertedIndexDictionaryFiller(IStringToWordsProcessor stringToWor
 
     private void CreateOrUpdateValue(string word, string fileName)
     {
-        if (InvertedIndex.TryGetValue(word, out var value))
+        if (_invertedIndex.TryGetValue(word, out var value))
             value.Add(fileName.Split('/')[^1]);
         else
-            InvertedIndex[word] = [fileName.Split('/')[^1],];
+            _invertedIndex[word] = [fileName.Split('/')[^1],];
     }
 }

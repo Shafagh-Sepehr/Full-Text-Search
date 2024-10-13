@@ -4,14 +4,14 @@ namespace FullTextSearch.Application.WordsProcessors;
 
 internal class PrefixBasedNotWordsProcessor(IPorter2Stemmer stemmer) : INotWordsProcessor
 {
-    private IPorter2Stemmer Stemmer { get; } = stemmer;
+    private readonly IPorter2Stemmer _stemmer = stemmer;
 
     public List<string> GetNotWords(string[] queryWords)
     {
         return queryWords
             .Where(x => x[0] == '-')
             .Select(x => x.Substring(1, x.Length - 1))
-            .Select(x => Stemmer.Stem(x).Value)
+            .Select(x => _stemmer.Stem(x).Value)
             .ToList();
     }
 }
