@@ -15,7 +15,7 @@ internal class AndDocumentsReader : IAndDocumentsReader
         return result;
     }
 
-    private HashSet<string> IntersectAllElements(List<List<string>> andDocsList)
+    private static HashSet<string> IntersectAllElements(List<List<string>> andDocsList)
     {
         var result = new HashSet<string>(andDocsList[0]);
         
