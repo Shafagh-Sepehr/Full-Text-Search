@@ -10,11 +10,24 @@ internal class StringToWordsProcessor(IPorter2Stemmer stemmer) : IStringToWordsP
 
     public IEnumerable<string> TrimSplitAndStemString(string source)
     {
-        return source
-            .Trim().Split().Where(IsNotNoise)
-            .Select(Cleanse).SelectMany(x => x) // flatten the string arrays
-            .Select(Stem).Where(IsValid).Distinct();
+        var result = CleanAndSplit(source);
+        result = PurgeNoise(result);
+        result = CleanAndSelect(result);
+        result = Stem(result);
+        result = PurgeNonValidWords(result);
+        return result.Distinct();
     }
+
+    private static IEnumerable<string> CleanAndSplit(string source) => source.Trim().Split();
+    private static IEnumerable<string> PurgeNoise(IEnumerable<string> value) => value.Where(IsNotNoise);
+    private static IEnumerable<string> CleanAndSelect(IEnumerable<string> value)
+    {
+        return value.Select(Cleanse).SelectMany(x => x); // flatten the string arrays
+            
+    }
+    private IEnumerable<string> Stem(IEnumerable<string> value) => value.Select(Stem);
+    private IEnumerable<string> PurgeNonValidWords(IEnumerable<string> value) => value.Where(IsValid);
+    
 
     public void Construct(IEnumerable<string>? banned)
     {
