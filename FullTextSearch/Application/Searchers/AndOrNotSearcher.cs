@@ -7,8 +7,12 @@ internal class AndOrNotSearcher(IDocumentReader documentReader) : IAndOrNotSearc
 {
     private readonly IDocumentReader _documentReader = documentReader ?? throw new ArgumentNullException(nameof(documentReader));
 
-    public IEnumerable<string> AndOrNotSearch(Dictionary<string, List<string>> invertedIndex, Words words) =>
-        _documentReader.GetAndDocuments(invertedIndex, words.AndWords)
-            .Intersect(_documentReader.GetOrDocuments(invertedIndex, words.OrWords))
-            .Except(_documentReader.GetNotDocuments(invertedIndex, words.NotWords));
+    public IEnumerable<string> AndOrNotSearch(Dictionary<string, List<string>> invertedIndex, Words words)
+    {
+        var docsSet =  _documentReader.GetAndDocuments(invertedIndex, words.AndWords);
+        docsSet.IntersectWith(_documentReader.GetOrDocuments(invertedIndex, words.OrWords));
+        docsSet.ExceptWith(_documentReader.GetNotDocuments(invertedIndex, words.NotWords));
+        
+        return docsSet;
+    }
 }

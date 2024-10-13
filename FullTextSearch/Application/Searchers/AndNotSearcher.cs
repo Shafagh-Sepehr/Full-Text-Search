@@ -8,7 +8,11 @@ internal class AndNotSearcher(IDocumentReader documentReader) : IAndNotSearcher
     private readonly IDocumentReader _documentReader = documentReader ?? throw new ArgumentNullException(nameof(documentReader));
 
 
-    public IEnumerable<string> AndNotSearch(Dictionary<string, List<string>> invertedIndex, Words words) =>
-        _documentReader.GetAndDocuments(invertedIndex, words.AndWords)
-            .Except(_documentReader.GetNotDocuments(invertedIndex, words.NotWords));
+    public IEnumerable<string> AndNotSearch(Dictionary<string, List<string>> invertedIndex, Words words)
+    {
+        var docsSet = _documentReader.GetAndDocuments(invertedIndex, words.AndWords);
+        docsSet.ExceptWith(_documentReader.GetNotDocuments(invertedIndex, words.NotWords));
+        
+        return docsSet;
+    }
 }
