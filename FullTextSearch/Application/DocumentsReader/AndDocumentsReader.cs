@@ -9,12 +9,19 @@ internal class AndDocumentsReader : IAndDocumentsReader
             .Select(x => x.Value).ToList();
 
         if (andDocsList.Count < 1) return [];
+
+        var result = IntersectAllElements(andDocsList);
         
+        return result;
+    }
+
+    private HashSet<string> IntersectAllElements(List<List<string>> andDocsList)
+    {
         var result = new HashSet<string>(andDocsList[0]);
         
-        for (var i = 1; i < andDocsList.Count; i++)
+        foreach (var docList in andDocsList.Skip(1))
         {
-            result.IntersectWith(andDocsList[i]);
+            result.IntersectWith(docList);
         }
 
         return result;
