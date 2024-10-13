@@ -5,7 +5,7 @@ namespace FullTextSearch.Application.Searchers;
 
 internal class OrNotSearcher(IDocumentReader documentReader) : IOrNotSearcher
 {
-    private readonly IDocumentReader _documentReader = documentReader;
+    private readonly IDocumentReader _documentReader = documentReader ?? throw new ArgumentNullException(nameof(documentReader));
 
     public IEnumerable<string> OrNotSearch(Dictionary<string, List<string>> invertedIndex, Words words) =>
         _documentReader.GetOrDocuments(invertedIndex, words.OrWords)

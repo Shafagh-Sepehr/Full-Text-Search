@@ -4,7 +4,7 @@ namespace FullTextSearch.Application.WordsProcessors;
 
 internal class PrefixBasedNotWordsProcessor(IPorter2Stemmer stemmer) : INotWordsProcessor
 {
-    private readonly IPorter2Stemmer _stemmer = stemmer;
+    private readonly IPorter2Stemmer _stemmer = stemmer ?? throw new ArgumentNullException(nameof(stemmer));
 
     public List<string> GetNotWords(string[] queryWords)
     {

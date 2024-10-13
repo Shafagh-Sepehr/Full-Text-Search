@@ -4,7 +4,7 @@ namespace FullTextSearch.Application.WordsProcessors;
 
 internal class PrefixBasedAndWordsProcessor(IPorter2Stemmer stemmer) : IAndWordsProcessor
 {
-    private readonly IPorter2Stemmer _stemmer = stemmer;
+    private readonly IPorter2Stemmer _stemmer = stemmer ?? throw new ArgumentNullException(nameof(stemmer));
 
     public List<string> GetAndWords(string[] queryWords)
     {

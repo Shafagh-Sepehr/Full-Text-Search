@@ -6,9 +6,9 @@ internal class DocumentReader(
     INotDocumentsReader notDocumentsReader)
     : IDocumentReader
 {
-    private readonly IAndDocumentsReader _andDocumentsReader = andDocumentsReader;
-    private readonly INotDocumentsReader _notDocumentsReader = notDocumentsReader;
-    private readonly IOrDocumentsReader  _orDocumentsReader  = orDocumentsReader;
+    private readonly IAndDocumentsReader _andDocumentsReader = andDocumentsReader ?? throw new ArgumentNullException(nameof(andDocumentsReader));
+    private readonly INotDocumentsReader _notDocumentsReader = notDocumentsReader ?? throw new ArgumentNullException(nameof(notDocumentsReader));
+    private readonly IOrDocumentsReader  _orDocumentsReader  = orDocumentsReader ?? throw new ArgumentNullException(nameof(orDocumentsReader));
 
 
     public HashSet<string> GetAndDocuments(Dictionary<string, List<string>> invertedIndex, List<string> andWords)

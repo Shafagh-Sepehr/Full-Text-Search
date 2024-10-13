@@ -5,7 +5,7 @@ namespace FullTextSearch.Application.InvertedIndex;
 internal class StringToWordsProcessor(IPorter2Stemmer stemmer) : IStringToWordsProcessor
 {
     private readonly List<string>    _banned  = AppSettings.BannedWords.ToList();
-    private readonly IPorter2Stemmer _stemmer = stemmer;
+    private readonly IPorter2Stemmer _stemmer = stemmer ?? throw new ArgumentNullException(nameof(stemmer));
 
 
     public IEnumerable<string> TrimSplitAndStemString(string source)

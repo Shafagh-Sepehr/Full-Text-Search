@@ -5,7 +5,7 @@ namespace FullTextSearch.Application.Searchers;
 
 internal class AndNotSearcher(IDocumentReader documentReader) : IAndNotSearcher
 {
-    private readonly IDocumentReader _documentReader = documentReader;
+    private readonly IDocumentReader _documentReader = documentReader ?? throw new ArgumentNullException(nameof(documentReader));
 
 
     public IEnumerable<string> AndNotSearch(Dictionary<string, List<string>> invertedIndex, Words words) =>

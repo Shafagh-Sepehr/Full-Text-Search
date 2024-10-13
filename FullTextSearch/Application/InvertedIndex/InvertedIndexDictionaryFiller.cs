@@ -4,7 +4,8 @@ internal class InvertedIndexDictionaryFiller(IStringToWordsProcessor stringToWor
     : IInvertedIndexDictionaryFiller
 {
     private readonly Dictionary<string, List<string>> _invertedIndex    = new();
-    private readonly IStringToWordsProcessor          _toWordsProcessor = stringToWordsProcessor;
+    private readonly IStringToWordsProcessor          _toWordsProcessor = stringToWordsProcessor
+                                                                       ?? throw new ArgumentNullException(nameof(stringToWordsProcessor));
 
     public Dictionary<string, List<string>> Build(string filepath)
     {

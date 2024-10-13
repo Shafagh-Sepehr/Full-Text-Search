@@ -8,8 +8,8 @@ namespace FullTextSearch.Application.InvertedIndex;
 internal class QuerySearcher(IWordsProcessor wordsProcessor, ISearcher searcher)
     : IQuerySearcher
 {
-    private readonly ISearcher                         _searcher       = searcher;
-    private readonly IWordsProcessor                   _wordsProcessor = wordsProcessor;
+    private readonly ISearcher                         _searcher       = searcher ?? throw new ArgumentNullException(nameof(searcher));
+    private readonly IWordsProcessor                   _wordsProcessor = wordsProcessor ?? throw new ArgumentNullException(nameof(wordsProcessor));
     private          Dictionary<string, List<string>>? _invertedIndex;
     private          bool                              _isConstructed;
     private          string[]                          _queryWords = null!;

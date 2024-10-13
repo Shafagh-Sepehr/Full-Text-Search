@@ -6,9 +6,9 @@ internal class WordsProcessor(
     INotWordsProcessor notWordsProcessor)
     : IWordsProcessor
 {
-    private readonly IAndWordsProcessor _andWordsProcessor = andWordsProcessor;
-    private readonly INotWordsProcessor _notWordsProcessor = notWordsProcessor;
-    private readonly IOrWordsProcessor  _orWordsProcessor  = orWordsProcessor;
+    private readonly IAndWordsProcessor _andWordsProcessor = andWordsProcessor ?? throw new ArgumentNullException(nameof(andWordsProcessor));
+    private readonly INotWordsProcessor _notWordsProcessor = notWordsProcessor ?? throw new ArgumentNullException(nameof(notWordsProcessor));
+    private readonly IOrWordsProcessor  _orWordsProcessor  = orWordsProcessor ?? throw new ArgumentNullException(nameof(orWordsProcessor));
 
 
     public List<string> GetAndWords(string[] query) => _andWordsProcessor.GetAndWords(query);

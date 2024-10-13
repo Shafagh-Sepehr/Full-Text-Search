@@ -4,7 +4,7 @@ namespace FullTextSearch.Application.WordsProcessors;
 
 internal class PrefixBasedOrWordsProcessor(IPorter2Stemmer stemmer) : IOrWordsProcessor
 {
-    private readonly IPorter2Stemmer _stemmer = stemmer;
+    private readonly IPorter2Stemmer _stemmer = stemmer ?? throw new ArgumentNullException(nameof(stemmer));
 
     public List<string> GetOrWords(string[] queryWords)
     {
