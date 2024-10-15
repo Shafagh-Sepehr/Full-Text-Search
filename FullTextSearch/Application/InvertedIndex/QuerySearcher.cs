@@ -5,7 +5,7 @@ using FullTextSearch.Exceptions;
 
 namespace FullTextSearch.Application.InvertedIndex;
 
-internal class QuerySearcher(IWordsProcessor wordsProcessor, ISearcher searcher)
+internal sealed class QuerySearcher(IWordsProcessor wordsProcessor, ISearcher searcher)
     : IQuerySearcher
 {
     private readonly ISearcher                         _searcher       = searcher ?? throw new ArgumentNullException(nameof(searcher));

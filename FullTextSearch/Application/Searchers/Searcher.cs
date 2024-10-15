@@ -2,7 +2,7 @@ using FullTextSearch.Application.Searchers.DataViewModels;
 
 namespace FullTextSearch.Application.Searchers;
 
-internal class Searcher(
+internal sealed class Searcher(
     IAndOrNotSearcher andOrNotSearcher,
     IAndNotSearcher andNotSearcher,
     IOrNotSearcher orNotSearcher) : ISearcher

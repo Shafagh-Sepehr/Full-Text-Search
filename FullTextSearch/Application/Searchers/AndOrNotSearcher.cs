@@ -3,7 +3,7 @@ using FullTextSearch.Application.Searchers.DataViewModels;
 
 namespace FullTextSearch.Application.Searchers;
 
-internal class AndOrNotSearcher(IDocumentReader documentReader) : IAndOrNotSearcher
+internal sealed class AndOrNotSearcher(IDocumentReader documentReader) : IAndOrNotSearcher
 {
     private readonly IDocumentReader _documentReader = documentReader ?? throw new ArgumentNullException(nameof(documentReader));
 

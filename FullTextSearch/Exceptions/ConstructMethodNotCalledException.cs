@@ -1,6 +1,6 @@
 namespace FullTextSearch.Exceptions;
 
-public class ConstructMethodNotCalledException : Exception
+public sealed class ConstructMethodNotCalledException : Exception
 {
 
     public ConstructMethodNotCalledException() : base("The Construct Method is not called") //Default message

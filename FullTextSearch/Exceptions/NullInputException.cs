@@ -1,6 +1,6 @@
 namespace FullTextSearch.Exceptions;
 
-public class NullInputException: Exception
+public sealed class NullInputException: Exception
 {
     
     public NullInputException() : base("The input text is null or white spaces") //Default message

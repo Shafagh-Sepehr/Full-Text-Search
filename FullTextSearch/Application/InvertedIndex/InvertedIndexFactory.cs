@@ -2,7 +2,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace FullTextSearch.Application.InvertedIndex;
 
-public class InvertedIndexFactory : IInvertedIndexFactory
+public sealed class InvertedIndexFactory : IInvertedIndexFactory
 {
     public IInvertedIndexDictionary Create(string path, IEnumerable<string>? banned)
     {

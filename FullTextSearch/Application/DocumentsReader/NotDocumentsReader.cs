@@ -1,6 +1,6 @@
 namespace FullTextSearch.Application.DocumentsReader;
 
-internal class NotDocumentsReader : INotDocumentsReader
+internal sealed class NotDocumentsReader : INotDocumentsReader
 {
     public HashSet<string> GetNotDocuments(Dictionary<string, List<string>> invertedIndex, IReadOnlyList<string> notWords)
     {

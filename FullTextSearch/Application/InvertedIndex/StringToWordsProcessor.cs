@@ -2,7 +2,7 @@ using Porter2Stemmer;
 
 namespace FullTextSearch.Application.InvertedIndex;
 
-internal class StringToWordsProcessor(IPorter2Stemmer stemmer) : IStringToWordsProcessor
+internal sealed class StringToWordsProcessor(IPorter2Stemmer stemmer) : IStringToWordsProcessor
 {
     private readonly List<string>    _banned  = AppSettings.BannedWords.ToList();
     private readonly IPorter2Stemmer _stemmer = stemmer ?? throw new ArgumentNullException(nameof(stemmer));

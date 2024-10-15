@@ -2,7 +2,7 @@ using FullTextSearch.Exceptions;
 
 namespace FullTextSearch.IO;
 
-public class ConsoleInput : IInput
+public sealed class ConsoleInput : IInput
 {
    public string ReadLine()
    {

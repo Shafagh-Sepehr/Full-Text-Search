@@ -2,7 +2,7 @@ using FullTextSearch.Exceptions;
 
 namespace FullTextSearch.Application.InvertedIndex;
 
-internal class InvertedIndexDictionary(
+internal sealed class InvertedIndexDictionary(
     IQuerySearcher querySearcher,
     IInvertedIndexDictionaryFiller invertedIndexDictionaryFiller)
     : IInvertedIndexDictionary

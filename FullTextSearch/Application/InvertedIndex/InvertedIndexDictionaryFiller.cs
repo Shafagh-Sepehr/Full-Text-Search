@@ -1,6 +1,6 @@
 namespace FullTextSearch.Application.InvertedIndex;
 
-internal class InvertedIndexDictionaryFiller(IStringToWordsProcessor stringToWordsProcessor)
+internal sealed class InvertedIndexDictionaryFiller(IStringToWordsProcessor stringToWordsProcessor)
     : IInvertedIndexDictionaryFiller
 {
     private readonly Dictionary<string, List<string>> _invertedIndex    = new();

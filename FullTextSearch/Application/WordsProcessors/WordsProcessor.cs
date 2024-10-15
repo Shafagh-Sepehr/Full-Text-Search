@@ -1,6 +1,6 @@
 namespace FullTextSearch.Application.WordsProcessors;
 
-internal class WordsProcessor(
+internal sealed class WordsProcessor(
     IAndWordsProcessor andWordsProcessor,
     IOrWordsProcessor orWordsProcessor,
     INotWordsProcessor notWordsProcessor)
