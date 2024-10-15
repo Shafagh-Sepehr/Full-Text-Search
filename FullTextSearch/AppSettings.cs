@@ -4,8 +4,7 @@ namespace FullTextSearch;
 
 internal static partial class AppSettings
 {
-    public const string DocumentsPath = "/home/shafagh/Desktop/EnglishData";
-
+    
     public static readonly string[] BannedWords =
     [
         "i", "me", "my", "myself", "we", "our", "ours", "ourselves", "you", "your", "yours", "yourself",
