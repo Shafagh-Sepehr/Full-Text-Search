@@ -1,6 +1,6 @@
 using FullTextSearch.Application.InvertedIndex.Abstractions;
+using FullTextSearch.Application.Models;
 using FullTextSearch.Application.Searchers.Abstractions;
-using FullTextSearch.Application.Searchers.DataViewModels;
 using FullTextSearch.Application.WordsProcessors.Abstractions;
 using FullTextSearch.Exceptions;
 
@@ -19,7 +19,7 @@ internal sealed class QuerySearcher(IWordsProcessor wordsProcessor, ISearcher se
     private IReadOnlyList<string> OrWords  => _wordsProcessor.GetOrWords(_queryWords);
     private IReadOnlyList<string> NotWords => _wordsProcessor.GetNotWords(_queryWords);
 
-    private Words Words => new()
+    private QueryProcessedWords QueryProcessedWords => new()
     {
         AndWords = AndWords,
         OrWords = OrWords,
@@ -58,10 +58,10 @@ internal sealed class QuerySearcher(IWordsProcessor wordsProcessor, ISearcher se
     private IEnumerable<string> ExecuteSearch(IEnumerable<string> result)
     {
         if (AreAllWordTypesPresent())
-            result = _searcher.AndOrNotSearch(_invertedIndex!, Words);
+            result = _searcher.AndOrNotSearch(_invertedIndex!, QueryProcessedWords);
         else if (AreAndWordsPresent())
-            result = _searcher.AndNotSearch(_invertedIndex!, Words);
-        else if (AreOrWordsPresent()) result = _searcher.OrNotSearch(_invertedIndex!, Words);
+            result = _searcher.AndNotSearch(_invertedIndex!, QueryProcessedWords);
+        else if (AreOrWordsPresent()) result = _searcher.OrNotSearch(_invertedIndex!, QueryProcessedWords);
 
         return result;
     }

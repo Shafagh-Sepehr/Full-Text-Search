@@ -1,6 +1,6 @@
 using FullTextSearch.Application.DocumentsReader.Abstractions;
+using FullTextSearch.Application.Models;
 using FullTextSearch.Application.Searchers.Abstractions;
-using FullTextSearch.Application.Searchers.DataViewModels;
 
 namespace FullTextSearch.Application.Searchers.Services;
 
@@ -8,10 +8,10 @@ internal sealed class OrNotSearcher(IDocumentReader documentReader) : IOrNotSear
 {
     private readonly IDocumentReader _documentReader = documentReader ?? throw new ArgumentNullException(nameof(documentReader));
 
-    public IReadOnlySet<string> OrNotSearch(Dictionary<string, List<string>> invertedIndex, Words words)
+    public IReadOnlySet<string> OrNotSearch(Dictionary<string, List<string>> invertedIndex, QueryProcessedWords queryProcessedWords)
     {
-        var docsSet = _documentReader.GetOrDocuments(invertedIndex, words.OrWords);
-        docsSet.ExceptWith(_documentReader.GetNotDocuments(invertedIndex, words.NotWords));
+        var docsSet = _documentReader.GetOrDocuments(invertedIndex, queryProcessedWords.OrWords);
+        docsSet.ExceptWith(_documentReader.GetNotDocuments(invertedIndex, queryProcessedWords.NotWords));
 
         return docsSet;
     }
