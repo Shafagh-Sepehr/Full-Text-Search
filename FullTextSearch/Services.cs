@@ -6,6 +6,7 @@ using FullTextSearch.Application.Searchers.Abstractions;
 using FullTextSearch.Application.Searchers.Services;
 using FullTextSearch.Application.WordsProcessors.Abstractions;
 using FullTextSearch.Application.WordsProcessors.Services;
+using FullTextSearch.ConfigurationService.Abstractions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Porter2Stemmer;
@@ -46,7 +47,7 @@ internal static class Services
         serviceCollector.AddSingleton<IOrNotSearcher, OrNotSearcher>();
 
         serviceCollector.AddTransient<IConfigurationBuilder, ConfigurationBuilder>();
-        serviceCollector.AddTransient<IConfigurationService, ConfigurationServiceService>();
+        serviceCollector.AddTransient<IConfigurationService, ConfigurationService.Services.ConfigurationService>();
         
         return serviceCollector.BuildServiceProvider();
     }

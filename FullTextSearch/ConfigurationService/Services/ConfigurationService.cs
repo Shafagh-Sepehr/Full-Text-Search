@@ -1,12 +1,13 @@
+using FullTextSearch.ConfigurationService.Abstractions;
 using Microsoft.Extensions.Configuration;
 
-namespace FullTextSearch;
+namespace FullTextSearch.ConfigurationService.Services;
 
-internal class ConfigurationServiceService : IConfigurationService
+internal class ConfigurationService : IConfigurationService
 {
     private readonly IConfigurationRoot _config;
 
-    public ConfigurationServiceService(IConfigurationBuilder configurationBuilder)
+    public ConfigurationService(IConfigurationBuilder configurationBuilder)
     {
         ArgumentNullException.ThrowIfNull(configurationBuilder);
 

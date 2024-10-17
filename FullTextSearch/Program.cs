@@ -1,5 +1,6 @@
 ﻿using FullTextSearch.Application.InvertedIndex.Abstractions;
 using FullTextSearch.Application.InvertedIndex.Services;
+using FullTextSearch.ConfigurationService.Abstractions;
 using FullTextSearch.IO.Abstractions;
 using FullTextSearch.IO.Services;
 using Microsoft.Extensions.Configuration;

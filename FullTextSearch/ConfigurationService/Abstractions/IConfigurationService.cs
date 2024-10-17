@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Configuration;
 
-namespace FullTextSearch;
+namespace FullTextSearch.ConfigurationService.Abstractions;
 
 public interface IConfigurationService
 {
