@@ -45,6 +45,9 @@ internal static class Services
         serviceCollector.AddSingleton<IAndNotSearcher, AndNotSearcher>();
         serviceCollector.AddSingleton<IOrNotSearcher, OrNotSearcher>();
 
+        serviceCollector.AddTransient<IConfigurationBuilder, ConfigurationBuilder>();
+        serviceCollector.AddTransient<IConfigurationService, ConfigurationServiceService>();
+        
         return serviceCollector.BuildServiceProvider();
     }
 }

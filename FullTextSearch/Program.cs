@@ -3,6 +3,7 @@ using FullTextSearch.Application.InvertedIndex.Services;
 using FullTextSearch.IO.Abstractions;
 using FullTextSearch.IO.Services;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace FullTextSearch;
 
@@ -13,8 +14,16 @@ internal static class Program
     
     private static void Main()
     {
-        var documentsPath = ConfigHolder.Config["DocumentsPath"];
-        var bannedWords = ConfigHolder.Config.GetSection("BannedWords").Get<string[]>();
+        var serviceProvider = Services.ServiceProvider;
+        var config = serviceProvider.GetService<IConfigurationService>();
+
+        if (config == null)
+        {
+            throw new ArgumentNullException(nameof(config));
+        }
+        
+        var documentsPath = config.GetConfig()["DocumentsPath"];
+        var bannedWords = config.GetConfig().GetSection("BannedWords").Get<string[]>();
         if (documentsPath == null)
         {
             throw new ArgumentNullException(nameof(documentsPath),"can't be null");
