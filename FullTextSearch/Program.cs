@@ -15,7 +15,7 @@ internal static class Program
     
     private static void Main()
     {
-        var serviceProvider = Services.ServiceProvider;
+        var serviceProvider = ServiceCollection.ServiceProvider;
         var config = serviceProvider.GetService<IConfigurationService>();
 
         if (config == null)

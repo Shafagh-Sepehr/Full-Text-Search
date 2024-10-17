@@ -13,7 +13,7 @@ using Porter2Stemmer;
 
 namespace FullTextSearch;
 
-internal static class Services
+internal static class ServiceCollection
 {
     private static ServiceProvider? _serviceProvider;
 
@@ -21,7 +21,7 @@ internal static class Services
 
     private static ServiceProvider ConfigureServices()
     {
-        var serviceCollector = new ServiceCollection();
+        var serviceCollector = new Microsoft.Extensions.DependencyInjection.ServiceCollection();
 
         serviceCollector.AddSingleton<IPorter2Stemmer, EnglishPorter2Stemmer>();
 
