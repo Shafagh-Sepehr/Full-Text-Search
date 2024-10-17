@@ -1,6 +1,7 @@
+using FullTextSearch.Application.InvertedIndex.Abstractions;
 using FullTextSearch.Exceptions;
 
-namespace FullTextSearch.Application.InvertedIndex;
+namespace FullTextSearch.Application.InvertedIndex.Services;
 
 internal sealed class InvertedIndexDictionary(
     IQuerySearcher querySearcher,

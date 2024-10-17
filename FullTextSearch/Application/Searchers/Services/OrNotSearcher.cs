@@ -1,7 +1,8 @@
-using FullTextSearch.Application.DocumentsReader;
+using FullTextSearch.Application.DocumentsReader.Abstractions;
+using FullTextSearch.Application.Searchers.Abstractions;
 using FullTextSearch.Application.Searchers.DataViewModels;
 
-namespace FullTextSearch.Application.Searchers;
+namespace FullTextSearch.Application.Searchers.Services;
 
 internal sealed class OrNotSearcher(IDocumentReader documentReader) : IOrNotSearcher
 {

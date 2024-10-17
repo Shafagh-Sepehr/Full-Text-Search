@@ -1,9 +1,10 @@
-using FullTextSearch.Application.Searchers;
+using FullTextSearch.Application.InvertedIndex.Abstractions;
+using FullTextSearch.Application.Searchers.Abstractions;
 using FullTextSearch.Application.Searchers.DataViewModels;
-using FullTextSearch.Application.WordsProcessors;
+using FullTextSearch.Application.WordsProcessors.Abstractions;
 using FullTextSearch.Exceptions;
 
-namespace FullTextSearch.Application.InvertedIndex;
+namespace FullTextSearch.Application.InvertedIndex.Services;
 
 internal sealed class QuerySearcher(IWordsProcessor wordsProcessor, ISearcher searcher)
     : IQuerySearcher

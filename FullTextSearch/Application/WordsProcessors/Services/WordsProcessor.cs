@@ -1,4 +1,6 @@
-namespace FullTextSearch.Application.WordsProcessors;
+using FullTextSearch.Application.WordsProcessors.Abstractions;
+
+namespace FullTextSearch.Application.WordsProcessors.Services;
 
 internal sealed class WordsProcessor(
     IAndWordsProcessor andWordsProcessor,

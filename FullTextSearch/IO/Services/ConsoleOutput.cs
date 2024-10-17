@@ -1,4 +1,6 @@
-namespace FullTextSearch.IO;
+using FullTextSearch.IO.Abstractions;
+
+namespace FullTextSearch.IO.Services;
 
 public sealed class ConsoleOutput : IOutput
 {

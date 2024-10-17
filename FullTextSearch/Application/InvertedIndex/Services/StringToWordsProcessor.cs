@@ -1,6 +1,7 @@
+using FullTextSearch.Application.InvertedIndex.Abstractions;
 using Porter2Stemmer;
 
-namespace FullTextSearch.Application.InvertedIndex;
+namespace FullTextSearch.Application.InvertedIndex.Services;
 
 internal sealed class StringToWordsProcessor(IPorter2Stemmer stemmer) : IStringToWordsProcessor
 {

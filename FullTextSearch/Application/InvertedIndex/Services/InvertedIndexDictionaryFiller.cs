@@ -1,4 +1,6 @@
-namespace FullTextSearch.Application.InvertedIndex;
+using FullTextSearch.Application.InvertedIndex.Abstractions;
+
+namespace FullTextSearch.Application.InvertedIndex.Services;
 
 internal sealed class InvertedIndexDictionaryFiller(IStringToWordsProcessor stringToWordsProcessor)
     : IInvertedIndexDictionaryFiller

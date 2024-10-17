@@ -1,4 +1,4 @@
-namespace FullTextSearch.IO;
+namespace FullTextSearch.IO.Abstractions;
 
 public interface IOutput
 {

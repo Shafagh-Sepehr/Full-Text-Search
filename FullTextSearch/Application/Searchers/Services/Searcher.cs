@@ -1,6 +1,7 @@
+using FullTextSearch.Application.Searchers.Abstractions;
 using FullTextSearch.Application.Searchers.DataViewModels;
 
-namespace FullTextSearch.Application.Searchers;
+namespace FullTextSearch.Application.Searchers.Services;
 
 internal sealed class Searcher(
     IAndOrNotSearcher andOrNotSearcher,

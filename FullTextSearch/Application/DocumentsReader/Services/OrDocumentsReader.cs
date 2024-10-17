@@ -1,4 +1,6 @@
-namespace FullTextSearch.Application.DocumentsReader;
+using FullTextSearch.Application.DocumentsReader.Abstractions;
+
+namespace FullTextSearch.Application.DocumentsReader.Services;
 
 internal sealed class OrDocumentsReader : IOrDocumentsReader
 {

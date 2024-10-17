@@ -1,7 +1,11 @@
-using FullTextSearch.Application.DocumentsReader;
-using FullTextSearch.Application.InvertedIndex;
-using FullTextSearch.Application.Searchers;
-using FullTextSearch.Application.WordsProcessors;
+using FullTextSearch.Application.DocumentsReader.Abstractions;
+using FullTextSearch.Application.DocumentsReader.Services;
+using FullTextSearch.Application.InvertedIndex.Abstractions;
+using FullTextSearch.Application.InvertedIndex.Services;
+using FullTextSearch.Application.Searchers.Abstractions;
+using FullTextSearch.Application.Searchers.Services;
+using FullTextSearch.Application.WordsProcessors.Abstractions;
+using FullTextSearch.Application.WordsProcessors.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Porter2Stemmer;
 

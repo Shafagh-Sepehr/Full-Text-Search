@@ -1,6 +1,6 @@
 using FullTextSearch.Application.Searchers.DataViewModels;
 
-namespace FullTextSearch.Application.Searchers;
+namespace FullTextSearch.Application.Searchers.Abstractions;
 
 internal interface IOrNotSearcher
 {

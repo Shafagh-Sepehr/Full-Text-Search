@@ -1,4 +1,4 @@
-namespace FullTextSearch.Application.InvertedIndex;
+namespace FullTextSearch.Application.InvertedIndex.Abstractions;
 
 public interface IInvertedIndexFactory
 {

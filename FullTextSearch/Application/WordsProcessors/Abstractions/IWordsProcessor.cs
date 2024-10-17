@@ -1,4 +1,4 @@
-namespace FullTextSearch.Application.WordsProcessors;
+namespace FullTextSearch.Application.WordsProcessors.Abstractions;
 
 internal interface IWordsProcessor
 {

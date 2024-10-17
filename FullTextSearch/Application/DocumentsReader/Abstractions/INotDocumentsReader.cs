@@ -1,4 +1,4 @@
-namespace FullTextSearch.Application.DocumentsReader;
+namespace FullTextSearch.Application.DocumentsReader.Abstractions;
 
 internal interface INotDocumentsReader
 {
