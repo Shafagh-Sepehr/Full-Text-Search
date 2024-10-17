@@ -6,6 +6,7 @@ using FullTextSearch.Application.Searchers.Abstractions;
 using FullTextSearch.Application.Searchers.Services;
 using FullTextSearch.Application.WordsProcessors.Abstractions;
 using FullTextSearch.Application.WordsProcessors.Services;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Porter2Stemmer;
 
@@ -13,7 +14,11 @@ namespace FullTextSearch;
 
 internal static class Services
 {
-    public static ServiceProvider ConfigureServices()
+    private static ServiceProvider? _serviceProvider;
+
+    public static ServiceProvider ServiceProvider => _serviceProvider ??= ConfigureServices();
+
+    private static ServiceProvider ConfigureServices()
     {
         var serviceCollector = new ServiceCollection();
 
