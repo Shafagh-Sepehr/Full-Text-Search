@@ -12,6 +12,8 @@ using FullTextSearch.Application.StringCleaners.StringCleaner.Abstractions;
 using FullTextSearch.Application.StringCleaners.StringCleaner.Services;
 using FullTextSearch.Application.StringCleaners.StringTrimAndSplitter.Abstractions;
 using FullTextSearch.Application.StringCleaners.StringTrimAndSplitter.Services;
+using FullTextSearch.Application.StringCleaners.WordListStemmer.Abstractions;
+using FullTextSearch.Application.StringCleaners.WordListStemmer.Services;
 using FullTextSearch.Application.WordsProcessors.Abstractions;
 using FullTextSearch.Application.WordsProcessors.Services;
 using FullTextSearch.ConfigurationService.Abstractions;
@@ -62,6 +64,7 @@ internal static class ServiceCollection
         serviceCollector.AddSingleton<INoiseCleaner, NoiseCleaner>();
         serviceCollector.AddSingleton<IStringTrimAndSplitter, StringTrimAndSplitter>();
         serviceCollector.AddSingleton<IStringCleaner, StringCleaner>();
+        serviceCollector.AddSingleton<IWordListStemmer, WordListStemmer>();
 
         serviceCollector.AddTransient<IConfigurationBuilder, ConfigurationBuilder>();
         serviceCollector.AddTransient<IConfigurationService, ConfigurationService.Services.ConfigurationService>();
