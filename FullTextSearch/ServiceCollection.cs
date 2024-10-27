@@ -6,6 +6,8 @@ using FullTextSearch.Application.RegexCheckers.Abstractions;
 using FullTextSearch.Application.RegexCheckers.Services;
 using FullTextSearch.Application.Searchers.Abstractions;
 using FullTextSearch.Application.Searchers.Services;
+using FullTextSearch.Application.StringCleaners.NoiseCleaner.Abstractions;
+using FullTextSearch.Application.StringCleaners.NoiseCleaner.Services;
 using FullTextSearch.Application.WordsProcessors.Abstractions;
 using FullTextSearch.Application.WordsProcessors.Services;
 using FullTextSearch.ConfigurationService.Abstractions;
@@ -52,6 +54,8 @@ internal static class ServiceCollection
         serviceCollector.AddSingleton<IUrlRegexChecker, UrlRegexChecker>();
         serviceCollector.AddSingleton<IEmailRegexChecker, EmailRegexChecker>();
         serviceCollector.AddSingleton<IPhoneNumberRegexChecker, PhoneNumberRegexChecker>();
+        
+        serviceCollector.AddSingleton<INoiseCleaner, NoiseCleaner>();
 
         serviceCollector.AddTransient<IConfigurationBuilder, ConfigurationBuilder>();
         serviceCollector.AddTransient<IConfigurationService, ConfigurationService.Services.ConfigurationService>();

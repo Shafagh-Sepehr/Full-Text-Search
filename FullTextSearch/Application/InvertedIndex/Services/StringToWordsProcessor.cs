@@ -1,21 +1,21 @@
 using FullTextSearch.Application.InvertedIndex.Abstractions;
 using FullTextSearch.Application.RegexCheckers;
 using FullTextSearch.Application.RegexCheckers.Abstractions;
+using FullTextSearch.Application.StringCleaners.NoiseCleaner.Abstractions;
 using Porter2Stemmer;
 
 namespace FullTextSearch.Application.InvertedIndex.Services;
 
-internal sealed class StringToWordsProcessor(IPorter2Stemmer stemmer,IRegexChecker regexChecker) : IStringToWordsProcessor
+internal sealed class StringToWordsProcessor(IPorter2Stemmer stemmer,INoiseCleaner noiseCleaner) : IStringToWordsProcessor
 {
     private readonly List<string>    _banned       = AppSettings.BannedWords.ToList();
     private readonly IPorter2Stemmer _stemmer      = stemmer ?? throw new ArgumentNullException(nameof(stemmer));
-    private readonly IRegexChecker   _regexChecker = regexChecker ?? throw new ArgumentNullException(nameof(regexChecker));
-
+    private readonly INoiseCleaner _noiseCleaner = noiseCleaner ?? throw new ArgumentNullException(nameof(noiseCleaner));
 
     public IEnumerable<string> TrimSplitAndStemString(string source)
     {
         var result = CleanAndSplit(source);
-        result = PurgeNoise(result);
+        result = _noiseCleaner.CleanNoise(result);
         result = CleanAndSelect(result);
         result = Stem(result);
         result = PurgeNonValidWords(result);
@@ -23,7 +23,7 @@ internal sealed class StringToWordsProcessor(IPorter2Stemmer stemmer,IRegexCheck
     }
 
     private static IEnumerable<string> CleanAndSplit(string source) => source.Trim().Split();
-    private IEnumerable<string> PurgeNoise(IEnumerable<string> value) => value.Where(IsNotNoise);
+    
     private static IEnumerable<string> CleanAndSelect(IEnumerable<string> value)
     {
         return value.Select(Cleanse).SelectMany(x => x); // flatten the string arrays
@@ -45,12 +45,6 @@ internal sealed class StringToWordsProcessor(IPorter2Stemmer stemmer,IRegexCheck
     private bool IsNotBanned(string value) => !_banned.Contains(value);
 
     private static bool IsLongEnough(string value) => value.Length >= 3;
-
-
-    private bool IsNotNoise(string value) =>
-        !_regexChecker.HasEmail(value) &&
-        !_regexChecker.HasUrl(value) &&
-        !_regexChecker.HasPhoneNumber(value);
 
     private string Stem(string value) => _stemmer.Stem(value).Value.ToLower();
 
