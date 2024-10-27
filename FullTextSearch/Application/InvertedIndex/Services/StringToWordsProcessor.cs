@@ -1,12 +1,15 @@
 using FullTextSearch.Application.InvertedIndex.Abstractions;
+using FullTextSearch.Application.RegexCheckers;
+using FullTextSearch.Application.RegexCheckers.Abstractions;
 using Porter2Stemmer;
 
 namespace FullTextSearch.Application.InvertedIndex.Services;
 
-internal sealed class StringToWordsProcessor(IPorter2Stemmer stemmer) : IStringToWordsProcessor
+internal sealed class StringToWordsProcessor(IPorter2Stemmer stemmer,IRegexChecker regexChecker) : IStringToWordsProcessor
 {
-    private readonly List<string>    _banned  = AppSettings.BannedWords.ToList();
-    private readonly IPorter2Stemmer _stemmer = stemmer ?? throw new ArgumentNullException(nameof(stemmer));
+    private readonly List<string>    _banned       = AppSettings.BannedWords.ToList();
+    private readonly IPorter2Stemmer _stemmer      = stemmer ?? throw new ArgumentNullException(nameof(stemmer));
+    private readonly IRegexChecker   _regexChecker = regexChecker ?? throw new ArgumentNullException(nameof(regexChecker));
 
 
     public IEnumerable<string> TrimSplitAndStemString(string source)
@@ -20,7 +23,7 @@ internal sealed class StringToWordsProcessor(IPorter2Stemmer stemmer) : IStringT
     }
 
     private static IEnumerable<string> CleanAndSplit(string source) => source.Trim().Split();
-    private static IEnumerable<string> PurgeNoise(IEnumerable<string> value) => value.Where(IsNotNoise);
+    private IEnumerable<string> PurgeNoise(IEnumerable<string> value) => value.Where(IsNotNoise);
     private static IEnumerable<string> CleanAndSelect(IEnumerable<string> value)
     {
         return value.Select(Cleanse).SelectMany(x => x); // flatten the string arrays
@@ -44,10 +47,10 @@ internal sealed class StringToWordsProcessor(IPorter2Stemmer stemmer) : IStringT
     private static bool IsLongEnough(string value) => value.Length >= 3;
 
 
-    private static bool IsNotNoise(string value) =>
-        !AppSettings.RegexPatterns.UrlRegex().IsMatch(value) &&
-        !AppSettings.RegexPatterns.EmailRegex().IsMatch(value) &&
-        !AppSettings.RegexPatterns.PhoneNumberRegex().IsMatch(value);
+    private bool IsNotNoise(string value) =>
+        !_regexChecker.HasEmail(value) &&
+        !_regexChecker.HasUrl(value) &&
+        !_regexChecker.HasPhoneNumber(value);
 
     private string Stem(string value) => _stemmer.Stem(value).Value.ToLower();
 

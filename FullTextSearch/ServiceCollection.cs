@@ -2,6 +2,8 @@ using FullTextSearch.Application.DocumentsReader.Abstractions;
 using FullTextSearch.Application.DocumentsReader.Services;
 using FullTextSearch.Application.InvertedIndex.Abstractions;
 using FullTextSearch.Application.InvertedIndex.Services;
+using FullTextSearch.Application.RegexCheckers.Abstractions;
+using FullTextSearch.Application.RegexCheckers.Services;
 using FullTextSearch.Application.Searchers.Abstractions;
 using FullTextSearch.Application.Searchers.Services;
 using FullTextSearch.Application.WordsProcessors.Abstractions;
@@ -45,6 +47,11 @@ internal static class ServiceCollection
         serviceCollector.AddSingleton<IAndOrNotSearcher, AndOrNotSearcher>();
         serviceCollector.AddSingleton<IAndNotSearcher, AndNotSearcher>();
         serviceCollector.AddSingleton<IOrNotSearcher, OrNotSearcher>();
+        
+        serviceCollector.AddSingleton<IRegexChecker, RegexChecker>();
+        serviceCollector.AddSingleton<IUrlRegexChecker, UrlRegexChecker>();
+        serviceCollector.AddSingleton<IEmailRegexChecker, EmailRegexChecker>();
+        serviceCollector.AddSingleton<IPhoneNumberRegexChecker, PhoneNumberRegexChecker>();
 
         serviceCollector.AddTransient<IConfigurationBuilder, ConfigurationBuilder>();
         serviceCollector.AddTransient<IConfigurationService, ConfigurationService.Services.ConfigurationService>();
