@@ -1,19 +1,18 @@
 using FullTextSearch.Application.InvertedIndex.Abstractions;
-using FullTextSearch.Application.StringCleaners.NoiseCleaner.Abstractions;
-using FullTextSearch.Application.StringCleaners.StringCleaner.Abstractions;
+using FullTextSearch.Application.StringCleaners.StringListCleaner.Abstractions;
+using FullTextSearch.Application.StringCleaners.StringListNoiseCleaner.Abstractions;
+using FullTextSearch.Application.StringCleaners.StringListStemmer.Abstractions;
 using FullTextSearch.Application.StringCleaners.StringTrimAndSplitter.Abstractions;
-using FullTextSearch.Application.StringCleaners.WordListStemmer;
-using FullTextSearch.Application.StringCleaners.WordListStemmer.Abstractions;
 
 namespace FullTextSearch.Application.InvertedIndex.Services;
 
-internal sealed class StringToWordsProcessor(INoiseCleaner noiseCleaner, IStringTrimAndSplitter stringTrimAndSplitter, IStringCleaner stringCleaner,IWordListStemmer wordListStemmer)
+internal sealed class StringToWordsProcessor(IStringListNoiseCleaner stringListNoiseCleaner, IStringTrimAndSplitter stringTrimAndSplitter, IStringListCleaner stringListCleaner,IStringListStemmer stringListStemmer)
     : IStringToWordsProcessor
 {
     private readonly List<string>     _banned          = AppSettings.BannedWords.ToList();
-    private readonly INoiseCleaner    _noiseCleaner    = noiseCleaner ?? throw new ArgumentNullException(nameof(noiseCleaner));
-    private readonly IStringCleaner   _stringCleaner   = stringCleaner ?? throw new ArgumentNullException(nameof(stringCleaner));
-    private readonly IWordListStemmer _wordListStemmer = wordListStemmer ?? throw new ArgumentNullException(nameof(wordListStemmer));
+    private readonly IStringListNoiseCleaner    _stringListNoiseCleaner    = stringListNoiseCleaner ?? throw new ArgumentNullException(nameof(stringListNoiseCleaner));
+    private readonly IStringListCleaner   _stringListCleaner   = stringListCleaner ?? throw new ArgumentNullException(nameof(stringListCleaner));
+    private readonly IStringListStemmer _stringListStemmer = stringListStemmer ?? throw new ArgumentNullException(nameof(stringListStemmer));
 
     private readonly IStringTrimAndSplitter _stringTrimAndSplitter =
         stringTrimAndSplitter ?? throw new ArgumentNullException(nameof(stringTrimAndSplitter));
@@ -21,9 +20,9 @@ internal sealed class StringToWordsProcessor(INoiseCleaner noiseCleaner, IString
     public IEnumerable<string> TrimSplitAndStemString(string source)
     {
         var result = _stringTrimAndSplitter.TrimAndSplit(source);
-        result = _noiseCleaner.CleanNoise(result);
-        result = _stringCleaner.Clean(result);
-        result = _wordListStemmer.Stem(result);
+        result = _stringListNoiseCleaner.CleanNoise(result);
+        result = _stringListCleaner.Clean(result);
+        result = _stringListStemmer.Stem(result);
         result = PurgeNonValidWords(result);
         return result.Distinct();
     }

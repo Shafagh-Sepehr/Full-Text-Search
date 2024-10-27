@@ -6,14 +6,14 @@ using FullTextSearch.Application.RegexCheckers.Abstractions;
 using FullTextSearch.Application.RegexCheckers.Services;
 using FullTextSearch.Application.Searchers.Abstractions;
 using FullTextSearch.Application.Searchers.Services;
-using FullTextSearch.Application.StringCleaners.NoiseCleaner.Abstractions;
-using FullTextSearch.Application.StringCleaners.NoiseCleaner.Services;
-using FullTextSearch.Application.StringCleaners.StringCleaner.Abstractions;
-using FullTextSearch.Application.StringCleaners.StringCleaner.Services;
+using FullTextSearch.Application.StringCleaners.StringListCleaner.Abstractions;
+using FullTextSearch.Application.StringCleaners.StringListCleaner.Services;
+using FullTextSearch.Application.StringCleaners.StringListNoiseCleaner.Abstractions;
+using FullTextSearch.Application.StringCleaners.StringListNoiseCleaner.Services;
+using FullTextSearch.Application.StringCleaners.StringListStemmer.Abstractions;
+using FullTextSearch.Application.StringCleaners.StringListStemmer.Services;
 using FullTextSearch.Application.StringCleaners.StringTrimAndSplitter.Abstractions;
 using FullTextSearch.Application.StringCleaners.StringTrimAndSplitter.Services;
-using FullTextSearch.Application.StringCleaners.WordListStemmer.Abstractions;
-using FullTextSearch.Application.StringCleaners.WordListStemmer.Services;
 using FullTextSearch.Application.WordsProcessors.Abstractions;
 using FullTextSearch.Application.WordsProcessors.Services;
 using FullTextSearch.ConfigurationService.Abstractions;
@@ -61,10 +61,10 @@ internal static class ServiceCollection
         serviceCollector.AddSingleton<IEmailRegexChecker, EmailRegexChecker>();
         serviceCollector.AddSingleton<IPhoneNumberRegexChecker, PhoneNumberRegexChecker>();
         
-        serviceCollector.AddSingleton<INoiseCleaner, NoiseCleaner>();
+        serviceCollector.AddSingleton<IStringListNoiseCleaner, StringListNoiseCleaner>();
         serviceCollector.AddSingleton<IStringTrimAndSplitter, StringTrimAndSplitter>();
-        serviceCollector.AddSingleton<IStringCleaner, StringCleaner>();
-        serviceCollector.AddSingleton<IWordListStemmer, WordListStemmer>();
+        serviceCollector.AddSingleton<IStringListCleaner, StringListCleaner>();
+        serviceCollector.AddSingleton<IStringListStemmer, StringListStemmer>();
 
         serviceCollector.AddTransient<IConfigurationBuilder, ConfigurationBuilder>();
         serviceCollector.AddTransient<IConfigurationService, ConfigurationService.Services.ConfigurationService>();

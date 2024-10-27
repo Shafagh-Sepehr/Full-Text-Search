@@ -1,9 +1,9 @@
-using FullTextSearch.Application.StringCleaners.WordListStemmer.Abstractions;
+using FullTextSearch.Application.StringCleaners.StringListStemmer.Abstractions;
 using Porter2Stemmer;
 
-namespace FullTextSearch.Application.StringCleaners.WordListStemmer.Services;
+namespace FullTextSearch.Application.StringCleaners.StringListStemmer.Services;
 
-internal class WordListStemmer(IPorter2Stemmer stemmer) : IWordListStemmer
+internal class StringListStemmer(IPorter2Stemmer stemmer) : IStringListStemmer
 {
     private readonly IPorter2Stemmer _stemmer = stemmer ?? throw new ArgumentNullException(nameof(stemmer));
 

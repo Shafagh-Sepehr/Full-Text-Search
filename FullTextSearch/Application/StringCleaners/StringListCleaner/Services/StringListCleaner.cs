@@ -1,8 +1,8 @@
-using FullTextSearch.Application.StringCleaners.StringCleaner.Abstractions;
+using FullTextSearch.Application.StringCleaners.StringListCleaner.Abstractions;
 
-namespace FullTextSearch.Application.StringCleaners.StringCleaner.Services;
+namespace FullTextSearch.Application.StringCleaners.StringListCleaner.Services;
 
-internal class StringCleaner : IStringCleaner
+internal class StringListCleaner : IStringListCleaner
 {
     public IEnumerable<string> Clean(IEnumerable<string> value) =>
         value.Select(Cleanse).SelectMany(x => x); // flatten the string arrays
