@@ -2,19 +2,21 @@ using FullTextSearch.Application.InvertedIndex.Abstractions;
 using FullTextSearch.Application.RegexCheckers;
 using FullTextSearch.Application.RegexCheckers.Abstractions;
 using FullTextSearch.Application.StringCleaners.NoiseCleaner.Abstractions;
+using FullTextSearch.Application.StringCleaners.StringTrimAndSplitter.Abstractions;
 using Porter2Stemmer;
 
 namespace FullTextSearch.Application.InvertedIndex.Services;
 
-internal sealed class StringToWordsProcessor(IPorter2Stemmer stemmer,INoiseCleaner noiseCleaner) : IStringToWordsProcessor
+internal sealed class StringToWordsProcessor(IPorter2Stemmer stemmer,INoiseCleaner noiseCleaner, IStringTrimAndSplitter stringTrimAndSplitter) : IStringToWordsProcessor
 {
-    private readonly List<string>    _banned       = AppSettings.BannedWords.ToList();
-    private readonly IPorter2Stemmer _stemmer      = stemmer ?? throw new ArgumentNullException(nameof(stemmer));
-    private readonly INoiseCleaner _noiseCleaner = noiseCleaner ?? throw new ArgumentNullException(nameof(noiseCleaner));
+    private readonly List<string>           _banned                = AppSettings.BannedWords.ToList();
+    private readonly IPorter2Stemmer        _stemmer               = stemmer ?? throw new ArgumentNullException(nameof(stemmer));
+    private readonly INoiseCleaner          _noiseCleaner          = noiseCleaner ?? throw new ArgumentNullException(nameof(noiseCleaner));
+    private readonly IStringTrimAndSplitter _stringTrimAndSplitter = stringTrimAndSplitter ?? throw new ArgumentNullException(nameof(stringTrimAndSplitter));
 
     public IEnumerable<string> TrimSplitAndStemString(string source)
     {
-        var result = CleanAndSplit(source);
+        var result = _stringTrimAndSplitter.TrimAndSplit(source);
         result = _noiseCleaner.CleanNoise(result);
         result = CleanAndSelect(result);
         result = Stem(result);
@@ -22,12 +24,11 @@ internal sealed class StringToWordsProcessor(IPorter2Stemmer stemmer,INoiseClean
         return result.Distinct();
     }
 
-    private static IEnumerable<string> CleanAndSplit(string source) => source.Trim().Split();
+    
     
     private static IEnumerable<string> CleanAndSelect(IEnumerable<string> value)
     {
         return value.Select(Cleanse).SelectMany(x => x); // flatten the string arrays
-            
     }
     private IEnumerable<string> Stem(IEnumerable<string> value) => value.Select(Stem);
     private IEnumerable<string> PurgeNonValidWords(IEnumerable<string> value) => value.Where(IsValid);

@@ -8,6 +8,8 @@ using FullTextSearch.Application.Searchers.Abstractions;
 using FullTextSearch.Application.Searchers.Services;
 using FullTextSearch.Application.StringCleaners.NoiseCleaner.Abstractions;
 using FullTextSearch.Application.StringCleaners.NoiseCleaner.Services;
+using FullTextSearch.Application.StringCleaners.StringTrimAndSplitter.Abstractions;
+using FullTextSearch.Application.StringCleaners.StringTrimAndSplitter.Services;
 using FullTextSearch.Application.WordsProcessors.Abstractions;
 using FullTextSearch.Application.WordsProcessors.Services;
 using FullTextSearch.ConfigurationService.Abstractions;
@@ -56,6 +58,7 @@ internal static class ServiceCollection
         serviceCollector.AddSingleton<IPhoneNumberRegexChecker, PhoneNumberRegexChecker>();
         
         serviceCollector.AddSingleton<INoiseCleaner, NoiseCleaner>();
+        serviceCollector.AddSingleton<IStringTrimAndSplitter, StringTrimAndSplitter>();
 
         serviceCollector.AddTransient<IConfigurationBuilder, ConfigurationBuilder>();
         serviceCollector.AddTransient<IConfigurationService, ConfigurationService.Services.ConfigurationService>();
