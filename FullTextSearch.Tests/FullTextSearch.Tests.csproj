@@ -30,8 +30,4 @@
         <ProjectReference Include="..\FullTextSearch\FullTextSearch.csproj"/>
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Application\" />
-    </ItemGroup>
-
 </Project>
