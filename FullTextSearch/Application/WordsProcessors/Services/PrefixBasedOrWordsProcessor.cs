@@ -11,7 +11,7 @@ internal sealed class PrefixBasedOrWordsProcessor(IPorter2Stemmer stemmer) : IOr
     {
         return queryWords
             .Where(x => x[0] == '+')
-            .Select(x => x.Substring(1, x.Length - 1))
+            .Select(x => x[1..])
             .Select(x => _stemmer.Stem(x).Value)
             .ToList();
     }

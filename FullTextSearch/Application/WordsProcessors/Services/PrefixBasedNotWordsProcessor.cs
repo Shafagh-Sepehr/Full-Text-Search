@@ -11,7 +11,7 @@ internal sealed class PrefixBasedNotWordsProcessor(IPorter2Stemmer stemmer) : IN
     {
         return queryWords
             .Where(x => x[0] == '-')
-            .Select(x => x.Substring(1, x.Length - 1))
+            .Select(x => x[1..])
             .Select(x => _stemmer.Stem(x).Value)
             .ToList();
     }
