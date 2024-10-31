@@ -46,4 +46,15 @@ public class PrefixBasedAndWordsProcessorTests
         yield return [new[] { "word1", "word2", "+word3", "+word4", "-word5", }, new List<string>{"word1", "word2", },];
         yield return [Array.Empty<string>(), new List<string>(),];
     }
+    
+    [Fact]
+    public void Constructor_ShouldThrowArgumentNullException_WhenDependenciesAreNull()
+    {
+        // Arrange
+        IPorter2Stemmer stemmer = null!;
+
+        // Act & Assert
+        Action act = () => new PrefixBasedAndWordsProcessor(stemmer);
+        act.Should().Throw<ArgumentNullException>();
+    }
 }
