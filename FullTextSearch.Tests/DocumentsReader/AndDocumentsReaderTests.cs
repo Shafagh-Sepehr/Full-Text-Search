@@ -40,7 +40,7 @@ public class AndDocumentsReaderTests
         yield return [new List<string> { "red", "blue", }, new HashSet<string> { "1", "2", },];
         yield return [new List<string> { "green", "orange", }, new HashSet<string> { "2", },];
         yield return [new List<string> { "green", "black", }, new HashSet<string>(),];
-        yield return [new List<string> { "green", "black", "brown", }, new HashSet<string>(),];
+        yield return [new List<string> { "green", "yellow", "brown", }, new HashSet<string>(),];
         yield return [new List<string> { "green", "orange", "purple", }, new HashSet<string> { "2", },];
         yield return [new List<string> { "green", "orange", "purple", "brown", }, new HashSet<string>(),];
         yield return [new List<string> { "green", "yellow", }, new HashSet<string>(),];
