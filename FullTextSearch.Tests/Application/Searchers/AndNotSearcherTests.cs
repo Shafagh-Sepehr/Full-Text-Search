@@ -34,7 +34,7 @@ public class AndNotSearcherTests
 
     [Theory]
     [MemberData(nameof(TestData))]
-    public void AndOrNotSearch_ReturnsAndDocsIntersectOrDocsExceptNotDocs_ShouldNotModifyInputValues(
+    public void AndNotSearch_ReturnsAndDocsIntersectOrDocsExceptNotDocs_ShouldNotModifyInputValues(
         HashSet<string> andDocs, HashSet<string> notDocs, IReadOnlySet<string> expectedResult)
     {
         // Arrange
