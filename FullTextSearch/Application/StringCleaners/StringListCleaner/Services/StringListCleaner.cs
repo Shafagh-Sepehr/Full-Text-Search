@@ -20,7 +20,7 @@ internal class StringListCleaner : IStringListCleaner
     private static string[] SplitStringViaSpecialCharacters(string value) =>
         value.Split(AppSettings.SplitterSpecialCharacters);
 
-    private static string TrimDigits(string value) => value.Trim("012345689".ToCharArray());
+    private static string TrimDigits(string value) => value.Trim("0123456789".ToCharArray());
 
     private static string TrimSpecialCharacters(string value) => value.Trim(AppSettings.TrimableSpecialCharacters);
 
