@@ -36,12 +36,12 @@ public class OrDocumentsReaderTests
 
     public static IEnumerable<object?[]> TestData()
     {
-        yield return [new List<string> { "green", "blue", }, new HashSet<string> { "1", "2", "3", },];
-        yield return [new List<string> { "red", "blue", }, new HashSet<string> { "1", "2", },];
-        yield return [new List<string> { "green", "orange", }, new HashSet<string> { "1", "2", "3", "4", "5", },];
-        yield return [new List<string> { "green", "black", }, new HashSet<string> { "1", "2", "3", },];
-        yield return [new List<string> { "green", "yellow", "brown", }, new HashSet<string> { "1", "2", "3", "4", "5", "6", "7", "8", "9", },];
-        yield return [new List<string> { "green", "orange", "purple", }, new HashSet<string> { "1", "2", "3", "4", "5", "10", "11", },];
-        yield return [new List<string> { "green", "orange", "purple", "brown", }, new HashSet<string>{"1", "2", "3", "4", "5","7","8","9", "10", "11", },];
+        yield return [new[] { "green", "blue", }, new HashSet<string> { "1", "2", "3", },];
+        yield return [new[] { "red", "blue", }, new HashSet<string> { "1", "2", },];
+        yield return [new[] { "green", "orange", }, new HashSet<string> { "1", "2", "3", "4", "5", },];
+        yield return [new[] { "green", "black", }, new HashSet<string> { "1", "2", "3", },];
+        yield return [new[] { "green", "yellow", "brown", }, new HashSet<string> { "1", "2", "3", "4", "5", "6", "7", "8", "9", },];
+        yield return [new[] { "green", "orange", "purple", }, new HashSet<string> { "1", "2", "3", "4", "5", "10", "11", },];
+        yield return [new[] { "green", "orange", "purple", "brown", }, new HashSet<string> { "1", "2", "3", "4", "5", "7", "8", "9", "10", "11", },];
     }
 }
