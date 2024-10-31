@@ -10,10 +10,10 @@ public class EmailRegexCheckerTests
     public void Matches(string value, bool expectedResult)
     {
         //Arrange
-        var urlRegexChecker = new EmailRegexChecker();
+        var emailRegexChecker = new EmailRegexChecker();
 
         //Act
-        var result = urlRegexChecker.Matches(value);
+        var result = emailRegexChecker.Matches(value);
 
         //Assert
         result.Should().Be(expectedResult);
