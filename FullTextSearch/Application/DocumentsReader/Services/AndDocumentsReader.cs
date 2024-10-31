@@ -6,6 +6,10 @@ internal sealed class AndDocumentsReader : IAndDocumentsReader
 {
     public HashSet<string> GetAndDocuments(Dictionary<string, List<string>> invertedIndex, IReadOnlyList<string> andWords)
     {
+        var allAndWordsExist = andWords.All(invertedIndex.ContainsKey);
+        if (!allAndWordsExist) return [];
+        
+        
         var andDocsList = invertedIndex
             .Where(x => andWords.Contains(x.Key))
             .Select(x => x.Value).ToList();
@@ -13,7 +17,6 @@ internal sealed class AndDocumentsReader : IAndDocumentsReader
         if (andDocsList.Count < 1) return [];
 
         var result = IntersectAllElements(andDocsList);
-        
         return result;
     }
 
