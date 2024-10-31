@@ -19,7 +19,7 @@ public class NotDocumentsReaderTests
 
     [Theory]
     [MemberData(nameof(TestData))]
-    public void Tests(IReadOnlyList<string> andWords, HashSet<string> expectedResult)
+    public void GetNotDocuments_returnsUnionOfDocuments(IReadOnlyList<string> andWords, HashSet<string> expectedResult)
     {
         //Arrange
         var reader = ServiceCollection.ServiceProvider.GetService<INotDocumentsReader>();
