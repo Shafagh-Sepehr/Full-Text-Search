@@ -5,16 +5,18 @@ namespace FullTextSearch.Tests.Application.RegexCheckers;
 
 public class PhoneNumberRegexCheckerTests
 {
+    
+    //Arrange
+    private readonly PhoneNumberRegexChecker _phoneNumberRegexChecker = new();
+
+    
     [Theory]
     [MemberData(nameof(TrueTestData))]
     public void Matches(string value, bool expectedResult)
     {
-        //Arrange
-        var phoneNumberRegexChecker = new PhoneNumberRegexChecker();
-
         //Act
-        var result = phoneNumberRegexChecker.Matches(value);
-
+        var result = _phoneNumberRegexChecker.Matches(value);
+        
         //Assert
         result.Should().Be(expectedResult);
     }

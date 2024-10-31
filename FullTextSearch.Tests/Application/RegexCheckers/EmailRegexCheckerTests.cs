@@ -5,16 +5,16 @@ namespace FullTextSearch.Tests.Application.RegexCheckers;
 
 public class EmailRegexCheckerTests
 {
+    //Arrange
+    private readonly EmailRegexChecker _emailRegexChecker = new();
+    
     [Theory]
     [MemberData(nameof(TrueTestData))]
     public void Matches(string value, bool expectedResult)
     {
-        //Arrange
-        var emailRegexChecker = new EmailRegexChecker();
-
         //Act
-        var result = emailRegexChecker.Matches(value);
-
+        var result = _emailRegexChecker.Matches(value);
+        
         //Assert
         result.Should().Be(expectedResult);
     }
