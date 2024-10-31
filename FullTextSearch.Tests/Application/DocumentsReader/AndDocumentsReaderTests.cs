@@ -2,7 +2,7 @@ using FluentAssertions;
 using FullTextSearch.Application.DocumentsReader.Abstractions;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace FullTextSearch.Tests.DocumentsReader;
+namespace FullTextSearch.Tests.Application.DocumentsReader;
 
 public class AndDocumentsReaderTests
 {

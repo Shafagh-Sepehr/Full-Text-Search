@@ -3,7 +3,7 @@ using FullTextSearch.Application.DocumentsReader.Abstractions;
 using FullTextSearch.Application.DocumentsReader.Services;
 using NSubstitute;
 
-namespace FullTextSearch.Tests.DocumentsReader;
+namespace FullTextSearch.Tests.Application.DocumentsReader;
 
 public class DocumentReaderTests
 {
