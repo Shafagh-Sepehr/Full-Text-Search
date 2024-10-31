@@ -12,7 +12,7 @@ public class AndOrNotSearcherTests
     private readonly IDocumentReader  _documentReader;
 
     private readonly Dictionary<string, List<string>> _originalInvertedIndex;
-    private readonly QueryProcessedWords              _originalwords;
+    private readonly QueryProcessedWords              _originalWords;
 
     public AndOrNotSearcherTests()
     {
@@ -24,7 +24,7 @@ public class AndOrNotSearcherTests
             { "word1", ["doc1", "doc2",] },
             { "word2", ["doc3",] },
         };
-        _originalwords = new()
+        _originalWords = new()
         {
             AndWords = ["andword1", "andword2",],
             OrWords = ["orword1", "orword2",],
@@ -41,9 +41,9 @@ public class AndOrNotSearcherTests
         var invertedIndex = new Dictionary<string, List<string>>(_originalInvertedIndex);
         var words = new QueryProcessedWords
         {
-            AndWords = _originalwords.AndWords,
-            OrWords = _originalwords.OrWords,
-            NotWords = _originalwords.NotWords,
+            AndWords = _originalWords.AndWords,
+            OrWords = _originalWords.OrWords,
+            NotWords = _originalWords.NotWords,
         };
 
         _documentReader.GetAndDocuments(invertedIndex, words.AndWords).Returns(andDocs);
@@ -60,7 +60,7 @@ public class AndOrNotSearcherTests
         _documentReader.Received(1).GetNotDocuments(invertedIndex, words.NotWords);
 
         // Verify that the original inputs are unchanged
-        words.Should().BeEquivalentTo(_originalwords);
+        words.Should().BeEquivalentTo(_originalWords);
         invertedIndex.Should().BeEquivalentTo(_originalInvertedIndex);
     }
 
