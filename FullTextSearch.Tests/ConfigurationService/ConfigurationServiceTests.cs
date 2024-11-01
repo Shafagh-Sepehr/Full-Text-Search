@@ -1,23 +1,18 @@
 using FluentAssertions;
-using FullTextSearch.ConfigurationService.Abstractions;
-using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Configuration;
 
 namespace FullTextSearch.Tests.ConfigurationService;
 
 public class ConfigurationServiceTests
 {
-    private readonly IConfigurationService? _configurationService = ServiceCollection.ServiceProvider.GetService<IConfigurationService>();
-    
     [Fact]
-    public void NotNull()
+    public void Constructor_ShouldThrowArgumentNullException_WhenDependenciesAreNull()
     {
-        _configurationService.Should().NotBeNull();
-    }
+        // Arrange
+        IConfigurationBuilder configurationBuilder = null!;
 
-    [Fact]
-    public void DocumentsPathNotNull()
-    {
-        _configurationService!.GetConfig()["DocumentsPath"].Should().NotBeNull();
+        // Act & Assert
+        Action act = () => new FullTextSearch.ConfigurationService.Services.ConfigurationService(configurationBuilder);
+        act.Should().Throw<ArgumentNullException>();
     }
-    
 }
