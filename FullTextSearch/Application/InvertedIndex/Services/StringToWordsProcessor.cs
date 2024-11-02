@@ -26,6 +26,8 @@ internal sealed class StringToWordsProcessor(
     private readonly IStringTrimAndSplitter _stringTrimAndSplitter =
         stringTrimAndSplitter ?? throw new ArgumentNullException(nameof(stringTrimAndSplitter));
 
+    private readonly IStringListNonValidWordCleaner _stringListNonValidWordCleaner =
+        stringListNonValidWordCleaner ?? throw new ArgumentNullException(nameof(stringListNonValidWordCleaner));
     
     public IEnumerable<string> TrimSplitAndStemString(string source)
     {
@@ -33,13 +35,13 @@ internal sealed class StringToWordsProcessor(
         result = _stringListNoiseCleaner.CleanNoise(result);
         result = _stringListCleaner.Clean(result);
         result = _stringListStemmer.Stem(result);
-        result = stringListNonValidWordCleaner.Clean(result);
+        result = _stringListNonValidWordCleaner.Clean(result);
         return result.Distinct();
     }
     
     public void Construct(IEnumerable<string>? banned)
     {
         if (banned != null)
-            stringListNonValidWordCleaner.Construct(banned);
+            _stringListNonValidWordCleaner.Construct(banned);
     }
 }
