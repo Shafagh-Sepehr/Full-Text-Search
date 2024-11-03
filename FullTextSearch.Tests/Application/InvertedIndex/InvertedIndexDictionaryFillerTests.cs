@@ -84,6 +84,19 @@ public class InvertedIndexDictionaryFillerTests
     }
 
     [Fact]
+    public void Construct_ShouldNotModifyInputValue()
+    {
+        // Arrange
+        IEnumerable<string> banned = new List<string> { "val1" };
+
+        // Act
+        _filler.Construct(banned);
+
+        //Assert
+        _stringToWordsProcessor.Received(1).Construct(banned);
+    }
+
+    [Fact]
     public void Constructor_ShouldThrowArgumentNullException_WhenDependenciesAreNull()
     {
         // Arrange
