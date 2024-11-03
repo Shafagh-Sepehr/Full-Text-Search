@@ -4,5 +4,5 @@ namespace FullTextSearch.Application.Searchers.Abstractions;
 
 internal interface IAndNotSearcher
 {
-    IReadOnlySet<string> AndNotSearch(Dictionary<string, List<string>> invertedIndex, QueryProcessedWords queryProcessedWords);
+    IReadOnlySet<string> AndNotSearch(Dictionary<string, List<string>> invertedIndex, ProcessedQueryWords processedQueryWords);
 }

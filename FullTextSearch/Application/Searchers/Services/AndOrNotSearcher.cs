@@ -8,11 +8,11 @@ internal sealed class AndOrNotSearcher(IDocumentReader documentReader) : IAndOrN
 {
     private readonly IDocumentReader _documentReader = documentReader ?? throw new ArgumentNullException(nameof(documentReader));
 
-    public IReadOnlySet<string> AndOrNotSearch(Dictionary<string, List<string>> invertedIndex, QueryProcessedWords queryProcessedWords)
+    public IReadOnlySet<string> AndOrNotSearch(Dictionary<string, List<string>> invertedIndex, ProcessedQueryWords processedQueryWords)
     {
-        var docsSet =  _documentReader.GetAndDocuments(invertedIndex, queryProcessedWords.AndWords);
-        docsSet.IntersectWith(_documentReader.GetOrDocuments(invertedIndex, queryProcessedWords.OrWords));
-        docsSet.ExceptWith(_documentReader.GetNotDocuments(invertedIndex, queryProcessedWords.NotWords));
+        var docsSet =  _documentReader.GetAndDocuments(invertedIndex, processedQueryWords.AndWords);
+        docsSet.IntersectWith(_documentReader.GetOrDocuments(invertedIndex, processedQueryWords.OrWords));
+        docsSet.ExceptWith(_documentReader.GetNotDocuments(invertedIndex, processedQueryWords.NotWords));
         
         return docsSet;
     }

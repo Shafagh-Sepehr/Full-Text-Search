@@ -12,7 +12,7 @@ public class AndOrNotSearcherTests
     private readonly IDocumentReader  _documentReader;
 
     private readonly Dictionary<string, List<string>> _originalInvertedIndex;
-    private readonly QueryProcessedWords              _originalWords;
+    private readonly ProcessedQueryWords              _originalWords;
 
     public AndOrNotSearcherTests()
     {
@@ -39,7 +39,7 @@ public class AndOrNotSearcherTests
     {
         // Arrange
         var invertedIndex = new Dictionary<string, List<string>>(_originalInvertedIndex);
-        var words = new QueryProcessedWords
+        var words = new ProcessedQueryWords
         {
             AndWords = _originalWords.AndWords,
             OrWords = _originalWords.OrWords,

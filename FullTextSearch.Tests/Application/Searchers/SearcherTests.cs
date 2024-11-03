@@ -17,7 +17,7 @@ public class SearcherTests
 
     
     private readonly Dictionary<string, List<string>> _originalInvertedIndex;
-    private readonly QueryProcessedWords              _originalWords;
+    private readonly ProcessedQueryWords              _originalWords;
     private readonly HashSet<string>                  _originalExpectedResult;
 
     public SearcherTests()
@@ -46,7 +46,7 @@ public class SearcherTests
     {
         // Arrange
         var invertedIndex = new Dictionary<string, List<string>>(_originalInvertedIndex);
-        var words = new QueryProcessedWords
+        var words = new ProcessedQueryWords
         {
             AndWords = _originalWords.AndWords,
             OrWords = _originalWords.OrWords,
@@ -74,7 +74,7 @@ public class SearcherTests
     {
         // Arrange
         var invertedIndex = new Dictionary<string, List<string>>(_originalInvertedIndex);
-        var words = new QueryProcessedWords
+        var words = new ProcessedQueryWords
         {
             AndWords = _originalWords.AndWords,
             OrWords = _originalWords.OrWords,
@@ -102,7 +102,7 @@ public class SearcherTests
     {
         // Arrange
         var invertedIndex = new Dictionary<string, List<string>>(_originalInvertedIndex);
-        var words = new QueryProcessedWords
+        var words = new ProcessedQueryWords
         {
             AndWords = _originalWords.AndWords,
             OrWords = _originalWords.OrWords,

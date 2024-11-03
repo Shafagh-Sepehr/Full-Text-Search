@@ -19,7 +19,7 @@ internal sealed class QuerySearcher(IWordsProcessor wordsProcessor, ISearcher se
     private IReadOnlyList<string> OrWords  => _wordsProcessor.GetOrWords(_queryWords);
     private IReadOnlyList<string> NotWords => _wordsProcessor.GetNotWords(_queryWords);
 
-    private QueryProcessedWords QueryProcessedWords => new()
+    private ProcessedQueryWords ProcessedQueryWords => new()
     {
         AndWords = AndWords,
         OrWords = OrWords,
@@ -58,10 +58,10 @@ internal sealed class QuerySearcher(IWordsProcessor wordsProcessor, ISearcher se
     private IEnumerable<string> ExecuteSearch(IEnumerable<string> result)
     {
         if (AreAllWordTypesPresent())
-            result = _searcher.AndOrNotSearch(_invertedIndex!, QueryProcessedWords);
+            result = _searcher.AndOrNotSearch(_invertedIndex!, ProcessedQueryWords);
         else if (AreAndWordsPresent())
-            result = _searcher.AndNotSearch(_invertedIndex!, QueryProcessedWords);
-        else if (AreOrWordsPresent()) result = _searcher.OrNotSearch(_invertedIndex!, QueryProcessedWords);
+            result = _searcher.AndNotSearch(_invertedIndex!, ProcessedQueryWords);
+        else if (AreOrWordsPresent()) result = _searcher.OrNotSearch(_invertedIndex!, ProcessedQueryWords);
 
         return result;
     }

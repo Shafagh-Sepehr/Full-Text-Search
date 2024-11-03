@@ -4,7 +4,7 @@ namespace FullTextSearch.Application.Searchers.Abstractions;
 
 internal interface ISearcher
 {
-    IReadOnlySet<string> AndOrNotSearch(Dictionary<string, List<string>> invertedIndex, QueryProcessedWords queryProcessedWords);
-    IReadOnlySet<string> AndNotSearch(Dictionary<string, List<string>> invertedIndex, QueryProcessedWords queryProcessedWords);
-    IReadOnlySet<string> OrNotSearch(Dictionary<string, List<string>> invertedIndex, QueryProcessedWords queryProcessedWords);
+    IReadOnlySet<string> AndOrNotSearch(Dictionary<string, List<string>> invertedIndex, ProcessedQueryWords processedQueryWords);
+    IReadOnlySet<string> AndNotSearch(Dictionary<string, List<string>> invertedIndex, ProcessedQueryWords processedQueryWords);
+    IReadOnlySet<string> OrNotSearch(Dictionary<string, List<string>> invertedIndex, ProcessedQueryWords processedQueryWords);
 }
