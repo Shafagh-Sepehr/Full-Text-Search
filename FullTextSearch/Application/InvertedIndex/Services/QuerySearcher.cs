@@ -1,53 +1,21 @@
 using FullTextSearch.Application.InvertedIndex.Abstractions;
 using FullTextSearch.Application.Models;
-using FullTextSearch.Application.Searchers.Abstractions;
 using FullTextSearch.Application.WordsProcessors.Abstractions;
 using FullTextSearch.Exceptions;
 
 namespace FullTextSearch.Application.InvertedIndex.Services;
 
-internal sealed class QuerySearcher(IWordsProcessor wordsProcessor, ISearcher searcher)
-    : IQuerySearcher
+internal sealed class QuerySearcher(IWordsProcessor wordsProcessor, ISearchExecutor searchExecutor) : IQuerySearcher
 {
-    private readonly ISearcher                         _searcher       = searcher ?? throw new ArgumentNullException(nameof(searcher));
-    private readonly IWordsProcessor                   _wordsProcessor = wordsProcessor ?? throw new ArgumentNullException(nameof(wordsProcessor));
-    private          Dictionary<string, List<string>>? _invertedIndex;
-    private          bool                              _isConstructed;
-    private          string[]                          _queryWords = null!;
-
-    private IReadOnlyList<string> AndWords => _wordsProcessor.GetAndWords(_queryWords);
-    private IReadOnlyList<string> OrWords  => _wordsProcessor.GetOrWords(_queryWords);
-    private IReadOnlyList<string> NotWords => _wordsProcessor.GetNotWords(_queryWords);
-
-    private ProcessedQueryWords ProcessedQueryWords => new()
-    {
-        AndWords = AndWords,
-        OrWords = OrWords,
-        NotWords = NotWords,
-    };
-
+    private readonly ISearchExecutor _searchExecutor = searchExecutor ?? throw new ArgumentNullException(nameof(searchExecutor));
+    private readonly IWordsProcessor _wordsProcessor = wordsProcessor ?? throw new ArgumentNullException(nameof(wordsProcessor));
+    private          bool            _isConstructed;
+    private          string[]        _queryWords = null!;
 
     public void Construct(Dictionary<string, List<string>> invertedIndex)
     {
-        _invertedIndex = invertedIndex;
-
+        _searchExecutor.Construct(invertedIndex);
         _isConstructed = true;
-    }
-
-    public IEnumerable<string> Search(string query)
-    {
-        AssertConstructMethodCalled();
-
-        IEnumerable<string> result = [];
-
-        if (string.IsNullOrWhiteSpace(query))
-            return result;
-
-        SetQueryWords(query);
-
-        result = ExecuteSearch(result);
-
-        return result;
     }
 
     private void AssertConstructMethodCalled()
@@ -55,20 +23,21 @@ internal sealed class QuerySearcher(IWordsProcessor wordsProcessor, ISearcher se
         if (!_isConstructed) throw new ConstructMethodNotCalledException();
     }
 
-    private IEnumerable<string> ExecuteSearch(IEnumerable<string> result)
+    public IEnumerable<string> Search(string query)
     {
-        if (AreAllWordTypesPresent())
-            result = _searcher.AndOrNotSearch(_invertedIndex!, ProcessedQueryWords);
-        else if (AreAndWordsPresent())
-            result = _searcher.AndNotSearch(_invertedIndex!, ProcessedQueryWords);
-        else if (AreOrWordsPresent()) result = _searcher.OrNotSearch(_invertedIndex!, ProcessedQueryWords);
+        AssertConstructMethodCalled();
+        if (string.IsNullOrWhiteSpace(query)) return [];
 
-        return result;
+        SetQueryWords(query);
+        return _searchExecutor.ExecuteSearch(ProcessedQueryWords);
     }
 
-    private bool AreAllWordTypesPresent() => OrWords.Count > 0 && AndWords.Count > 0;
-    private bool AreAndWordsPresent() => AndWords.Count > 0;
-    private bool AreOrWordsPresent() => OrWords.Count > 0;
+    private ProcessedQueryWords ProcessedQueryWords => new()
+    {
+        AndWords = _wordsProcessor.GetAndWords(_queryWords),
+        OrWords = _wordsProcessor.GetOrWords(_queryWords),
+        NotWords = _wordsProcessor.GetNotWords(_queryWords),
+    };
 
     private void SetQueryWords(string query) => _queryWords = query.Trim().Split();
 }

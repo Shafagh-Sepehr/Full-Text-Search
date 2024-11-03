@@ -42,6 +42,7 @@ internal static class ServiceCollection
         serviceCollector.AddTransient<IQuerySearcher, QuerySearcher>();
         serviceCollector.AddTransient<IStringToWordsProcessor, StringToWordsProcessor>();
         serviceCollector.AddSingleton<IInvertedIndexFactory, InvertedIndexFactory>();
+        serviceCollector.AddSingleton<ISearchExecutor, SearchExecutor>();
 
         serviceCollector.AddSingleton<IDocumentReader, DocumentReader>();
         serviceCollector.AddSingleton<IAndDocumentsReader, AndDocumentsReader>();
@@ -57,12 +58,12 @@ internal static class ServiceCollection
         serviceCollector.AddSingleton<IAndOrNotSearcher, AndOrNotSearcher>();
         serviceCollector.AddSingleton<IAndNotSearcher, AndNotSearcher>();
         serviceCollector.AddSingleton<IOrNotSearcher, OrNotSearcher>();
-        
+
         serviceCollector.AddSingleton<IRegexChecker, RegexChecker>();
         serviceCollector.AddSingleton<IUrlRegexChecker, UrlRegexChecker>();
         serviceCollector.AddSingleton<IEmailRegexChecker, EmailRegexChecker>();
         serviceCollector.AddSingleton<IPhoneNumberRegexChecker, PhoneNumberRegexChecker>();
-        
+
         serviceCollector.AddSingleton<IStringListNoiseCleaner, StringListNoiseCleaner>();
         serviceCollector.AddSingleton<IStringTrimAndSplitter, StringTrimAndSplitter>();
         serviceCollector.AddSingleton<IStringListCleaner, StringListCleaner>();
@@ -71,7 +72,7 @@ internal static class ServiceCollection
 
         serviceCollector.AddTransient<IConfigurationBuilder, ConfigurationBuilder>();
         serviceCollector.AddTransient<IConfigurationService, ConfigurationService.Services.ConfigurationService>();
-        
+
         return serviceCollector.BuildServiceProvider();
     }
 }
