@@ -5,7 +5,6 @@ using FullTextSearch.Application.Models;
 using FullTextSearch.Application.WordsProcessors.Abstractions;
 using FullTextSearch.Exceptions;
 using NSubstitute;
-using NSubstitute.ReceivedExtensions;
 
 namespace FullTextSearch.Tests.Application.InvertedIndex;
 
@@ -90,8 +89,8 @@ public class QuerySearcherTests
         _wordsProcessor.GetAndWords(processedQuery).Returns(["key2", "keey2",]);
         _wordsProcessor.GetNotWords(processedQuery).Returns(["key3", "keey3",]);
 
-        var expectedResult = new List<string> { "res1", "res2", };
-        var expectedResultCopy = new List<string>(expectedResult);
+        var expectedResult = new HashSet<string> { "res1", "res2", };
+        var expectedResultCopy = new HashSet<string>(expectedResult);
 
         var processedWords = new ProcessedQueryWords
         {

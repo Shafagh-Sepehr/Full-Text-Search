@@ -18,7 +18,7 @@ internal class SearchExecutor(ISearcher searcher) : ISearchExecutor
         _isConstructed = true;
     }
     
-    public IEnumerable<string> ExecuteSearch(ProcessedQueryWords processedWords)
+    public IReadOnlySet<string> ExecuteSearch(ProcessedQueryWords processedWords)
     {
         AssertConstructMethodCalled();
 
@@ -29,7 +29,7 @@ internal class SearchExecutor(ISearcher searcher) : ISearchExecutor
             return _searcher.AndNotSearch(_invertedIndex!, processedWords);
         if (AreOrWordsPresent(processedWords))
             return _searcher.OrNotSearch(_invertedIndex!, processedWords);
-        return [];
+        return new HashSet<string>();
     }
     
     private void AssertConstructMethodCalled()

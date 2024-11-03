@@ -23,10 +23,10 @@ internal sealed class QuerySearcher(IWordsProcessor wordsProcessor, ISearchExecu
         if (!_isConstructed) throw new ConstructMethodNotCalledException();
     }
 
-    public IEnumerable<string> Search(string query)
+    public IReadOnlySet<string> Search(string query)
     {
         AssertConstructMethodCalled();
-        if (string.IsNullOrWhiteSpace(query)) return [];
+        if (string.IsNullOrWhiteSpace(query)) return new HashSet<string>();
 
         SetQueryWords(query);
         return _searchExecutor.ExecuteSearch(ProcessedQueryWords);
