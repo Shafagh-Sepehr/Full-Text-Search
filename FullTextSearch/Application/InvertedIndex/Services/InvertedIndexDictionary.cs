@@ -8,11 +8,11 @@ internal sealed class InvertedIndexDictionary(
     IInvertedIndexDictionaryFiller invertedIndexDictionaryFiller)
     : IInvertedIndexDictionary
 {
-    private readonly IInvertedIndexDictionaryFiller _indexDictionaryFiller = invertedIndexDictionaryFiller
-                                                                          ?? throw new ArgumentNullException(nameof(invertedIndexDictionaryFiller));
-    private readonly IQuerySearcher                 _searcher              = querySearcher
-                                                                          ?? throw new ArgumentNullException(nameof(querySearcher));
-    private          bool                           _isConstructed;
+    private readonly IInvertedIndexDictionaryFiller _indexDictionaryFiller =
+        invertedIndexDictionaryFiller ?? throw new ArgumentNullException(nameof(invertedIndexDictionaryFiller));
+
+    private readonly IQuerySearcher _searcher = querySearcher ?? throw new ArgumentNullException(nameof(querySearcher));
+    private          bool           _isConstructed;
 
     public void Construct(string path, IEnumerable<string>? banned)
     {
