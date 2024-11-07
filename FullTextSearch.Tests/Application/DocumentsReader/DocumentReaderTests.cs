@@ -103,15 +103,21 @@ public class DocumentReaderTests
     }
 
     [Fact]
-    public void Constructor_WhenDependenciesAreNull_ShouldThrowArgumentNullException()
+    public void Constructor_WhenADependencyIsNull_ShouldThrowArgumentNullException()
     {
         // Arrange
-        IAndDocumentsReader nullAndReader = null!;
-        IOrDocumentsReader nullOrReader = null!;
-        INotDocumentsReader nullNotReader = null!;
+        var andReader = Substitute.For<IAndDocumentsReader>();
+        var orReader = Substitute.For<IOrDocumentsReader>();
+        var notReader = Substitute.For<INotDocumentsReader>();
 
-        // Act & Assert
-        Action act = () => new DocumentReader(nullAndReader, nullOrReader, nullNotReader);
-        act.Should().Throw<ArgumentNullException>();
+        // Act
+        Action act1 = () => new DocumentReader(null!, orReader, notReader);
+        Action act2 = () => new DocumentReader(andReader, null!, notReader);
+        Action act3 = () => new DocumentReader(andReader, orReader, null!);
+
+        //Assert
+        act1.Should().Throw<ArgumentNullException>();
+        act2.Should().Throw<ArgumentNullException>();
+        act3.Should().Throw<ArgumentNullException>();
     }
 }

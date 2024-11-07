@@ -95,15 +95,21 @@ public class WordsProcessorTests
     }
 
     [Fact]
-    public void Constructor_WhenDependenciesAreNull_ShouldThrowArgumentNullException()
+    public void Constructor_WhenADependencyIsNull_ShouldThrowArgumentNullException()
     {
         // Arrange
-        IAndWordsProcessor andWordsProcessor = null!;
-        IOrWordsProcessor  orWordsProcessor  = null!;
-        INotWordsProcessor notWordsProcessor = null!;
+        var andWordsProcessor = Substitute.For<IAndWordsProcessor>();
+        var  orWordsProcessor  = Substitute.For<IOrWordsProcessor>();
+        var notWordsProcessor = Substitute.For<INotWordsProcessor>();
 
-        // Act & Assert
-        Action act = () => new WordsProcessor(andWordsProcessor, orWordsProcessor, notWordsProcessor);
-        act.Should().Throw<ArgumentNullException>();
+        // Act
+        Action act1 = () => new WordsProcessor(null!, orWordsProcessor, notWordsProcessor);
+        Action act2 = () => new WordsProcessor(andWordsProcessor, null!, notWordsProcessor);
+        Action act3 = () => new WordsProcessor(andWordsProcessor, orWordsProcessor, null!);
+
+        //Assert
+        act1.Should().Throw<ArgumentNullException>();
+        act2.Should().Throw<ArgumentNullException>();
+        act3.Should().Throw<ArgumentNullException>();
     }
 }

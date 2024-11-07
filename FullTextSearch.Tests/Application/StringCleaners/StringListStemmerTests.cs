@@ -46,13 +46,15 @@ public class StringListStemmerTests
     }
     
     [Fact]
-    public void Constructor_WhenDependenciesAreNull_ShouldThrowArgumentNullException()
+    public void Constructor_WhenADependencyIsNull_ShouldThrowArgumentNullException()
     {
         // Arrange
         IPorter2Stemmer stemmer = null!;
 
-        // Act & Assert
+        // Act
         Action act = () => new StringListStemmer(stemmer);
+
+        //Assert
         act.Should().Throw<ArgumentNullException>();
     }
 }

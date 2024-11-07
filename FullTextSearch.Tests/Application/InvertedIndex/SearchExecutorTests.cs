@@ -142,13 +142,15 @@ public class SearchExecutorTests
     }
 
     [Fact]
-    public void Constructor_WhenDependenciesAreNull_ShouldThrowArgumentNullException()
+    public void Constructor_WhenADependencyIsNull_ShouldThrowArgumentNullException()
     {
-        // Arrange
+        //Arrange
         ISearcher searcher = null!;
 
-        // Act & Assert
+        //Act
         Action act = () => new SearchExecutor(searcher);
+
+        //Assert
         act.Should().Throw<ArgumentNullException>();
     }
 }

@@ -119,14 +119,18 @@ public class QuerySearcherTests
     }
     
     [Fact]
-    public void Constructor_WhenDependenciesAreNull_ShouldThrowArgumentNullException()
+    public void Constructor_WhenADependencyIsNull_ShouldThrowArgumentNullException()
     {
-        // Arrange
-        IWordsProcessor wordsProcessor = null!;
-        ISearchExecutor searcher = null!;
+        //Arrange
+        var wordsProcessor = Substitute.For<IWordsProcessor>();
+        var searcher = Substitute.For<ISearchExecutor>();
         
-        // Act & Assert
-        Action act = () => new QuerySearcher(wordsProcessor, searcher);
-        act.Should().Throw<ArgumentNullException>();
+        //Act
+        Action act1 = () => new QuerySearcher(null!, searcher);
+        Action act2 = () => new QuerySearcher(wordsProcessor, null!);
+
+        //Assert
+        act1.Should().Throw<ArgumentNullException>();
+        act2.Should().Throw<ArgumentNullException>();
     }
 }

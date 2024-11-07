@@ -80,14 +80,18 @@ public class InvertedIndexDictionaryTests
     }
 
     [Fact]
-    public void Constructor_WhenDependenciesAreNull_ShouldThrowArgumentNullException()
+    public void Constructor_WhenADependencyIsNull_ShouldThrowArgumentNullException()
     {
         // Arrange
-        IQuerySearcher querySearcher = null!;
-        IInvertedIndexDictionaryFiller invertedIndexDictionaryFiller = null!;
+        var querySearcher = Substitute.For<IQuerySearcher>();
+        var invertedIndexDictionaryFiller = Substitute.For<IInvertedIndexDictionaryFiller>();
 
-        // Act & Assert
-        Action act = () => new InvertedIndexDictionary(querySearcher, invertedIndexDictionaryFiller);
-        act.Should().Throw<ArgumentNullException>();
+        //Act
+        Action act1 = () => new InvertedIndexDictionary(null!, invertedIndexDictionaryFiller);
+        Action act2 = () => new InvertedIndexDictionary(querySearcher, null!);
+
+        //Assert
+        act1.Should().Throw<ArgumentNullException>();
+        act2.Should().Throw<ArgumentNullException>();
     }
 }

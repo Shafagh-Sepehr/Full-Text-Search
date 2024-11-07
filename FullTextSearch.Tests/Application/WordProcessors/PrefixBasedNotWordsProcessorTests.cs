@@ -48,13 +48,15 @@ public class PrefixBasedNotWordsProcessorTests
     }
     
     [Fact]
-    public void Constructor_WhenDependenciesAreNull_ShouldThrowArgumentNullException()
+    public void Constructor_WhenADependencyIsNull_ShouldThrowArgumentNullException()
     {
         // Arrange
         IPorter2Stemmer stemmer = null!;
 
-        // Act & Assert
+        // Act
         Action act = () => new PrefixBasedNotWordsProcessor(stemmer);
+
+        //Assert
         act.Should().Throw<ArgumentNullException>();
     }
 }

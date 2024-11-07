@@ -109,15 +109,21 @@ public class RegexCheckerTests
     }
     
     [Fact]
-    public void Constructor_WhenDependenciesAreNull_ShouldThrowArgumentNullException()
+    public void Constructor_WhenADependencyIsNull_ShouldThrowArgumentNullException()
     {
         // Arrange
-        IEmailRegexChecker       emailRegexChecker = null!;
-        IPhoneNumberRegexChecker phoneNumberRegexChecker = null!;
-        IUrlRegexChecker         urlRegexChecker = null!;
+        var       emailRegexChecker = Substitute.For<IEmailRegexChecker>();
+        var phoneNumberRegexChecker = Substitute.For<IPhoneNumberRegexChecker>();
+        var         urlRegexChecker = Substitute.For<IUrlRegexChecker>();
 
-        // Act & Assert
-        Action act = () => new RegexChecker(emailRegexChecker,phoneNumberRegexChecker, urlRegexChecker);
-        act.Should().Throw<ArgumentNullException>();
+        //Act
+        Action act1 = () => new RegexChecker(null!,phoneNumberRegexChecker, urlRegexChecker);
+        Action act2 = () => new RegexChecker(emailRegexChecker,null!, urlRegexChecker);
+        Action act3 = () => new RegexChecker(emailRegexChecker,phoneNumberRegexChecker, null!);
+
+        //Assert
+        act1.Should().Throw<ArgumentNullException>();
+        act2.Should().Throw<ArgumentNullException>();
+        act3.Should().Throw<ArgumentNullException>();
     }
 }

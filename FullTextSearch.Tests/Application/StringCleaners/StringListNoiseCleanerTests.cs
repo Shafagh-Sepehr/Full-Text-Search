@@ -54,13 +54,15 @@ public class StringListNoiseCleanerTests
     }
 
     [Fact]
-    public void Constructor_WhenDependenciesAreNull_ShouldThrowArgumentNullException()
+    public void Constructor_WhenADependencyIsNull_ShouldThrowArgumentNullException()
     {
         // Arrange
         IRegexChecker regexChecker = null!;
 
-        // Act & Assert
+        // Act
         Action act = () => new StringListNoiseCleaner(regexChecker);
+
+        //Assert
         act.Should().Throw<ArgumentNullException>();
     }
 }

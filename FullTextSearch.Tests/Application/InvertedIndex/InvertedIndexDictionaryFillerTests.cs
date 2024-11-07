@@ -75,22 +75,24 @@ public class InvertedIndexDictionaryFillerTests
     [Fact]
     public void Build_WhenPathIsInvalid_ShouldThrowException()
     {
-        // Arrange
+        //Arrange
         const string path = "/invaliiiiiiiiid/path/this/really/should/not/exist ?";
 
-        // Act & Assert
+        //Act
         Action act = () => _filler.Build(path);
+
+        //Assert
         act.Should().Throw<DirectoryNotFoundException>();
     }
 
     [Fact]
     public void Construct_WhenCorrectlyCalled_ShouldNotModifyInputValue()
     {
-        // Arrange
+        //Arrange
         IEnumerable<string> banned = new List<string> { "val1" };
         var bannedCopy = new List<string>(banned);
 
-        // Act
+        //Act
         _filler.Construct(banned);
 
         //Assert
@@ -99,13 +101,15 @@ public class InvertedIndexDictionaryFillerTests
     }
 
     [Fact]
-    public void Constructor_WhenDependenciesAreNull_ShouldThrowArgumentNullException()
+    public void Constructor_WhenADependencyIsNull_ShouldThrowArgumentNullException()
     {
-        // Arrange
+        //Arrange
         IStringToWordsProcessor stringToWordsProcessor = null!;
 
-        // Act & Assert
+        //Act
         Action act = () => new InvertedIndexDictionaryFiller(stringToWordsProcessor);
+
+        //Assert
         act.Should().Throw<ArgumentNullException>();
     }
 }

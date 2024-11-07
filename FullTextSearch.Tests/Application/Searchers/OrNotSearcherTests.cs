@@ -74,13 +74,15 @@ public class OrNotSearcherTests
     }
 
     [Fact]
-    public void Constructor_WhenDependenciesAreNull_ShouldThrowArgumentNullException()
+    public void Constructor_WhenADependencyIsNull_ShouldThrowArgumentNullException()
     {
         // Arrange
         IDocumentReader documentReader = null!;
 
-        // Act & Assert
+        // Act
         Action act = () => new OrNotSearcher(documentReader);
+
+        //Assert
         act.Should().Throw<ArgumentNullException>();
     }
 }

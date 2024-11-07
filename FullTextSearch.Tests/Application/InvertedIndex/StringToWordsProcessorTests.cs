@@ -127,18 +127,27 @@ public class StringToWordsProcessorTests
     }
 
     [Fact]
-    public void Constructor_WhenDependenciesAreNull_ShouldThrowArgumentNullException()
+    public void Constructor_WhenADependencyIsNull_ShouldThrowArgumentNullException()
     {
-        // Arrange
-        IStringListNoiseCleaner stringListNoiseCleaner = null!;
-        IStringTrimAndSplitter stringTrimAndSplitter = null!;
-        IStringListCleaner stringListCleaner = null!;
-        IStringListStemmer stringListStemmer = null!;
-        IStringListNonValidWordCleaner stringListNonValidWordCleaner = null!;
+        //Arrange
+        var stringListNoiseCleaner = Substitute.For<IStringListNoiseCleaner>();
+        var stringTrimAndSplitter = Substitute.For<IStringTrimAndSplitter>();
+        var stringListCleaner = Substitute.For<IStringListCleaner>();
+        var stringListStemmer = Substitute.For<IStringListStemmer>();
+        var stringListNonValidWordCleaner = Substitute.For<IStringListNonValidWordCleaner>();
 
-        // Act & Assert
-        Action act = () => new StringToWordsProcessor(stringListNoiseCleaner, stringTrimAndSplitter, stringListCleaner, stringListStemmer,
-                                                      stringListNonValidWordCleaner);
-        act.Should().Throw<ArgumentNullException>();
+        //Act
+        Action act1 = () => new StringToWordsProcessor(null!, stringTrimAndSplitter, stringListCleaner, stringListStemmer, stringListNonValidWordCleaner);
+        Action act2 = () => new StringToWordsProcessor(stringListNoiseCleaner, null!, stringListCleaner, stringListStemmer, stringListNonValidWordCleaner);
+        Action act3 = () => new StringToWordsProcessor(stringListNoiseCleaner, stringTrimAndSplitter, null!, stringListStemmer, stringListNonValidWordCleaner);
+        Action act4 = () => new StringToWordsProcessor(stringListNoiseCleaner, stringTrimAndSplitter, stringListCleaner, null!, stringListNonValidWordCleaner);
+        Action act5 = () => new StringToWordsProcessor(stringListNoiseCleaner, stringTrimAndSplitter, stringListCleaner, stringListStemmer, null!);
+
+        //Assert
+        act1.Should().Throw<ArgumentNullException>();
+        act2.Should().Throw<ArgumentNullException>();
+        act3.Should().Throw<ArgumentNullException>();
+        act4.Should().Throw<ArgumentNullException>();
+        act5.Should().Throw<ArgumentNullException>();
     }
 }
