@@ -1,11 +1,14 @@
 using FluentAssertions;
 using FullTextSearch.Application.DocumentsReader.Abstractions;
+using FullTextSearch.Application.DocumentsReader.Services;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace FullTextSearch.Tests.Application.DocumentsReader;
 
 public class NotDocumentsReaderTests
 {
+    private readonly NotDocumentsReader _reader = new NotDocumentsReader();
+
     private readonly Dictionary<string, List<string>> _invertedIndex = new()
     {
         { "green", ["1", "2", "3",] },
@@ -21,14 +24,8 @@ public class NotDocumentsReaderTests
     [MemberData(nameof(TestData))]
     public void GetNotDocuments_returnsUnionOfDocuments(IReadOnlyList<string> andWords, HashSet<string> expectedResult)
     {
-        //Arrange
-        var reader = ServiceCollection.ServiceProvider.GetService<INotDocumentsReader>();
-
-        //pre Assert
-        reader.Should().NotBeNull();
-
         //Act
-        var result = reader!.GetNotDocuments(_invertedIndex, andWords);
+        var result = _reader!.GetNotDocuments(_invertedIndex, andWords);
 
         //Assert
         result.Should().BeEquivalentTo(expectedResult);

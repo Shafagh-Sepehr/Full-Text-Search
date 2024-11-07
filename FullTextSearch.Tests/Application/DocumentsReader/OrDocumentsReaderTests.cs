@@ -1,11 +1,14 @@
 using FluentAssertions;
 using FullTextSearch.Application.DocumentsReader.Abstractions;
+using FullTextSearch.Application.DocumentsReader.Services;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace FullTextSearch.Tests.Application.DocumentsReader;
 
 public class OrDocumentsReaderTests
 {
+    private readonly OrDocumentsReader _reader = new OrDocumentsReader();
+
     private readonly Dictionary<string, List<string>> _invertedIndex = new()
     {
         { "green", ["1", "2", "3",] },
@@ -21,14 +24,8 @@ public class OrDocumentsReaderTests
     [MemberData(nameof(TestData))]
     public void GetOrDocuments_returnsUnionOfDocuments(IReadOnlyList<string> andWords, HashSet<string> expectedResult)
     {
-        //Arrange
-        var reader = ServiceCollection.ServiceProvider.GetService<IOrDocumentsReader>();
-
-        //pre Assert
-        reader.Should().NotBeNull();
-
         //Act
-        var result = reader!.GetOrDocuments(_invertedIndex, andWords);
+        var result = _reader!.GetOrDocuments(_invertedIndex, andWords);
 
         //Assert
         result.Should().BeEquivalentTo(expectedResult);

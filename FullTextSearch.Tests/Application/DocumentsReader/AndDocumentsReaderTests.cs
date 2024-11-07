@@ -1,11 +1,14 @@
 using FluentAssertions;
 using FullTextSearch.Application.DocumentsReader.Abstractions;
+using FullTextSearch.Application.DocumentsReader.Services;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace FullTextSearch.Tests.Application.DocumentsReader;
 
 public class AndDocumentsReaderTests
 {
+    private readonly AndDocumentsReader _reader = new AndDocumentsReader();
+
     private readonly Dictionary<string, List<string>> _invertedIndex = new()
     {
         { "green", ["1", "2", "3",] },
@@ -21,14 +24,8 @@ public class AndDocumentsReaderTests
     [MemberData(nameof(TestData))]
     public void GetAndDocuments_returnsIntersectedDocuments(IReadOnlyList<string> andWords, HashSet<string> expectedResult)
     {
-        //Arrange
-        var reader = ServiceCollection.ServiceProvider.GetService<IAndDocumentsReader>();
-
-        //pre Assert
-        reader.Should().NotBeNull();
-
         //Act
-        var result = reader!.GetAndDocuments(_invertedIndex, andWords);
+        var result = _reader!.GetAndDocuments(_invertedIndex, andWords);
         
         //Assert
         result.Should().BeEquivalentTo(expectedResult);
