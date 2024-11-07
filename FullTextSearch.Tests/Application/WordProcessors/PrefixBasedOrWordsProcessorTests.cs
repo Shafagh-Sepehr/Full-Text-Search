@@ -11,7 +11,7 @@ public class PrefixBasedOrWordsProcessorTests
 
     public PrefixBasedOrWordsProcessorTests()
     {
-        //Arrange
+        // Arrange
 
         var stemmer = Substitute.For<IPorter2Stemmer>();
 
@@ -29,10 +29,10 @@ public class PrefixBasedOrWordsProcessorTests
     [MemberData(nameof(TestData))]
     public void GetOrDocuments_WhenCorrectlyCalled_ShouldReturnsIntersectedDocuments(string[] queryWords, IReadOnlyList<string> expectedResult)
     {
-        //Act
+        // Act
         var result = _wordsProcessor.GetOrWords(queryWords);
 
-        //Assert
+        // Assert
         result.Should().BeEquivalentTo(expectedResult);
     }
 
@@ -56,7 +56,7 @@ public class PrefixBasedOrWordsProcessorTests
         // Act
         Action act = () => new PrefixBasedOrWordsProcessor(stemmer);
 
-        //Assert
+        // Assert
         act.Should().Throw<ArgumentNullException>();
     }
 }

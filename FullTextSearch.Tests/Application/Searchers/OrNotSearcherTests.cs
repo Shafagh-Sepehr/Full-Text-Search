@@ -82,7 +82,7 @@ public class OrNotSearcherTests
         // Act
         Action act = () => new OrNotSearcher(documentReader);
 
-        //Assert
+        // Assert
         act.Should().Throw<ArgumentNullException>();
     }
 }

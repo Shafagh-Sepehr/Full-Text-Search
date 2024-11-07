@@ -22,7 +22,7 @@ public class StringListNoiseCleanerTests
     public void CleanNoise_WhenCorrectlyCalled_ShouldReturnResultThatAreNotMatchedByRegexPatternsAndShouldNotModifyInputValues(
         bool hasUrl, bool hasEmail, bool hasPhoneNumber, bool expectedResult)
     {
-        //Arrange
+        // Arrange
         const string input = "abcd";
         List<string> inputList = [input,];
         List<string> inputListCopy = [..inputList,];
@@ -62,7 +62,7 @@ public class StringListNoiseCleanerTests
         // Act
         Action act = () => new StringListNoiseCleaner(regexChecker);
 
-        //Assert
+        // Assert
         act.Should().Throw<ArgumentNullException>();
     }
 }

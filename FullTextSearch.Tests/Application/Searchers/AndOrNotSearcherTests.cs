@@ -107,7 +107,7 @@ public class AndOrNotSearcherTests
         // Act
         Action act = () => new AndOrNotSearcher(documentReader);
 
-        //Assert
+        // Assert
         act.Should().Throw<ArgumentNullException>();
     }
 }

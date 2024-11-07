@@ -11,11 +11,10 @@ public class PrefixBasedNotWordsProcessorTests
 
     public PrefixBasedNotWordsProcessorTests()
     {
-        //Arrange
-
+        // Arrange
         var stemmer = Substitute.For<IPorter2Stemmer>();
 
-        //returns input without any change
+        // returns input without any change
         stemmer.Stem(Arg.Any<string>()).Returns(callInfo =>
         {
             var input = callInfo.Arg<string>();
@@ -29,10 +28,10 @@ public class PrefixBasedNotWordsProcessorTests
     [MemberData(nameof(TestData))]
     public void GetNotDocuments_WhenCorrectlyCalled_ShouldReturnsIntersectedDocuments(string[] queryWords, IReadOnlyList<string> expectedResult)
     {
-        //Act
+        // Act
         var result = _wordsProcessor.GetNotWords(queryWords);
 
-        //Assert
+        // Assert
         result.Should().BeEquivalentTo(expectedResult);
     }
 
@@ -56,7 +55,7 @@ public class PrefixBasedNotWordsProcessorTests
         // Act
         Action act = () => new PrefixBasedNotWordsProcessor(stemmer);
 
-        //Assert
+        // Assert
         act.Should().Throw<ArgumentNullException>();
     }
 }

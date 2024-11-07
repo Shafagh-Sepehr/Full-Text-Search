@@ -24,7 +24,7 @@ public class SearchExecutorTests
     [Fact]
     public void ExecuteSearch_WhenConstructMethodIsNotCalled_ShouldThrowException()
     {
-        //Arrange
+        // Arrange
         var words = new ProcessedQueryWords
         {
             AndWords = [],
@@ -32,17 +32,17 @@ public class SearchExecutorTests
             NotWords = [],
         };
 
-        //Act
+        // Act
         Action act = () => _searchExecutor.ExecuteSearch(words);
 
-        //Assert
+        // Assert
         act.Should().Throw<ConstructMethodNotCalledException>();
     }
 
     [Fact]
     public void ExecuteSearch_WhenAllWordsPresent_ShouldCallAndOrNotSearchAndShouldNotModifyInputAndReturnValues()
     {
-        //Arrange
+        // Arrange
         var words = new ProcessedQueryWords
         {
             AndWords = ["word",],
@@ -54,10 +54,10 @@ public class SearchExecutorTests
         _searchExecutor.Construct(invertedIndex);
         _searcher.AndOrNotSearch(invertedIndex, words).Returns(expected);
 
-        //Act
+        // Act
         var result = _searchExecutor.ExecuteSearch(words);
 
-        //Assert
+        // Assert
         result.Should().BeEquivalentTo(expected);
         _searcher.Received(1).AndOrNotSearch(invertedIndex, words);
 
@@ -68,7 +68,7 @@ public class SearchExecutorTests
     [Fact]
     public void ExecuteSearch_WhenAndWordsPresent_ShouldCallAndNotSearchAndShouldNotModifyInputAndReturnValues()
     {
-        //Arrange
+        // Arrange
         var words = new ProcessedQueryWords
         {
             AndWords = ["word",],
@@ -80,10 +80,10 @@ public class SearchExecutorTests
         _searchExecutor.Construct(invertedIndex);
         _searcher.AndNotSearch(invertedIndex, words).Returns(expected);
 
-        //Act
+        // Act
         var result = _searchExecutor.ExecuteSearch(words);
 
-        //Assert
+        // Assert
         result.Should().BeEquivalentTo(expected);
         _searcher.Received(1).AndNotSearch(invertedIndex, words);
 
@@ -94,7 +94,7 @@ public class SearchExecutorTests
     [Fact]
     public void ExecuteSearch_WhenOrWordsPresent_ShouldCallOrNotSearchAndShouldNotModifyInputAndReturnValues()
     {
-        //Arrange
+        // Arrange
         var words = new ProcessedQueryWords
         {
             AndWords = [],
@@ -106,10 +106,10 @@ public class SearchExecutorTests
         _searchExecutor.Construct(invertedIndex);
         _searcher.OrNotSearch(invertedIndex, words).Returns(expected);
 
-        //Act
+        // Act
         var result = _searchExecutor.ExecuteSearch(words);
 
-        //Assert
+        // Assert
         result.Should().BeEquivalentTo(expected);
         _searcher.Received(1).OrNotSearch(invertedIndex, words);
 
@@ -120,7 +120,7 @@ public class SearchExecutorTests
     [Fact]
     public void ExecuteSearch_WhenNoWordsArePresent_ShouldReturnEmptySetAndShouldNotModifyInputAndReturnValues()
     {
-        //Arrange
+        // Arrange
         var words = new ProcessedQueryWords
         {
             AndWords = [],
@@ -130,10 +130,10 @@ public class SearchExecutorTests
         var invertedIndex = new Dictionary<string, List<string>>(_originalInvertedIndex);
         _searchExecutor.Construct(invertedIndex);
 
-        //Act
+        // Act
         var result = _searchExecutor.ExecuteSearch(words);
 
-        //Assert
+        // Assert
         _searcher.Received(0).AndOrNotSearch(Arg.Any<Dictionary<string, List<string>>>(), Arg.Any<ProcessedQueryWords>());
         _searcher.Received(0).AndNotSearch(Arg.Any<Dictionary<string, List<string>>>(), Arg.Any<ProcessedQueryWords>());
         _searcher.Received(0).OrNotSearch(Arg.Any<Dictionary<string, List<string>>>(), Arg.Any<ProcessedQueryWords>());
@@ -144,13 +144,13 @@ public class SearchExecutorTests
     [Fact]
     public void Constructor_WhenADependencyIsNull_ShouldThrowArgumentNullException()
     {
-        //Arrange
+        // Arrange
         ISearcher searcher = null!;
 
-        //Act
+        // Act
         Action act = () => new SearchExecutor(searcher);
 
-        //Assert
+        // Assert
         act.Should().Throw<ArgumentNullException>();
     }
 }

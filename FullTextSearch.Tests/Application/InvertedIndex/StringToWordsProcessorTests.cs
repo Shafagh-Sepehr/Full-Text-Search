@@ -34,7 +34,7 @@ public class StringToWordsProcessorTests
     [Fact]
     public void TrimSplitAndStemString_WhenCorrectlyCalled_ShouldRunMethodsInOrderAndShouldNotModifyInputOrReturnValues()
     {
-        //Arrange
+        // Arrange
         const string source = "random string";
         var list1 = new List<string> { "str1", "str2", "str3", "str4", "str5", "str5", };
         var list2 = new List<string> { "strr1", "strr2", "strr3", "strr5", "strr5", };
@@ -57,10 +57,10 @@ public class StringToWordsProcessorTests
         _stringListStemmer.Stem(list3).Returns(list4);
         _stringListNonValidWordCleaner.Clean(list4).Returns(list5);
 
-        //Act
+        // Act
         var result = _stringToWordsProcessor.TrimSplitAndStemString(source).ToList();
 
-        //Assert
+        // Assert
         result.Should().BeEquivalentTo(expectedResult);
 
         Received.InOrder(() =>
@@ -85,30 +85,30 @@ public class StringToWordsProcessorTests
     [Fact]
     public void TrimSplitAndStemString_WhenCorrectlyCalled_ShouldReturnListWithUniqueValues()
     {
-        //Arrange
+        // Arrange
         var list = new List<string> { "str1", "str2", "str2", "strrrrr2", "strrrrr2", "strrrrr2", };
         var expectedResult = new List<string> { "str1", "str2", "strrrrr2", };
 
         _stringListNonValidWordCleaner.Clean(Arg.Any<IEnumerable<string>>()).Returns(list);
 
-        //Act
+        // Act
         var result = _stringToWordsProcessor.TrimSplitAndStemString(null!).ToList();
 
-        //Assert
+        // Assert
         result.Should().BeEquivalentTo(expectedResult);
     }
 
     [Fact]
     public void Construct_WhenInputIsNotNull_ShouldCallConstructOnStringListNonValidWordCleaner()
     {
-        //Arrange
+        // Arrange
         var input = new List<string> { "bannedWord", "bannedWordTwo", };
         var inputCopy = new List<string>(input);
 
-        //Act
+        // Act
         _stringToWordsProcessor.Construct(input);
 
-        //Assert
+        // Assert
         _stringListNonValidWordCleaner.Received(1).Construct(input);
         inputCopy.Should().BeEquivalentTo(input);
     }
@@ -116,34 +116,34 @@ public class StringToWordsProcessorTests
     [Fact]
     public void Construct_WhenInputNull_ShouldNotCallConstructOnStringListNonValidWordCleaner()
     {
-        //Arrange
+        // Arrange
         List<string>? input = null;
 
-        //Act
+        // Act
         _stringToWordsProcessor.Construct(input);
 
-        //Assert
+        // Assert
         _stringListNonValidWordCleaner.Received(0).Construct(input);
     }
 
     [Fact]
     public void Constructor_WhenADependencyIsNull_ShouldThrowArgumentNullException()
     {
-        //Arrange
+        // Arrange
         var stringListNoiseCleaner = Substitute.For<IStringListNoiseCleaner>();
         var stringTrimAndSplitter = Substitute.For<IStringTrimAndSplitter>();
         var stringListCleaner = Substitute.For<IStringListCleaner>();
         var stringListStemmer = Substitute.For<IStringListStemmer>();
         var stringListNonValidWordCleaner = Substitute.For<IStringListNonValidWordCleaner>();
 
-        //Act
+        // Act
         Action act1 = () => new StringToWordsProcessor(null!, stringTrimAndSplitter, stringListCleaner, stringListStemmer, stringListNonValidWordCleaner);
         Action act2 = () => new StringToWordsProcessor(stringListNoiseCleaner, null!, stringListCleaner, stringListStemmer, stringListNonValidWordCleaner);
         Action act3 = () => new StringToWordsProcessor(stringListNoiseCleaner, stringTrimAndSplitter, null!, stringListStemmer, stringListNonValidWordCleaner);
         Action act4 = () => new StringToWordsProcessor(stringListNoiseCleaner, stringTrimAndSplitter, stringListCleaner, null!, stringListNonValidWordCleaner);
         Action act5 = () => new StringToWordsProcessor(stringListNoiseCleaner, stringTrimAndSplitter, stringListCleaner, stringListStemmer, null!);
 
-        //Assert
+        // Assert
         act1.Should().Throw<ArgumentNullException>();
         act2.Should().Throw<ArgumentNullException>();
         act3.Should().Throw<ArgumentNullException>();

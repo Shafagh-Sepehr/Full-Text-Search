@@ -82,7 +82,7 @@ public class AndNotSearcherTests
         // Act
         Action act = () => new AndNotSearcher(documentReader);
 
-        //Assert
+        // Assert
         act.Should().Throw<ArgumentNullException>();
     }
 }

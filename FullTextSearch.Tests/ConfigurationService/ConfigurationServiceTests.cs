@@ -14,7 +14,7 @@ public class ConfigurationServiceTests
         // Act & Assert
         Action act = () => new FullTextSearch.ConfigurationService.Services.ConfigurationService(configurationBuilder);
 
-        //Assert
+        // Assert
         act.Should().Throw<ArgumentNullException>();
     }
 }

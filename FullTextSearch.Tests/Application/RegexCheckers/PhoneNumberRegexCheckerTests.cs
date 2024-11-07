@@ -6,7 +6,7 @@ namespace FullTextSearch.Tests.Application.RegexCheckers;
 public class PhoneNumberRegexCheckerTests
 {
     
-    //Arrange
+    // Arrange
     private readonly PhoneNumberRegexChecker _phoneNumberRegexChecker = new();
 
     
@@ -14,10 +14,10 @@ public class PhoneNumberRegexCheckerTests
     [MemberData(nameof(TrueTestData))]
     public void Matches_WhenCorrectlyCalled_ShouldReturnBoolean(string value, bool expectedResult)
     {
-        //Act
+        // Act
         var result = _phoneNumberRegexChecker.Matches(value);
         
-        //Assert
+        // Assert
         result.Should().Be(expectedResult);
     }
 

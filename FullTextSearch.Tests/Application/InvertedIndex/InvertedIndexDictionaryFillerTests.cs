@@ -19,7 +19,7 @@ public class InvertedIndexDictionaryFillerTests
     [Fact]
     public void Build_WhenCorrectlyCalled_ShouldReturnCorrectInvertedIndex()
     {
-        //Arrange
+        // Arrange
         const string text1 = "first file contents";
         const string text2 = "second file contents";
         const string text3 = "third file content are not second";
@@ -58,10 +58,10 @@ public class InvertedIndexDictionaryFillerTests
         _stringToWordsProcessor.TrimSplitAndStemString(text2).Returns(processed2);
         _stringToWordsProcessor.TrimSplitAndStemString(text3).Returns(processed3);
 
-        //Act
+        // Act
         var result = _filler.Build(folderPath);
 
-        //Assert
+        // Assert
         result.Should().BeEquivalentTo(expectedInvertedIndex);
 
         _stringToWordsProcessor.Received(1).TrimSplitAndStemString(text1);
@@ -75,27 +75,27 @@ public class InvertedIndexDictionaryFillerTests
     [Fact]
     public void Build_WhenPathIsInvalid_ShouldThrowException()
     {
-        //Arrange
+        // Arrange
         const string path = "/invaliiiiiiiiid/path/this/really/should/not/exist ?";
 
-        //Act
+        // Act
         Action act = () => _filler.Build(path);
 
-        //Assert
+        // Assert
         act.Should().Throw<DirectoryNotFoundException>();
     }
 
     [Fact]
     public void Construct_WhenCorrectlyCalled_ShouldNotModifyInputValue()
     {
-        //Arrange
+        // Arrange
         IEnumerable<string> banned = new List<string> { "val1" };
         var bannedCopy = new List<string>(banned);
 
-        //Act
+        // Act
         _filler.Construct(banned);
 
-        //Assert
+        // Assert
         _stringToWordsProcessor.Received(1).Construct(banned);
         banned.Should().BeEquivalentTo(bannedCopy);
     }
@@ -103,13 +103,13 @@ public class InvertedIndexDictionaryFillerTests
     [Fact]
     public void Constructor_WhenADependencyIsNull_ShouldThrowArgumentNullException()
     {
-        //Arrange
+        // Arrange
         IStringToWordsProcessor stringToWordsProcessor = null!;
 
-        //Act
+        // Act
         Action act = () => new InvertedIndexDictionaryFiller(stringToWordsProcessor);
 
-        //Assert
+        // Assert
         act.Should().Throw<ArgumentNullException>();
     }
 }

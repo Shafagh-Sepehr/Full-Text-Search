@@ -5,17 +5,17 @@ namespace FullTextSearch.Tests.Application.RegexCheckers;
 
 public class UrlRegexCheckerTests
 {
-    //Arrange
+    // Arrange
     private readonly UrlRegexChecker _urlRegexChecker = new();
     
     [Theory]
     [MemberData(nameof(TrueTestData))]
     public void Matches_WhenCorrectlyCalled_ShouldReturnBoolean(string value, bool expectedResult)
     {
-        //Act
+        // Act
         var result = _urlRegexChecker.Matches(value);
         
-        //Assert
+        // Assert
         result.Should().Be(expectedResult);
     }
 

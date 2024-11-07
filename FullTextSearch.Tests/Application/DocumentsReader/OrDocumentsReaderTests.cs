@@ -22,10 +22,10 @@ public class OrDocumentsReaderTests
     [MemberData(nameof(TestData))]
     public void GetOrDocuments_WhenCorrectlyCalled_ShouldReturnUnionOfDocuments(IReadOnlyList<string> orWords, HashSet<string> expectedResult)
     {
-        //Act
+        // Act
         var result = _reader!.GetOrDocuments(_invertedIndex, orWords);
 
-        //Assert
+        // Assert
         result.Should().BeEquivalentTo(expectedResult);
     }
 

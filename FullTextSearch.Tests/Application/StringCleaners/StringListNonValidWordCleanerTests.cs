@@ -16,52 +16,52 @@ public class StringListNonValidWordCleanerTests
     [Fact]
     public void Clean_WhenCorrectlyCalled_ShouldRemoveBannedWords()
     {
-        //Arrange
+        // Arrange
         var input = new List<string> { "some", "word", "BannedWord", "GreatWord", "ForbiddenWord", };
 
-        //Act
+        // Act
         var result = _cleaner.Clean(input);
 
-        //Assert
+        // Assert
         result.Should().Contain(["word", "GreatWord",]);
     }
 
     [Fact]
     public void Clean_WhenHasEmptyOrWhiteSpaceWords_ShouldRemoveEmptyOrWhiteSpaceWords()
     {
-        //Arrange
+        // Arrange
         var input = new List<string> { null!, "", "     ", "", "                     ", "hello", "world", };
 
-        //Act
+        // Act
         var result = _cleaner.Clean(input);
 
-        //Assert
+        // Assert
         result.Should().Contain(["hello", "world",]);
     }
 
     [Fact]
     public void Clean_WhenHasShortWords_ShouldRemoveShortWords()
     {
-        //Arrange
+        // Arrange
         var input = new List<string> { "a", "is", "no", "yo", "la", "big", "wow", };
 
-        //Act
+        // Act
         var result = _cleaner.Clean(input);
 
-        //Assert
+        // Assert
         result.Should().Contain(["big", "wow",]);
     }
 
     [Fact]
     public void Clean_WhenAllWordsAreInvalid_ShouldReturnEmpty()
     {
-        //Arrange
+        // Arrange
         var input = new List<string> { "a", "is", "no", "yo", "la", null!, "", "   ", "         ", "BannedWord", "ForbiddenWord", "you", "your", };
 
-        //Act
+        // Act
         var result = _cleaner.Clean(input);
 
-        //Assert
+        // Assert
         result.Should().BeEmpty();
     }
 }

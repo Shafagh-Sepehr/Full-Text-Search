@@ -24,7 +24,7 @@ public class QuerySearcherTests
     [Fact]
     public void Construct_WhenCorrectlyCalled_ShouldNotModifyInputValue()
     {
-        //Arrange
+        // Arrange
         var invertedIndex = new Dictionary<string, List<string>>
         {
             { "key1", ["value1", "value2",] },
@@ -32,10 +32,10 @@ public class QuerySearcherTests
         };
         var invertedIndexCopy = new Dictionary<string, List<string>>(invertedIndex);
 
-        //Act
+        // Act
         _querySearcher.Construct(invertedIndex);
 
-        //Assert
+        // Assert
         _searchExecutor.Received(1).Construct(invertedIndex);
         invertedIndexCopy.Should().BeEquivalentTo(invertedIndex);
     }
@@ -52,14 +52,14 @@ public class QuerySearcherTests
     [MemberData(nameof(NullOrWhiteSpaceTestData))]
     public void Search_WhenQueryIsNullOrWhiteSpace_ShouldReturnEmptyList(string query)
     {
-        //Arrange
+        // Arrange
         var invertedIndex = new Dictionary<string, List<string>>();
         _querySearcher.Construct(invertedIndex);
         
-        //Act
+        // Act
         var result = _querySearcher.Search(query);
         
-        //Assert
+        // Assert
         result.Should().BeEmpty();
     }
     public static IEnumerable<object?[]> NullOrWhiteSpaceTestData()
@@ -72,7 +72,7 @@ public class QuerySearcherTests
     [Fact]
     public void Search_WhenCorrectlyCalled_ShouldReturnExpectedResult()
     {
-        //Arrange
+        // Arrange
         const string query = "  query words are here ";
         var processedQuery = query.Trim().Split();
         var invertedIndex = new Dictionary<string, List<string>>
@@ -101,10 +101,10 @@ public class QuerySearcherTests
             x.OrWords.Count == orReturns.Count && !x.OrWords.Except(orReturns).Any() &&
             x.NotWords.Count == notReturns.Count && !x.NotWords.Except(notReturns).Any())).Returns(expectedResult);
 
-        //Act
+        // Act
         var result = _querySearcher.Search(query);
 
-        //Assert
+        // Assert
         result.Should().BeEquivalentTo(expectedResult);
         _wordsProcessor.Received(1).GetOrWords(Arg.Is<string[]>(x => x.Length == processedQuery.Length && !x.Except(processedQuery).Any()));
         _wordsProcessor.Received(1).GetAndWords(Arg.Is<string[]>(x => x.Length == processedQuery.Length && !x.Except(processedQuery).Any()));
@@ -121,15 +121,15 @@ public class QuerySearcherTests
     [Fact]
     public void Constructor_WhenADependencyIsNull_ShouldThrowArgumentNullException()
     {
-        //Arrange
+        // Arrange
         var wordsProcessor = Substitute.For<IWordsProcessor>();
         var searcher = Substitute.For<ISearchExecutor>();
         
-        //Act
+        // Act
         Action act1 = () => new QuerySearcher(null!, searcher);
         Action act2 = () => new QuerySearcher(wordsProcessor, null!);
 
-        //Assert
+        // Assert
         act1.Should().Throw<ArgumentNullException>();
         act2.Should().Throw<ArgumentNullException>();
     }

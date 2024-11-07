@@ -19,29 +19,29 @@ public class StringListStemmerTests
     [Fact]
     public void Stem_WhenCorrectlyCalled_ShouldReturnStemmedWords()
     {
-        //Arrange
+        // Arrange
         var input = new List<string> { "running", "jumps", "easily" };
         _stemmer.Stem("running").Returns(new StemmedWord("run","running"));
         _stemmer.Stem("jumps").Returns(new StemmedWord("jump","jumps"));
         _stemmer.Stem("easily").Returns(new StemmedWord("easy","easily"));
         
-        //Act
+        // Act
         var result = _stringListStemmer.Stem(input);
 
-        //Assert
+        // Assert
         result.Should().BeEquivalentTo(["run","jump","easy",]);
     }
     
     [Fact]
     public void Stem_WhenInputIsEmpty_ShouldReturnEmptyResult()
     {
-        //Arrange
+        // Arrange
         var input = new List<string>();
         
-        //Act
+        // Act
         var result = _stringListStemmer.Stem(input);
 
-        //Assert
+        // Assert
         result.Should().BeEmpty();
     }
     
@@ -54,7 +54,7 @@ public class StringListStemmerTests
         // Act
         Action act = () => new StringListStemmer(stemmer);
 
-        //Assert
+        // Assert
         act.Should().Throw<ArgumentNullException>();
     }
 }

@@ -11,10 +11,10 @@ public class StringTrimAndSplitterTests
     [MemberData(nameof(TestData))]
     public void TrimAndSplit_WhenCorrectlyCalled_ShouldReturnListOfTrimmedSplitedString(string input, IEnumerable<string> expectedResult)
     {
-        //Act
+        // Act
         var result = _stringTrimAndSplitter.TrimAndSplit(input);
 
-        //Assert
+        // Assert
         result.Should().BeEquivalentTo(expectedResult);
     }
 

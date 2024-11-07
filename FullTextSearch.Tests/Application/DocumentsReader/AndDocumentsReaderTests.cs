@@ -22,10 +22,10 @@ public class AndDocumentsReaderTests
     [MemberData(nameof(TestData))]
     public void GetAndDocuments_WhenCorrectlyCalled_ShouldReturnIntersectedDocuments(IReadOnlyList<string> andWords, HashSet<string> expectedResult)
     {
-        //Act
+        // Act
         var result = _reader!.GetAndDocuments(_invertedIndex, andWords);
         
-        //Assert
+        // Assert
         result.Should().BeEquivalentTo(expectedResult);
     }
 

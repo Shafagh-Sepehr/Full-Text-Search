@@ -116,12 +116,12 @@ public class RegexCheckerTests
         var phoneNumberRegexChecker = Substitute.For<IPhoneNumberRegexChecker>();
         var         urlRegexChecker = Substitute.For<IUrlRegexChecker>();
 
-        //Act
+        // Act
         Action act1 = () => new RegexChecker(null!,phoneNumberRegexChecker, urlRegexChecker);
         Action act2 = () => new RegexChecker(emailRegexChecker,null!, urlRegexChecker);
         Action act3 = () => new RegexChecker(emailRegexChecker,phoneNumberRegexChecker, null!);
 
-        //Assert
+        // Assert
         act1.Should().Throw<ArgumentNullException>();
         act2.Should().Throw<ArgumentNullException>();
         act3.Should().Throw<ArgumentNullException>();

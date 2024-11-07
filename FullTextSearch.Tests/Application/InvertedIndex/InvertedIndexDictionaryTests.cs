@@ -22,7 +22,7 @@ public class InvertedIndexDictionaryTests
     [Fact]
     public void Construct_WhenCorrectlyCalled_ShouldCallInnerMethodsAndNotModifyInputAndReturnValues()
     {
-        //Arrange
+        // Arrange
         const string path = "path";
         var pathCopy = new string(path);
         IEnumerable<string>? banned = new List<string> { "banned", };
@@ -32,9 +32,9 @@ public class InvertedIndexDictionaryTests
 
         _invertedIndexDictionaryFiller.Build(path).Returns(invertedIndex);
 
-        //Act
+        // Act
         _invertedIndexDictionary.Construct(path,banned);
-        //Assert
+        // Assert
 
         _invertedIndexDictionaryFiller.Received(1).Construct(banned);
         _invertedIndexDictionaryFiller.Received(1).Build(path);
@@ -49,17 +49,17 @@ public class InvertedIndexDictionaryTests
     [Fact]
     public void Search_WhenConstructMethodIsNotCalled_ShouldThrowException()
     {
-        //Act
+        // Act
         Action act = () => _invertedIndexDictionary.Search("sth");
 
-        //Assert
+        // Assert
         act.Should().Throw<ConstructMethodNotCalledException>();
     }
 
     [Fact]
     public void Search_WhenCorrectlyCalled_ShouldNotModifyInputAndReturnValues()
     {
-        //Arrange
+        // Arrange
         const string path = "path";
         _invertedIndexDictionary.Construct(path);
 
@@ -70,10 +70,10 @@ public class InvertedIndexDictionaryTests
 
         _querySearcher.Search(query).Returns(expectedResult);
 
-        //Act
+        // Act
         var result = _invertedIndexDictionary.Search(query).ToList();
 
-        //Assert
+        // Assert
         result.Should().BeEquivalentTo(expectedResult);
         result.Should().BeEquivalentTo(expectedResultCopy);
         query.Should().BeEquivalentTo(queryCopy);
@@ -86,11 +86,11 @@ public class InvertedIndexDictionaryTests
         var querySearcher = Substitute.For<IQuerySearcher>();
         var invertedIndexDictionaryFiller = Substitute.For<IInvertedIndexDictionaryFiller>();
 
-        //Act
+        // Act
         Action act1 = () => new InvertedIndexDictionary(null!, invertedIndexDictionaryFiller);
         Action act2 = () => new InvertedIndexDictionary(querySearcher, null!);
 
-        //Assert
+        // Assert
         act1.Should().Throw<ArgumentNullException>();
         act2.Should().Throw<ArgumentNullException>();
     }

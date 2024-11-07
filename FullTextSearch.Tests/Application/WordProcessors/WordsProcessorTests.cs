@@ -107,7 +107,7 @@ public class WordsProcessorTests
         Action act2 = () => new WordsProcessor(andWordsProcessor, null!, notWordsProcessor);
         Action act3 = () => new WordsProcessor(andWordsProcessor, orWordsProcessor, null!);
 
-        //Assert
+        // Assert
         act1.Should().Throw<ArgumentNullException>();
         act2.Should().Throw<ArgumentNullException>();
         act3.Should().Throw<ArgumentNullException>();

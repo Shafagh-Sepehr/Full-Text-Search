@@ -22,10 +22,10 @@ public class NotDocumentsReaderTests
     [MemberData(nameof(TestData))]
     public void GetNotDocuments_WhenCorrectlyCalled_ShouldReturnUnionOfDocuments(IReadOnlyList<string> notWords, HashSet<string> expectedResult)
     {
-        //Act
+        // Act
         var result = _reader!.GetNotDocuments(_invertedIndex, notWords);
 
-        //Assert
+        // Assert
         result.Should().BeEquivalentTo(expectedResult);
     }
 

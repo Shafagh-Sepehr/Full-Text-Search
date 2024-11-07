@@ -134,12 +134,12 @@ public class SearcherTests
         var nullOrReader = Substitute.For<IOrDocumentsReader>();
         var nullNotReader = Substitute.For<INotDocumentsReader>();
 
-        //Act
+        // Act
         Action act1 = () => new DocumentReader(null!, nullOrReader, nullNotReader);
         Action act2 = () => new DocumentReader(nullAndReader, null!, nullNotReader);
         Action act3 = () => new DocumentReader(nullAndReader, nullOrReader, null!);
 
-        //Assert
+        // Assert
         act1.Should().Throw<ArgumentNullException>();
         act2.Should().Throw<ArgumentNullException>();
         act3.Should().Throw<ArgumentNullException>();

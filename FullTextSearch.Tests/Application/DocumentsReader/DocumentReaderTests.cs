@@ -115,7 +115,7 @@ public class DocumentReaderTests
         Action act2 = () => new DocumentReader(andReader, null!, notReader);
         Action act3 = () => new DocumentReader(andReader, orReader, null!);
 
-        //Assert
+        // Assert
         act1.Should().Throw<ArgumentNullException>();
         act2.Should().Throw<ArgumentNullException>();
         act3.Should().Throw<ArgumentNullException>();
