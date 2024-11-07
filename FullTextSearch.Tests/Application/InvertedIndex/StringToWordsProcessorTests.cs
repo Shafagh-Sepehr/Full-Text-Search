@@ -58,7 +58,7 @@ public class StringToWordsProcessorTests
         _stringListNonValidWordCleaner.Clean(list4).Returns(list5);
 
         //Act
-        var result = _stringToWordsProcessor.TrimSplitAndStemString(source);
+        var result = _stringToWordsProcessor.TrimSplitAndStemString(source).ToList();
 
         //Assert
         result.Should().BeEquivalentTo(expectedResult);
@@ -74,6 +74,7 @@ public class StringToWordsProcessorTests
         list3Copy.Should().BeEquivalentTo(list3);
         list4Copy.Should().BeEquivalentTo(list4);
         list5Copy.Should().BeEquivalentTo(list5);
+        result.Should().BeEquivalentTo(expectedResultCopy);
     }
 
     [Fact]
