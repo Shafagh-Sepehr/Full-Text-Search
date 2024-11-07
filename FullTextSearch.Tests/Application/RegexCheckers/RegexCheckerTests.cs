@@ -27,7 +27,7 @@ public class RegexCheckerTests
     }
 
     [Fact]
-    public void HasEmail_ShouldNotModifyInputAndReturnValues()
+    public void HasEmail_WhenCorrectlyCalled_ShouldNotModifyInputAndReturnValues()
     {
         // Arrange
         var trueInput = new string(_originalTrueInput);
@@ -54,7 +54,7 @@ public class RegexCheckerTests
     }
     
     [Fact]
-    public void GetNotDocuments_ShouldNotModifyInputAndReturnValues()
+    public void GetNotDocuments_WhenCorrectlyCalled_ShouldNotModifyInputAndReturnValues()
     {
         // Arrange
         var trueInput = new string(_originalTrueInput);
@@ -82,7 +82,7 @@ public class RegexCheckerTests
     
     
     [Fact]
-    public void HasUrl_ShouldNotModifyInputAndReturnValues()
+    public void HasUrl_WhenCorrectlyCalled_ShouldNotModifyInputAndReturnValues()
     {
         // Arrange
         var trueInput = new string(_originalTrueInput);
@@ -109,7 +109,7 @@ public class RegexCheckerTests
     }
     
     [Fact]
-    public void Constructor_ShouldThrowArgumentNullException_WhenDependenciesAreNull()
+    public void Constructor_WhenDependenciesAreNull_ShouldThrowArgumentNullException()
     {
         // Arrange
         IEmailRegexChecker       emailRegexChecker = null!;

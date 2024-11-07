@@ -19,7 +19,7 @@ public class StringListNoiseCleanerTests
 
     [Theory]
     [MemberData(nameof(TestData))]
-    public void CleanNoise_ShouldReturnResultThatArentMatchedByRegexPatterns_ShouldNotModifyInputValues(
+    public void CleanNoise_WhenCorrectlyCalled_ShouldReturnResultThatAreNotMatchedByRegexPatternsAndShouldNotModifyInputValues(
         bool hasUrl, bool hasEmail, bool hasPhoneNumber, bool expectedResult)
     {
         //Arrange
@@ -54,7 +54,7 @@ public class StringListNoiseCleanerTests
     }
 
     [Fact]
-    public void Constructor_ShouldThrowArgumentNullException_WhenDependenciesAreNull()
+    public void Constructor_WhenDependenciesAreNull_ShouldThrowArgumentNullException()
     {
         // Arrange
         IRegexChecker regexChecker = null!;

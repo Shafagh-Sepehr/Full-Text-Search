@@ -22,7 +22,7 @@ public class QuerySearcherTests
     }
 
     [Fact]
-    public void Construct_ShouldNotModifyInputValue()
+    public void Construct_WhenCorrectlyCalled_ShouldNotModifyInputValue()
     {
         //Arrange
         var invertedIndex = new Dictionary<string, List<string>>
@@ -41,7 +41,7 @@ public class QuerySearcherTests
     }
     
     [Fact]
-    public void Search_ThrowsException_IfConstructIsNotCalled()
+    public void Search_WhenConstructIsNotCalled_ShouldThrowException()
     {
         // Act & Assert
         Action act = () => _querySearcher.Search("some query");
@@ -50,7 +50,7 @@ public class QuerySearcherTests
     
     [Theory]
     [MemberData(nameof(NullOrWhiteSpaceTestData))]
-    public void Search_ReturnsEmptyList_IfQueryIsNullOrWhiteSpace(string query)
+    public void Search_WhenQueryIsNullOrWhiteSpace_ShouldReturnEmptyList(string query)
     {
         //Arrange
         var invertedIndex = new Dictionary<string, List<string>>();
@@ -62,7 +62,6 @@ public class QuerySearcherTests
         //Assert
         result.Should().BeEmpty();
     }
-
     public static IEnumerable<object?[]> NullOrWhiteSpaceTestData()
     {
         yield return ["",];
@@ -71,7 +70,7 @@ public class QuerySearcherTests
     }
     
     [Fact]
-    public void Search_ReturnsList()
+    public void Search_WhenCorrectlyCalled_ShouldReturnExpectedResult()
     {
         //Arrange
         const string query = "  query words are here ";
@@ -120,7 +119,7 @@ public class QuerySearcherTests
     }
     
     [Fact]
-    public void Constructor_ShouldThrowArgumentNullException_WhenDependenciesAreNull()
+    public void Constructor_WhenDependenciesAreNull_ShouldThrowArgumentNullException()
     {
         // Arrange
         IWordsProcessor wordsProcessor = null!;

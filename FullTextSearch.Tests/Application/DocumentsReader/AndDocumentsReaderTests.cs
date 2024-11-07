@@ -1,7 +1,5 @@
 using FluentAssertions;
-using FullTextSearch.Application.DocumentsReader.Abstractions;
 using FullTextSearch.Application.DocumentsReader.Services;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace FullTextSearch.Tests.Application.DocumentsReader;
 
@@ -22,7 +20,7 @@ public class AndDocumentsReaderTests
 
     [Theory]
     [MemberData(nameof(TestData))]
-    public void GetAndDocuments_returnsIntersectedDocuments(IReadOnlyList<string> andWords, HashSet<string> expectedResult)
+    public void GetAndDocuments_WhenCorrectlyCalled_ShouldReturnIntersectedDocuments(IReadOnlyList<string> andWords, HashSet<string> expectedResult)
     {
         //Act
         var result = _reader!.GetAndDocuments(_invertedIndex, andWords);

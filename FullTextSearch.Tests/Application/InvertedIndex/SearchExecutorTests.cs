@@ -22,7 +22,7 @@ public class SearchExecutorTests
     }
 
     [Fact]
-    public void ExecuteSearch_ThrowsException_IfConstructMethodIsNotCalled()
+    public void ExecuteSearch_WhenConstructMethodIsNotCalled_ShouldThrowException()
     {
         //Arrange
         var words = new ProcessedQueryWords
@@ -40,7 +40,7 @@ public class SearchExecutorTests
     }
 
     [Fact]
-    public void ExecuteSearch_CallsAndOrNotSearch_WhenAllWordsPresent_ShouldNotModifyInputAndReturnValues()
+    public void ExecuteSearch_WhenAllWordsPresent_ShouldCallAndOrNotSearchAndShouldNotModifyInputAndReturnValues()
     {
         //Arrange
         var words = new ProcessedQueryWords
@@ -66,7 +66,7 @@ public class SearchExecutorTests
     }
 
     [Fact]
-    public void ExecuteSearch_CallsAndNotSearch_WhenAndWordsPresent_ShouldNotModifyInputAndReturnValues()
+    public void ExecuteSearch_WhenAndWordsPresent_ShouldCallAndNotSearchAndShouldNotModifyInputAndReturnValues()
     {
         //Arrange
         var words = new ProcessedQueryWords
@@ -92,7 +92,7 @@ public class SearchExecutorTests
     }
 
     [Fact]
-    public void ExecuteSearch_CallsOrNotSearch_WhenOrWordsPresent_ShouldNotModifyInputAndReturnValues()
+    public void ExecuteSearch_WhenOrWordsPresent_ShouldCallOrNotSearchAndShouldNotModifyInputAndReturnValues()
     {
         //Arrange
         var words = new ProcessedQueryWords
@@ -118,7 +118,7 @@ public class SearchExecutorTests
     }
 
     [Fact]
-    public void ExecuteSearch_ReturnEmptySet_WhenNoWordsArePresent_ShouldNotModifyInputAndReturnValues()
+    public void ExecuteSearch_WhenNoWordsArePresent_ShouldReturnEmptySetAndShouldNotModifyInputAndReturnValues()
     {
         //Arrange
         var words = new ProcessedQueryWords
@@ -142,7 +142,7 @@ public class SearchExecutorTests
     }
 
     [Fact]
-    public void Constructor_ShouldThrowArgumentNullException_WhenDependenciesAreNull()
+    public void Constructor_WhenDependenciesAreNull_ShouldThrowArgumentNullException()
     {
         // Arrange
         ISearcher searcher = null!;

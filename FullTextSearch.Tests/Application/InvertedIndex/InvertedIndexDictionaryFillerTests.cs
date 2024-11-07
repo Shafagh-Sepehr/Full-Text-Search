@@ -17,7 +17,7 @@ public class InvertedIndexDictionaryFillerTests
     }
 
     [Fact]
-    public void Build_ShouldReturnCorrectInvertedIndex()
+    public void Build_WhenCorrectlyCalled_ShouldReturnCorrectInvertedIndex()
     {
         //Arrange
         const string text1 = "first file contents";
@@ -73,7 +73,7 @@ public class InvertedIndexDictionaryFillerTests
     }
 
     [Fact]
-    public void Build_ShouldThrowException_WhenPathIsInvalid()
+    public void Build_WhenPathIsInvalid_ShouldThrowException()
     {
         // Arrange
         const string path = "/invaliiiiiiiiid/path/this/really/should/not/exist ?";
@@ -84,7 +84,7 @@ public class InvertedIndexDictionaryFillerTests
     }
 
     [Fact]
-    public void Construct_ShouldNotModifyInputValue()
+    public void Construct_WhenCorrectlyCalled_ShouldNotModifyInputValue()
     {
         // Arrange
         IEnumerable<string> banned = new List<string> { "val1" };
@@ -99,7 +99,7 @@ public class InvertedIndexDictionaryFillerTests
     }
 
     [Fact]
-    public void Constructor_ShouldThrowArgumentNullException_WhenDependenciesAreNull()
+    public void Constructor_WhenDependenciesAreNull_ShouldThrowArgumentNullException()
     {
         // Arrange
         IStringToWordsProcessor stringToWordsProcessor = null!;

@@ -9,7 +9,7 @@ public class StringListCleanerTests
 
     [Theory]
     [MemberData(nameof(TestData))]
-    public void Clean_ShouldReturnExpectedResults_WhenInputIsProvided(IEnumerable<string> input, IEnumerable<string> expectedResult)
+    public void Clean_WhenInputIsProvided_ShouldReturnExpectedResults(IEnumerable<string> input, IEnumerable<string> expectedResult)
     {
         // Act
         var result = _stringListCleaner.Clean(input).ToList();

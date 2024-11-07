@@ -32,10 +32,10 @@ public class StringToWordsProcessorTests
     }
 
     [Fact]
-    public void TrimSplitAndStemString_ShouldRunMethods_ReturnsListWithUniqueValues_ShouldNotModifyInputOrReturnValues()
+    public void TrimSplitAndStemString_WhenCorrectlyCalled_ShouldRunMethodsInOrderAndShouldNotModifyInputOrReturnValues()
     {
         //Arrange
-        var source = "random string";
+        const string source = "random string";
         var list1 = new List<string> { "str1", "str2", "str3", "str4", "str5", "str5", };
         var list2 = new List<string> { "strr1", "strr2", "strr3", "strr5", "strr5", };
         var list3 = new List<string> { "strrr1", "strrr2", "strrr3", "strrr4", };
@@ -62,11 +62,15 @@ public class StringToWordsProcessorTests
 
         //Assert
         result.Should().BeEquivalentTo(expectedResult);
-        _stringTrimAndSplitter.Received(1).TrimAndSplit(source);
-        _stringListNoiseCleaner.Received(1).CleanNoise(list1);
-        _stringListCleaner.Received(1).Clean(list2);
-        _stringListStemmer.Received(1).Stem(list3);
-        _stringListNonValidWordCleaner.Received(1).Clean(list4);
+
+        Received.InOrder(() =>
+        {
+            _stringTrimAndSplitter.TrimAndSplit(source);
+            _stringListNoiseCleaner.CleanNoise(list1);
+            _stringListCleaner.Clean(list2);
+            _stringListStemmer.Stem(list3);
+            _stringListNonValidWordCleaner.Clean(list4);
+        });
 
         sourceCopy.Should().BeEquivalentTo(source);
         list1Copy.Should().BeEquivalentTo(list1);
@@ -77,8 +81,25 @@ public class StringToWordsProcessorTests
         result.Should().BeEquivalentTo(expectedResultCopy);
     }
 
+
     [Fact]
-    public void Construct_ShouldCallConstructOnStringListNonValidWordCleaner_WhenInputNotNull()
+    public void TrimSplitAndStemString_WhenCorrectlyCalled_ShouldReturnListWithUniqueValues()
+    {
+        //Arrange
+        var list = new List<string> { "str1", "str2", "str2", "strrrrr2", "strrrrr2", "strrrrr2", };
+        var expectedResult = new List<string> { "str1", "str2", "strrrrr2", };
+
+        _stringListNonValidWordCleaner.Clean(Arg.Any<IEnumerable<string>>()).Returns(list);
+
+        //Act
+        var result = _stringToWordsProcessor.TrimSplitAndStemString(null!).ToList();
+
+        //Assert
+        result.Should().BeEquivalentTo(expectedResult);
+    }
+
+    [Fact]
+    public void Construct_WhenInputIsNotNull_ShouldCallConstructOnStringListNonValidWordCleaner()
     {
         //Arrange
         var input = new List<string> { "bannedWord", "bannedWordTwo", };
@@ -93,7 +114,7 @@ public class StringToWordsProcessorTests
     }
     
     [Fact]
-    public void Construct_ShouldNotCallConstructOnStringListNonValidWordCleaner_WhenInputNull()
+    public void Construct_WhenInputNull_ShouldNotCallConstructOnStringListNonValidWordCleaner()
     {
         //Arrange
         List<string>? input = null;
@@ -106,7 +127,7 @@ public class StringToWordsProcessorTests
     }
 
     [Fact]
-    public void Constructor_ShouldThrowArgumentNullException_WhenDependenciesAreNull()
+    public void Constructor_WhenDependenciesAreNull_ShouldThrowArgumentNullException()
     {
         // Arrange
         IStringListNoiseCleaner stringListNoiseCleaner = null!;

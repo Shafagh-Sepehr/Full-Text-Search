@@ -6,7 +6,7 @@ namespace FullTextSearch.Tests.ConfigurationService;
 public class ConfigurationServiceTests
 {
     [Fact]
-    public void Constructor_ShouldThrowArgumentNullException_WhenDependenciesAreNull()
+    public void Constructor_WhenDependenciesAreNull_ShouldThrowArgumentNullException()
     {
         // Arrange
         IConfigurationBuilder configurationBuilder = null!;

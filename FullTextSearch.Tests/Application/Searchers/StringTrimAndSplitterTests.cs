@@ -9,7 +9,7 @@ public class StringTrimAndSplitterTests
 
     [Theory]
     [MemberData(nameof(TestData))]
-    public void TrimAndSplit_ReturnListOfTrimmedSplitedString(string input, IEnumerable<string> expectedResult)
+    public void TrimAndSplit_WhenCorrectlyCalled_ShouldReturnListOfTrimmedSplitedString(string input, IEnumerable<string> expectedResult)
     {
         //Act
         var result = _stringTrimAndSplitter.TrimAndSplit(input);

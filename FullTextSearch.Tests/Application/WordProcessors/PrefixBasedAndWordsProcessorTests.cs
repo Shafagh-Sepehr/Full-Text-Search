@@ -27,7 +27,7 @@ public class PrefixBasedAndWordsProcessorTests
 
     [Theory]
     [MemberData(nameof(TestData))]
-    public void GetAndDocuments_returnsIntersectedDocuments(string[] queryWords, IReadOnlyList<string> expectedResult)
+    public void GetAndDocuments_WhenCorrectlyCalled_ShouldReturnIntersectedDocuments(string[] queryWords, IReadOnlyList<string> expectedResult)
     {
         //Act
         var result = _wordsProcessor.GetAndWords(queryWords);
@@ -48,7 +48,7 @@ public class PrefixBasedAndWordsProcessorTests
     }
     
     [Fact]
-    public void Constructor_ShouldThrowArgumentNullException_WhenDependenciesAreNull()
+    public void Constructor_WhenDependenciesAreNull_ShouldThrowArgumentNullException()
     {
         // Arrange
         IPorter2Stemmer stemmer = null!;

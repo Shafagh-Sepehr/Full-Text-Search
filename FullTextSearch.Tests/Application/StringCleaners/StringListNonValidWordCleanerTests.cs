@@ -14,7 +14,7 @@ public class StringListNonValidWordCleanerTests
     }
 
     [Fact]
-    public void Clean_ShouldRemoveBannedWords()
+    public void Clean_WhenCorrectlyCalled_ShouldRemoveBannedWords()
     {
         //Arrange
         var input = new List<string> { "some", "word", "BannedWord", "GreatWord", "ForbiddenWord", };
@@ -27,7 +27,7 @@ public class StringListNonValidWordCleanerTests
     }
 
     [Fact]
-    public void Clean_ShouldRemoveEmptyOrWhiteSpaceWords()
+    public void Clean_WhenHasEmptyOrWhiteSpaceWords_ShouldRemoveEmptyOrWhiteSpaceWords()
     {
         //Arrange
         var input = new List<string> { null!, "", "     ", "", "                     ", "hello", "world", };
@@ -40,7 +40,7 @@ public class StringListNonValidWordCleanerTests
     }
 
     [Fact]
-    public void Clean_ShouldRemoveShortWords()
+    public void Clean_WhenHasShortWords_ShouldRemoveShortWords()
     {
         //Arrange
         var input = new List<string> { "a", "is", "no", "yo", "la", "big", "wow", };
@@ -53,7 +53,7 @@ public class StringListNonValidWordCleanerTests
     }
 
     [Fact]
-    public void Clean_ShouldReturnEmpty_WhenAllWordsAreInvalid()
+    public void Clean_WhenAllWordsAreInvalid_ShouldReturnEmpty()
     {
         //Arrange
         var input = new List<string> { "a", "is", "no", "yo", "la", null!, "", "   ", "         ", "BannedWord", "ForbiddenWord", "you", "your", };

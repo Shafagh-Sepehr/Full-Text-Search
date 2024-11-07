@@ -34,7 +34,7 @@ public class AndNotSearcherTests
 
     [Theory]
     [MemberData(nameof(TestData))]
-    public void AndNotSearch_ReturnsAndDocsIntersectOrDocsExceptNotDocs_ShouldNotModifyInputValues(
+    public void AndNotSearch_WhenCorrectlyCalled_ShouldReturnCorrectDocsAndShouldNotModifyInputValues(
         HashSet<string> andDocs, HashSet<string> notDocs, IReadOnlySet<string> expectedResult)
     {
         // Arrange
@@ -74,7 +74,7 @@ public class AndNotSearcherTests
     }
 
     [Fact]
-    public void Constructor_ShouldThrowArgumentNullException_WhenDependenciesAreNull()
+    public void Constructor_WhenDependenciesAreNull_ShouldThrowArgumentNullException()
     {
         // Arrange
         IDocumentReader documentReader = null!;

@@ -8,7 +8,7 @@ namespace FullTextSearch.Tests.Application.StringCleaners;
 public class StringListStemmerTests
 {
     private readonly IPorter2Stemmer   _stemmer;
-    private          StringListStemmer _stringListStemmer;
+    private readonly StringListStemmer _stringListStemmer;
     
     public StringListStemmerTests()
     {
@@ -17,7 +17,7 @@ public class StringListStemmerTests
     }
     
     [Fact]
-    public void Stem_ShouldReturnStemmedWords()
+    public void Stem_WhenCorrectlyCalled_ShouldReturnStemmedWords()
     {
         //Arrange
         var input = new List<string> { "running", "jumps", "easily" };
@@ -33,7 +33,7 @@ public class StringListStemmerTests
     }
     
     [Fact]
-    public void Stem_ShouldHandleEmptyInput()
+    public void Stem_WhenInputIsEmpty_ShouldReturnEmptyResult()
     {
         //Arrange
         var input = new List<string>();
@@ -46,7 +46,7 @@ public class StringListStemmerTests
     }
     
     [Fact]
-    public void Constructor_ShouldThrowArgumentNullException_WhenDependenciesAreNull()
+    public void Constructor_WhenDependenciesAreNull_ShouldThrowArgumentNullException()
     {
         // Arrange
         IPorter2Stemmer stemmer = null!;

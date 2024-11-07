@@ -33,7 +33,7 @@ public class DocumentReaderTests
     }
 
     [Fact]
-    public void GetAndDocuments_ShouldNotModifyInputAndReturnValues()
+    public void GetAndDocuments_WhenCorrectlyCalled_ShouldNotModifyInputAndReturnValues()
     {
         // Arrange
         var invertedIndex = new Dictionary<string, List<string>>(_originalInvertedIndex);
@@ -56,7 +56,7 @@ public class DocumentReaderTests
     }
 
     [Fact]
-    public void GetOrDocuments_ShouldNotModifyInputAndReturnValues()
+    public void GetOrDocuments_WhenCorrectlyCalled_ShouldNotModifyInputAndReturnValues()
     {
         // Arrange
         var invertedIndex = new Dictionary<string, List<string>>(_originalInvertedIndex);
@@ -79,7 +79,7 @@ public class DocumentReaderTests
     }
 
     [Fact]
-    public void GetNotDocuments_ShouldNotModifyInputAndReturnValues()
+    public void GetNotDocuments_WhenCorrectlyCalled_ShouldNotModifyInputAndReturnValues()
     {
         // Arrange
         var invertedIndex = new Dictionary<string, List<string>>(_originalInvertedIndex);
@@ -103,7 +103,7 @@ public class DocumentReaderTests
     }
 
     [Fact]
-    public void Constructor_ShouldThrowArgumentNullException_WhenDependenciesAreNull()
+    public void Constructor_WhenDependenciesAreNull_ShouldThrowArgumentNullException()
     {
         // Arrange
         IAndDocumentsReader nullAndReader = null!;

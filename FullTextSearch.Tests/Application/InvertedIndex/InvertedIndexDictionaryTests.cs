@@ -20,7 +20,7 @@ public class InvertedIndexDictionaryTests
     }
 
     [Fact]
-    public void Construct_ShouldCallMethods_ShouldNotModifyInputAndReturnValues()
+    public void Construct_WhenCorrectlyCalled_ShouldCallInnerMethodsAndNotModifyInputAndReturnValues()
     {
         //Arrange
         const string path = "path";
@@ -47,7 +47,7 @@ public class InvertedIndexDictionaryTests
 
 
     [Fact]
-    public void Search_ShouldThrowExceptionWhenConstructMethodIsNotCalled()
+    public void Search_WhenConstructMethodIsNotCalled_ShouldThrowException()
     {
         //Act
         Action act = () => _invertedIndexDictionary.Search("sth");
@@ -57,7 +57,7 @@ public class InvertedIndexDictionaryTests
     }
 
     [Fact]
-    public void Search_ShouldNotModifyInputAndReturnValues()
+    public void Search_WhenCorrectlyCalled_ShouldNotModifyInputAndReturnValues()
     {
         //Arrange
         const string path = "path";
@@ -80,7 +80,7 @@ public class InvertedIndexDictionaryTests
     }
 
     [Fact]
-    public void Constructor_ShouldThrowArgumentNullException_WhenDependenciesAreNull()
+    public void Constructor_WhenDependenciesAreNull_ShouldThrowArgumentNullException()
     {
         // Arrange
         IQuerySearcher querySearcher = null!;

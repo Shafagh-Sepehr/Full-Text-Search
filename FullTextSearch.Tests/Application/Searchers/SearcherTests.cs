@@ -42,7 +42,7 @@ public class SearcherTests
     }
 
     [Fact]
-    public void AndOrNotSearch_ShouldNotModifyInputAndReturnValues()
+    public void AndOrNotSearch_WhenCorrectlyCalled_ShouldNotModifyInputAndReturnValues()
     {
         // Arrange
         var invertedIndex = new Dictionary<string, List<string>>(_originalInvertedIndex);
@@ -70,7 +70,7 @@ public class SearcherTests
     }
 
     [Fact]
-    public void AndNotSearch_ShouldNotModifyInputAndReturnValues()
+    public void AndNotSearch_WhenCorrectlyCalled_ShouldNotModifyInputAndReturnValues()
     {
         // Arrange
         var invertedIndex = new Dictionary<string, List<string>>(_originalInvertedIndex);
@@ -98,7 +98,7 @@ public class SearcherTests
     }
 
     [Fact]
-    public void OrNotSearch_ShouldNotModifyInputAndReturnValues()
+    public void OrNotSearch_WhenCorrectlyCalled_ShouldNotModifyInputAndReturnValues()
     {
         // Arrange
         var invertedIndex = new Dictionary<string, List<string>>(_originalInvertedIndex);
@@ -127,7 +127,7 @@ public class SearcherTests
     }
 
     [Fact]
-    public void Constructor_ShouldThrowArgumentNullException_WhenDependenciesAreNull()
+    public void Constructor_WhenDependenciesAreNull_ShouldThrowArgumentNullException()
     {
         // Arrange
         IAndDocumentsReader nullAndReader = null!;

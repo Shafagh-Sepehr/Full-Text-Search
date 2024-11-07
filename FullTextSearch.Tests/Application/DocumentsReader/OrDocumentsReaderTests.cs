@@ -1,7 +1,5 @@
 using FluentAssertions;
-using FullTextSearch.Application.DocumentsReader.Abstractions;
 using FullTextSearch.Application.DocumentsReader.Services;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace FullTextSearch.Tests.Application.DocumentsReader;
 
@@ -22,10 +20,10 @@ public class OrDocumentsReaderTests
 
     [Theory]
     [MemberData(nameof(TestData))]
-    public void GetOrDocuments_returnsUnionOfDocuments(IReadOnlyList<string> andWords, HashSet<string> expectedResult)
+    public void GetOrDocuments_WhenCorrectlyCalled_ShouldReturnUnionOfDocuments(IReadOnlyList<string> orWords, HashSet<string> expectedResult)
     {
         //Act
-        var result = _reader!.GetOrDocuments(_invertedIndex, andWords);
+        var result = _reader!.GetOrDocuments(_invertedIndex, orWords);
 
         //Assert
         result.Should().BeEquivalentTo(expectedResult);

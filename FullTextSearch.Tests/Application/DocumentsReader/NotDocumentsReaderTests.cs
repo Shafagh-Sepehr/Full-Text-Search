@@ -1,7 +1,5 @@
 using FluentAssertions;
-using FullTextSearch.Application.DocumentsReader.Abstractions;
 using FullTextSearch.Application.DocumentsReader.Services;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace FullTextSearch.Tests.Application.DocumentsReader;
 
@@ -22,10 +20,10 @@ public class NotDocumentsReaderTests
 
     [Theory]
     [MemberData(nameof(TestData))]
-    public void GetNotDocuments_returnsUnionOfDocuments(IReadOnlyList<string> andWords, HashSet<string> expectedResult)
+    public void GetNotDocuments_WhenCorrectlyCalled_ShouldReturnUnionOfDocuments(IReadOnlyList<string> notWords, HashSet<string> expectedResult)
     {
         //Act
-        var result = _reader!.GetNotDocuments(_invertedIndex, andWords);
+        var result = _reader!.GetNotDocuments(_invertedIndex, notWords);
 
         //Assert
         result.Should().BeEquivalentTo(expectedResult);

@@ -10,7 +10,7 @@ public class EmailRegexCheckerTests
     
     [Theory]
     [MemberData(nameof(TrueTestData))]
-    public void Matches(string value, bool expectedResult)
+    public void Matches_WhenCorrectlyCalled_ShouldReturnBoolean(string value, bool expectedResult)
     {
         //Act
         var result = _emailRegexChecker.Matches(value);

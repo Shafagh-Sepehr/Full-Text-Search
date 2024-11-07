@@ -27,7 +27,7 @@ public class WordsProcessorTests
     }
 
     [Fact]
-    public void GetAndWords_ShouldNotModifyInputAndReturnValues()
+    public void GetAndWords_WhenCorrectlyCalled_ShouldNotModifyInputAndReturnValues()
     {
         // Arrange
         var query = new string[_originalQuery.Length];
@@ -50,7 +50,7 @@ public class WordsProcessorTests
     }
 
     [Fact]
-    public void GetOrWords_ShouldNotModifyInputAndReturnValues()
+    public void GetOrWords_WhenCorrectlyCalled_ShouldNotModifyInputAndReturnValues()
     {
         // Arrange
         var query = new string[_originalQuery.Length];
@@ -72,7 +72,7 @@ public class WordsProcessorTests
     }
 
     [Fact]
-    public void GetNotWords_ShouldNotModifyInputAndReturnValues()
+    public void GetNotWords_WhenCorrectlyCalled_ShouldNotModifyInputAndReturnValues()
     {
         // Arrange
         var query = new string[_originalQuery.Length];
@@ -95,7 +95,7 @@ public class WordsProcessorTests
     }
 
     [Fact]
-    public void Constructor_ShouldThrowArgumentNullException_WhenDependenciesAreNull()
+    public void Constructor_WhenDependenciesAreNull_ShouldThrowArgumentNullException()
     {
         // Arrange
         IAndWordsProcessor andWordsProcessor = null!;

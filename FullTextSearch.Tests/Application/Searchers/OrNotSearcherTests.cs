@@ -34,7 +34,7 @@ public class OrNotSearcherTests
 
     [Theory]
     [MemberData(nameof(TestData))]
-    public void OrNotSearch_ReturnsAndDocsIntersectOrDocsExceptNotDocs_ShouldNotModifyInputValues(
+    public void OrNotSearch_WhenCorrectlyCalled_ShouldReturnCorrectDocsAndShouldNotModifyInputValues(
         HashSet<string> orDocs, HashSet<string> notDocs, IReadOnlySet<string> expectedResult)
     {
         // Arrange
@@ -74,7 +74,7 @@ public class OrNotSearcherTests
     }
 
     [Fact]
-    public void Constructor_ShouldThrowArgumentNullException_WhenDependenciesAreNull()
+    public void Constructor_WhenDependenciesAreNull_ShouldThrowArgumentNullException()
     {
         // Arrange
         IDocumentReader documentReader = null!;
