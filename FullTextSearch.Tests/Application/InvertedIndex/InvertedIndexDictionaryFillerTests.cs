@@ -88,12 +88,14 @@ public class InvertedIndexDictionaryFillerTests
     {
         // Arrange
         IEnumerable<string> banned = new List<string> { "val1" };
+        var bannedCopy = new List<string>(banned);
 
         // Act
         _filler.Construct(banned);
 
         //Assert
         _stringToWordsProcessor.Received(1).Construct(banned);
+        banned.Should().BeEquivalentTo(bannedCopy);
     }
 
     [Fact]
