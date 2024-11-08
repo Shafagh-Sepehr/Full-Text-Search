@@ -12,8 +12,8 @@ public class SearchExecutorTests
     private readonly ISearcher      _searcher;
     private readonly SearchExecutor _searchExecutor;
 
-    private readonly Dictionary<string, List<string>> _originalInvertedIndex  = new() { { "key", ["val1", "val2",] }, };
-    private readonly HashSet<string>                  _originalExpectedResult = ["words",];
+    private readonly Dictionary<string, List<string>> _invertedIndex  = new() { { "key", ["val1", "val2",] }, };
+    private readonly HashSet<string>                  _expectedResult = ["words",];
 
     public SearchExecutorTests()
     {
@@ -49,17 +49,15 @@ public class SearchExecutorTests
             OrWords = ["word",],
             NotWords = ["word",],
         };
-        var invertedIndex = new Dictionary<string, List<string>>(_originalInvertedIndex);
-        var expected = new HashSet<string>(_originalExpectedResult);
-        _searchExecutor.Construct(invertedIndex);
-        _searcher.AndOrNotSearch(invertedIndex, words).Returns(expected);
+        _searchExecutor.Construct(_invertedIndex);
+        _searcher.AndOrNotSearch(_invertedIndex, words).Returns(_expectedResult);
 
         // Act
         var result = _searchExecutor.ExecuteSearch(words);
 
         // Assert
-        result.Should().BeSameAs(expected);
-        _searcher.Received(1).AndOrNotSearch(invertedIndex, words);
+        result.Should().BeSameAs(_expectedResult);
+        _searcher.Received(1).AndOrNotSearch(_invertedIndex, words);
     }
 
     [Fact]
@@ -72,17 +70,15 @@ public class SearchExecutorTests
             OrWords = [],
             NotWords = ["word",],
         };
-        var invertedIndex = new Dictionary<string, List<string>>(_originalInvertedIndex);
-        var expected = new HashSet<string>(_originalExpectedResult);
-        _searchExecutor.Construct(invertedIndex);
-        _searcher.AndNotSearch(invertedIndex, words).Returns(expected);
+        _searchExecutor.Construct(_invertedIndex);
+        _searcher.AndNotSearch(_invertedIndex, words).Returns(_expectedResult);
 
         // Act
         var result = _searchExecutor.ExecuteSearch(words);
 
         // Assert
-        result.Should().BeSameAs(expected);
-        _searcher.Received(1).AndNotSearch(invertedIndex, words);
+        result.Should().BeSameAs(_expectedResult);
+        _searcher.Received(1).AndNotSearch(_invertedIndex, words);
     }
 
     [Fact]
@@ -95,17 +91,15 @@ public class SearchExecutorTests
             OrWords = ["word",],
             NotWords = ["word",],
         };
-        var invertedIndex = new Dictionary<string, List<string>>(_originalInvertedIndex);
-        var expected = new HashSet<string>(_originalExpectedResult);
-        _searchExecutor.Construct(invertedIndex);
-        _searcher.OrNotSearch(invertedIndex, words).Returns(expected);
+        _searchExecutor.Construct(_invertedIndex);
+        _searcher.OrNotSearch(_invertedIndex, words).Returns(_expectedResult);
 
         // Act
         var result = _searchExecutor.ExecuteSearch(words);
 
         // Assert
-        result.Should().BeSameAs(expected);
-        _searcher.Received(1).OrNotSearch(invertedIndex, words);
+        result.Should().BeSameAs(_expectedResult);
+        _searcher.Received(1).OrNotSearch(_invertedIndex, words);
     }
 
     [Fact]
@@ -118,8 +112,7 @@ public class SearchExecutorTests
             OrWords = [],
             NotWords = ["word",],
         };
-        var invertedIndex = new Dictionary<string, List<string>>(_originalInvertedIndex);
-        _searchExecutor.Construct(invertedIndex);
+        _searchExecutor.Construct(_invertedIndex);
 
         // Act
         var result = _searchExecutor.ExecuteSearch(words);
