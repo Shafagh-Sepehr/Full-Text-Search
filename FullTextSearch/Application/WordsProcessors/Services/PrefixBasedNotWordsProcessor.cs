@@ -7,7 +7,7 @@ internal sealed class PrefixBasedNotWordsProcessor(IPorter2Stemmer stemmer) : IN
 {
     private readonly IPorter2Stemmer _stemmer = stemmer ?? throw new ArgumentNullException(nameof(stemmer));
 
-    public IReadOnlyList<string> GetNotWords(string[] queryWords)
+    public IReadOnlyList<string> GetNotWords(IReadOnlyList<string> queryWords)
     {
         return queryWords
             .Where(x => x[0] == '-')

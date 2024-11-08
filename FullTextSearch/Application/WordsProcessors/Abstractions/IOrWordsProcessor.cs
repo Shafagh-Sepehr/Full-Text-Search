@@ -2,5 +2,5 @@ namespace FullTextSearch.Application.WordsProcessors.Abstractions;
 
 internal interface IOrWordsProcessor
 {
-    IReadOnlyList<string> GetOrWords(string[] queryWords);
+    IReadOnlyList<string> GetOrWords(IReadOnlyList<string> queryWords);
 }
