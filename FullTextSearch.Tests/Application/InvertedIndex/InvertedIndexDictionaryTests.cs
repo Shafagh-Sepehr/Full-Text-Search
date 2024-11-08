@@ -20,11 +20,10 @@ public class InvertedIndexDictionaryTests
     }
 
     [Fact]
-    public void Construct_WhenCorrectlyCalled_ShouldNotModifyInput()
+    public void Construct_WhenCorrectlyCalled_ShouldCallMethodsInOrderWithCorrectInputs()
     {
         // Arrange
         const string path = "path";
-        var pathCopy = new string(path);
         IReadOnlyList<string> bannedWords = new List<string> { "bannedWords", };
         IReadOnlyDictionary<string, List<string>> invertedIndex = new Dictionary<string, List<string>>();
 
@@ -40,9 +39,6 @@ public class InvertedIndexDictionaryTests
             _invertedIndexDictionaryFiller.Build(path);
             _querySearcher.Construct(invertedIndex);
         });
-
-        // Verify that it remains unchanged
-        path.Should().BeEquivalentTo(pathCopy);
     }
 
 
@@ -57,7 +53,7 @@ public class InvertedIndexDictionaryTests
     }
 
     [Fact]
-    public void Search_WhenCorrectlyCalled_ShouldCallSearchOnSearcherAndNotModifyItsReturnValue()
+    public void Search_WhenCorrectlyCalled_ShouldCallSearchOnSearcherReturnItsReturnValue()
     {
         // Arrange
         _invertedIndexDictionary.Construct("path");
