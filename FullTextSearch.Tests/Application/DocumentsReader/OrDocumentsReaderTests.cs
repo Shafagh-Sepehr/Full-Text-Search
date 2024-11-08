@@ -5,7 +5,7 @@ namespace FullTextSearch.Tests.Application.DocumentsReader;
 
 public class OrDocumentsReaderTests
 {
-    private readonly OrDocumentsReader _reader = new OrDocumentsReader();
+    private readonly OrDocumentsReader _reader = new();
 
     private readonly Dictionary<string, List<string>> _invertedIndex = new()
     {
@@ -23,7 +23,7 @@ public class OrDocumentsReaderTests
     public void GetOrDocuments_WhenCorrectlyCalled_ShouldReturnUnionOfDocuments(IReadOnlyList<string> orWords, HashSet<string> expectedResult)
     {
         // Act
-        var result = _reader!.GetOrDocuments(_invertedIndex, orWords);
+        var result = _reader.GetOrDocuments(_invertedIndex, orWords);
 
         // Assert
         result.Should().BeEquivalentTo(expectedResult);

@@ -5,7 +5,7 @@ namespace FullTextSearch.Tests.Application.DocumentsReader;
 
 public class AndDocumentsReaderTests
 {
-    private readonly AndDocumentsReader _reader = new AndDocumentsReader();
+    private readonly AndDocumentsReader _reader = new();
 
     private readonly Dictionary<string, List<string>> _invertedIndex = new()
     {
@@ -23,7 +23,7 @@ public class AndDocumentsReaderTests
     public void GetAndDocuments_WhenCorrectlyCalled_ShouldReturnIntersectedDocuments(IReadOnlyList<string> andWords, HashSet<string> expectedResult)
     {
         // Act
-        var result = _reader!.GetAndDocuments(_invertedIndex, andWords);
+        var result = _reader.GetAndDocuments(_invertedIndex, andWords);
         
         // Assert
         result.Should().BeEquivalentTo(expectedResult);

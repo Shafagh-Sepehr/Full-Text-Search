@@ -5,7 +5,7 @@ namespace FullTextSearch.Tests.Application.DocumentsReader;
 
 public class NotDocumentsReaderTests
 {
-    private readonly NotDocumentsReader _reader = new NotDocumentsReader();
+    private readonly NotDocumentsReader _reader = new();
 
     private readonly Dictionary<string, List<string>> _invertedIndex = new()
     {
@@ -23,7 +23,7 @@ public class NotDocumentsReaderTests
     public void GetNotDocuments_WhenCorrectlyCalled_ShouldReturnUnionOfDocuments(IReadOnlyList<string> notWords, HashSet<string> expectedResult)
     {
         // Act
-        var result = _reader!.GetNotDocuments(_invertedIndex, notWords);
+        var result = _reader.GetNotDocuments(_invertedIndex, notWords);
 
         // Assert
         result.Should().BeEquivalentTo(expectedResult);
