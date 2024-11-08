@@ -16,16 +16,37 @@ public class StringListNoiseCleanerTests
         _regexChecker = Substitute.For<IRegexChecker>();
         _stringListCleaner = new(_regexChecker);
     }
-
-    [Theory]
-    [MemberData(nameof(TestData))]
-    public void CleanNoise_WhenCorrectlyCalled_ShouldReturnResultThatAreNotMatchedByRegexPatternsAndShouldNotModifyInputValues(
-        bool hasUrl, bool hasEmail, bool hasPhoneNumber, bool expectedResult)
+    
+    [Fact]
+    public void CleanNoise_WhenCorrectlyCalled_ShouldNotModifyInputValues()
     {
         // Arrange
         const string input = "abcd";
         List<string> inputList = [input,];
         List<string> inputListCopy = [..inputList,];
+        _regexChecker.HasEmail(input).Returns(false);
+        _regexChecker.HasUrl(input).Returns(false);
+        _regexChecker.HasPhoneNumber(input).Returns(false);
+        
+        // Act
+        _ = _stringListCleaner.CleanNoise(inputList).ToList();
+        
+        // Assert
+        _regexChecker.Received(1).HasEmail(input);
+        _regexChecker.Received(1).HasUrl(input);
+        _regexChecker.Received(1).HasPhoneNumber(input);
+        inputList.Should().BeEquivalentTo(inputListCopy);
+    }
+
+    [Theory]
+    [MemberData(nameof(TestData))]
+    public void CleanNoise_WhenCorrectlyCalled_ShouldReturnResultThatAreNotMatchedByRegexPatterns(
+        bool hasUrl, bool hasEmail, bool hasPhoneNumber, bool expectedResult)
+    {
+        // Arrange
+        const string input = "abcd";
+        List<string> inputList = [input,];
+
         _regexChecker.HasPhoneNumber(input).Returns(hasPhoneNumber);
         _regexChecker.HasEmail(input).Returns(hasEmail);
         _regexChecker.HasUrl(input).Returns(hasUrl);
@@ -38,7 +59,6 @@ public class StringListNoiseCleanerTests
             result.Should().BeEmpty();
         else
             result.Should().ContainSingle(input);
-        inputList.Should().BeEquivalentTo(inputListCopy);
     }
 
     public static IEnumerable<object?[]> TestData()

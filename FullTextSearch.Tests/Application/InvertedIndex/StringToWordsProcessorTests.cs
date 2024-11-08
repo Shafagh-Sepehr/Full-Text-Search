@@ -32,16 +32,15 @@ public class StringToWordsProcessorTests
     }
 
     [Fact]
-    public void TrimSplitAndStemString_WhenCorrectlyCalled_ShouldRunMethodsInOrderAndShouldNotModifyInputOrReturnValues()
+    public void TrimSplitAndStemString_WhenCorrectlyCalled_ShouldNotModifyInputOrReturnValues()
     {
         // Arrange
         const string source = "random string";
-        var list1 = new List<string> { "str1", "str2", "str3", "str4", "str5", "str5", };
-        var list2 = new List<string> { "strr1", "strr2", "strr3", "strr5", "strr5", };
-        var list3 = new List<string> { "strrr1", "strrr2", "strrr3", "strrr4", };
-        var list4 = new List<string> { "strrrrr1", "strrrrr3", "strrrrr3", "strrrrr3", };
-        var list5 = new List<string> { "str1", "str2", "strrrrr2", "strrrrr2", "strrrrr2", };
-        var expectedResult = new List<string> { "str1", "str2", "strrrrr2", };
+        var list1 = new List<string> { "str1", "str2", };
+        var list2 = new List<string> { "strr1", "strr2", };
+        var list3 = new List<string> { "strrr1", "strrr2", };
+        var list4 = new List<string> { "strrrrr1", "strrrrr3", };
+        var list5 = new List<string> { "str1", "str2", "str2", "strrrrr2", "strrrrr2", "strrrrr2", };
 
         var sourceCopy = new string(source);
         var list1Copy = new List<string>(list1);
@@ -49,7 +48,6 @@ public class StringToWordsProcessorTests
         var list3Copy = new List<string>(list3);
         var list4Copy = new List<string>(list4);
         var list5Copy = new List<string>(list5);
-        var expectedResultCopy = new List<string>(expectedResult);
 
         _stringTrimAndSplitter.TrimAndSplit(source).Returns(list1);
         _stringListNoiseCleaner.CleanNoise(list1).Returns(list2);
@@ -58,19 +56,14 @@ public class StringToWordsProcessorTests
         _stringListNonValidWordCleaner.Clean(list4).Returns(list5);
 
         // Act
-        var result = _stringToWordsProcessor.TrimSplitAndStemString(source).ToList();
+        _ = _stringToWordsProcessor.TrimSplitAndStemString(source);
 
         // Assert
-        result.Should().BeEquivalentTo(expectedResult);
-
-        Received.InOrder(() =>
-        {
-            _stringTrimAndSplitter.TrimAndSplit(source);
-            _stringListNoiseCleaner.CleanNoise(list1);
-            _stringListCleaner.Clean(list2);
-            _stringListStemmer.Stem(list3);
-            _stringListNonValidWordCleaner.Clean(list4);
-        });
+        _stringTrimAndSplitter.Received(1).TrimAndSplit(source);
+        _stringListNoiseCleaner.Received(1).CleanNoise(list1);
+        _stringListCleaner.Received(1).Clean(list2);
+        _stringListStemmer.Received(1).Stem(list3);
+        _stringListNonValidWordCleaner.Received(1).Clean(list4);
 
         sourceCopy.Should().BeEquivalentTo(source);
         list1Copy.Should().BeEquivalentTo(list1);
@@ -78,12 +71,27 @@ public class StringToWordsProcessorTests
         list3Copy.Should().BeEquivalentTo(list3);
         list4Copy.Should().BeEquivalentTo(list4);
         list5Copy.Should().BeEquivalentTo(list5);
-        result.Should().BeEquivalentTo(expectedResultCopy);
+    }
+    
+    [Fact]
+    public void TrimSplitAndStemString_WhenCorrectlyCalled_ShouldRunMethodsInOrder()
+    {
+        // Act
+        _ = _stringToWordsProcessor.TrimSplitAndStemString("").ToList();
+        
+        // Assert
+        Received.InOrder(() =>
+        {
+            _stringTrimAndSplitter.TrimAndSplit(Arg.Any<string>());
+            _stringListNoiseCleaner.CleanNoise(Arg.Any<IEnumerable<string>>());
+            _stringListCleaner.Clean(Arg.Any<IEnumerable<string>>());
+            _stringListStemmer.Stem(Arg.Any<IEnumerable<string>>());
+            _stringListNonValidWordCleaner.Clean(Arg.Any<IEnumerable<string>>());
+        });
     }
 
-
     [Fact]
-    public void TrimSplitAndStemString_WhenCorrectlyCalled_ShouldReturnListWithUniqueValues()
+    public void TrimSplitAndStemString_WhenCorrectlyCalled_ShouldReturnListWithDistinctValues()
     {
         // Arrange
         var list = new List<string> { "str1", "str2", "str2", "strrrrr2", "strrrrr2", "strrrrr2", };

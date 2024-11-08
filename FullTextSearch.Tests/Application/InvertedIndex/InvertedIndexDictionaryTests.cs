@@ -20,7 +20,7 @@ public class InvertedIndexDictionaryTests
     }
 
     [Fact]
-    public void Construct_WhenCorrectlyCalled_ShouldCallInnerMethodsAndNotModifyInputAndReturnValues()
+    public void Construct_WhenCorrectlyCalled_ShouldNotModifyInputAndReturnValues()
     {
         // Arrange
         const string path = "path";
