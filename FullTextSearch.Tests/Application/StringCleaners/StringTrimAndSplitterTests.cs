@@ -1,7 +1,7 @@
 using FluentAssertions;
 using FullTextSearch.Application.StringCleaners.StringTrimAndSplitter.Services;
 
-namespace FullTextSearch.Tests.Application.Searchers;
+namespace FullTextSearch.Tests.Application.StringCleaners;
 
 public class StringTrimAndSplitterTests
 {
