@@ -12,8 +12,8 @@ public class RegexCheckerTests
     private readonly IUrlRegexChecker         _urlRegexChecker;
     private readonly RegexChecker             _regexChecker;
 
-    private readonly string _originalTrueInput;
-    private readonly string _originalFalseInput;
+    private readonly string _trueInput;
+    private readonly string _falseInput;
 
     public RegexCheckerTests()
     {
@@ -22,90 +22,63 @@ public class RegexCheckerTests
         _urlRegexChecker = Substitute.For<IUrlRegexChecker>();
         _regexChecker = new(_emailRegexChecker, _phoneNumberRegexChecker,_urlRegexChecker);
 
-        _originalTrueInput = " original true input ";
-        _originalFalseInput = " original false input ";
+        _trueInput = " original true input ";
+        _falseInput = " original false input ";
     }
 
     [Fact]
-    public void HasEmail_WhenCorrectlyCalled_ShouldNotModifyInputAndReturnValues()
+    public void HasEmail_WhenCorrectlyCalled_ShouldCallMatchesMethodOnEmailRegexChecker()
     {
         // Arrange
-        var trueInput = new string(_originalTrueInput);
-        var falseInput = new string(_originalFalseInput);
-        const bool expectedResultTrue = true;
-        const bool expectedResultFalse = false;
-        
-        _emailRegexChecker.Matches(trueInput).Returns(expectedResultTrue);
-        _emailRegexChecker.Matches(falseInput).Returns(expectedResultFalse);
+        _emailRegexChecker.Matches(_trueInput).Returns(true);
+        _emailRegexChecker.Matches(_falseInput).Returns(false);
         
         // Act
-        var trueResult = _regexChecker.HasEmail(trueInput);
-        var falseResult = _regexChecker.HasEmail(falseInput);
+        var trueResult = _regexChecker.HasEmail(_trueInput);
+        var falseResult = _regexChecker.HasEmail(_falseInput);
         
         // Assert
-        trueResult.Should().Be(expectedResultTrue);
-        falseResult.Should().Be(expectedResultFalse);
-        _emailRegexChecker.Received(1).Matches(trueInput); 
-        _emailRegexChecker.Received(1).Matches(falseInput); 
-        
-        // Verify that the original inputs are unchanged
-        trueInput.Should().BeEquivalentTo(_originalTrueInput);
-        falseInput.Should().BeEquivalentTo(_originalFalseInput);
+        trueResult.Should().Be(true);
+        falseResult.Should().Be(false);
+        _emailRegexChecker.Received(1).Matches(_trueInput);
+        _emailRegexChecker.Received(1).Matches(_falseInput);
     }
     
     [Fact]
-    public void GetNotDocuments_WhenCorrectlyCalled_ShouldNotModifyInputAndReturnValues()
+    public void HasPhoneNumber_WhenCorrectlyCalled_ShouldCallMatchesMethodOnPhoneNumberRegexChecker()
     {
         // Arrange
-        var trueInput = new string(_originalTrueInput);
-        var falseInput = new string(_originalFalseInput);
-        const bool expectedResultTrue = true;
-        const bool expectedResultFalse = false;
-        
-        _phoneNumberRegexChecker.Matches(trueInput).Returns(expectedResultTrue);
-        _phoneNumberRegexChecker.Matches(falseInput).Returns(expectedResultFalse);
+        _phoneNumberRegexChecker.Matches(_trueInput).Returns(true);
+        _phoneNumberRegexChecker.Matches(_falseInput).Returns(false);
         
         // Act
-        var trueResult = _regexChecker.HasPhoneNumber(trueInput);
-        var falseResult = _regexChecker.HasPhoneNumber(falseInput);
+        var trueResult = _regexChecker.HasPhoneNumber(_trueInput);
+        var falseResult = _regexChecker.HasPhoneNumber(_falseInput);
         
         // Assert
-        trueResult.Should().Be(expectedResultTrue);
-        falseResult.Should().Be(expectedResultFalse);
-        _phoneNumberRegexChecker.Received(1).Matches(trueInput); 
-        _phoneNumberRegexChecker.Received(1).Matches(falseInput); 
-        
-        // Verify that the original inputs are unchanged
-        trueInput.Should().BeEquivalentTo(_originalTrueInput);
-        falseInput.Should().BeEquivalentTo(_originalFalseInput);
+        trueResult.Should().Be(true);
+        falseResult.Should().Be(false);
+        _phoneNumberRegexChecker.Received(1).Matches(_trueInput); 
+        _phoneNumberRegexChecker.Received(1).Matches(_falseInput); 
     }
     
     
     [Fact]
-    public void HasUrl_WhenCorrectlyCalled_ShouldNotModifyInputAndReturnValues()
+    public void HasUrl_WhenCorrectlyCalled_ShouldCallMatchesMethodOnUrlRegexChecker()
     {
         // Arrange
-        var trueInput = new string(_originalTrueInput);
-        var falseInput = new string(_originalFalseInput);
-        const bool expectedResultTrue = true;
-        const bool expectedResultFalse = false;
-        
-        _urlRegexChecker.Matches(trueInput).Returns(expectedResultTrue);
-        _urlRegexChecker.Matches(falseInput).Returns(expectedResultFalse);
+        _urlRegexChecker.Matches(_trueInput).Returns(true);
+        _urlRegexChecker.Matches(_falseInput).Returns(false);
         
         // Act
-        var trueResult = _regexChecker.HasUrl(trueInput);
-        var falseResult = _regexChecker.HasUrl(falseInput);
+        var trueResult = _regexChecker.HasUrl(_trueInput);
+        var falseResult = _regexChecker.HasUrl(_falseInput);
         
         // Assert
-        trueResult.Should().Be(expectedResultTrue);
-        falseResult.Should().Be(expectedResultFalse);
-        _urlRegexChecker.Received(1).Matches(trueInput); 
-        _urlRegexChecker.Received(1).Matches(falseInput); 
-        
-        // Verify that the original inputs are unchanged
-        trueInput.Should().BeEquivalentTo(_originalTrueInput);
-        falseInput.Should().BeEquivalentTo(_originalFalseInput);
+        trueResult.Should().Be(true);
+        falseResult.Should().Be(false);
+        _urlRegexChecker.Received(1).Matches(_trueInput); 
+        _urlRegexChecker.Received(1).Matches(_falseInput);
     }
     
     [Fact]
