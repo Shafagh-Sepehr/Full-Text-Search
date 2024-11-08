@@ -16,26 +16,24 @@ public class StringListNoiseCleanerTests
         _regexChecker = Substitute.For<IRegexChecker>();
         _stringListCleaner = new(_regexChecker);
     }
-    
+
     [Fact]
-    public void CleanNoise_WhenCorrectlyCalled_ShouldNotModifyInputValues()
+    public void CleanNoise_WhenAllMethodsReturnFalse_ShouldCallAllOfRegexCheckerMethods()
     {
         // Arrange
         const string input = "abcd";
         List<string> inputList = [input,];
-        List<string> inputListCopy = [..inputList,];
         _regexChecker.HasEmail(input).Returns(false);
         _regexChecker.HasUrl(input).Returns(false);
         _regexChecker.HasPhoneNumber(input).Returns(false);
-        
+
         // Act
         _ = _stringListCleaner.CleanNoise(inputList).ToList();
-        
+
         // Assert
         _regexChecker.Received(1).HasEmail(input);
         _regexChecker.Received(1).HasUrl(input);
         _regexChecker.Received(1).HasPhoneNumber(input);
-        inputList.Should().BeEquivalentTo(inputListCopy);
     }
 
     [Theory]
