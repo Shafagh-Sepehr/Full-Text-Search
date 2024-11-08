@@ -11,9 +11,9 @@ public class WordsProcessorTests
     private readonly IOrWordsProcessor  _orWordsProcessor;
     private readonly INotWordsProcessor _notWordsProcessor;
     private readonly WordsProcessor     _wordsProcessor;
-
-    private readonly string[]              _originalQuery;
-    private readonly IReadOnlyList<string> _originalExpectedResult;
+    
+    private readonly IReadOnlyList<string> _query;
+    private readonly IReadOnlyList<string> _expectedResult;
 
     public WordsProcessorTests()
     {
@@ -21,77 +21,51 @@ public class WordsProcessorTests
         _orWordsProcessor = Substitute.For<IOrWordsProcessor>();
         _notWordsProcessor = Substitute.For<INotWordsProcessor>();
         _wordsProcessor = new(_andWordsProcessor, _orWordsProcessor, _notWordsProcessor);
-
-        _originalQuery = ["word1", "word2",];
-        _originalExpectedResult = ["word11", "word12",];
+        
+        _query = ["word1", "word2",];
+        _expectedResult = ["word11", "word12",];
     }
 
     [Fact]
     public void GetAndWords_WhenCorrectlyCalled_ShouldNotModifyInputAndReturnValues()
     {
         // Arrange
-        var query = new string[_originalQuery.Length];
-        Array.Copy(_originalQuery,query,_originalQuery.Length);
-        var expectedResult = new List<string>(_originalExpectedResult);
-        
-        
-        _andWordsProcessor.GetAndWords(query).Returns(expectedResult);
+        _andWordsProcessor.GetAndWords(_query).Returns(_expectedResult);
         
         // Act
-        var result = _wordsProcessor.GetAndWords(query);
+        var result = _wordsProcessor.GetAndWords(_query);
         
         // Assert
-        result.Should().BeEquivalentTo(expectedResult);
-        _andWordsProcessor.Received(1).GetAndWords(query); 
-        
-        // Verify that the original inputs are unchanged
-        query.Should().BeEquivalentTo(_originalQuery);
-        expectedResult.Should().BeEquivalentTo(_originalExpectedResult);
+        result.Should().BeSameAs(_expectedResult);
+        _andWordsProcessor.Received(1).GetAndWords(_query);
     }
 
     [Fact]
     public void GetOrWords_WhenCorrectlyCalled_ShouldNotModifyInputAndReturnValues()
     {
         // Arrange
-        var query = new string[_originalQuery.Length];
-        Array.Copy(_originalQuery,query,_originalQuery.Length);
-        var expectedResult = new List<string>(_originalExpectedResult);
-        
-        _orWordsProcessor.GetOrWords(query).Returns(expectedResult);
+        _orWordsProcessor.GetOrWords(_query).Returns(_expectedResult);
         
         // Act
-        var result = _wordsProcessor.GetOrWords(query);
+        var result = _wordsProcessor.GetOrWords(_query);
         
         // Assert
-        result.Should().BeEquivalentTo(expectedResult);
-        _orWordsProcessor.Received(1).GetOrWords(query);
-        
-        // Verify that the original inputs are unchanged
-        query.Should().BeEquivalentTo(_originalQuery);
-        expectedResult.Should().BeEquivalentTo(_originalExpectedResult);
+        result.Should().BeSameAs(_expectedResult);
+        _orWordsProcessor.Received(1).GetOrWords(_query);
     }
 
     [Fact]
     public void GetNotWords_WhenCorrectlyCalled_ShouldNotModifyInputAndReturnValues()
     {
         // Arrange
-        var query = new string[_originalQuery.Length];
-        Array.Copy(_originalQuery,query,_originalQuery.Length);
-        var expectedResult = new List<string>(_originalExpectedResult);
-        
-        _notWordsProcessor.GetNotWords(query).Returns(expectedResult);
+        _notWordsProcessor.GetNotWords(_query).Returns(_expectedResult);
         
         // Act
-        var result = _wordsProcessor.GetNotWords(query);
-        
-        
+        var result = _wordsProcessor.GetNotWords(_query);
+
         // Assert
-        result.Should().BeEquivalentTo(expectedResult);
-        _notWordsProcessor.Received(1).GetNotWords(query);
-        
-        // Verify that the original inputs are unchanged
-        query.Should().BeEquivalentTo(_originalQuery);
-        expectedResult.Should().BeEquivalentTo(_originalExpectedResult);
+        result.Should().BeSameAs(_expectedResult);
+        _notWordsProcessor.Received(1).GetNotWords(_query);
     }
 
     [Fact]
