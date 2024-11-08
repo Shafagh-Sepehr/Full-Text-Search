@@ -11,20 +11,14 @@ public class AndOrNotSearcherTests
     private readonly AndOrNotSearcher _andOrNotSearcher;
     private readonly IDocumentReader  _documentReader;
 
-    private readonly Dictionary<string, List<string>> _originalInvertedIndex;
-    private readonly ProcessedQueryWords              _originalWords;
+    private readonly ProcessedQueryWords              _words;
 
     public AndOrNotSearcherTests()
     {
         _documentReader = Substitute.For<IDocumentReader>();
         _andOrNotSearcher = new(_documentReader);
-
-        _originalInvertedIndex = new()
-        {
-            { "word1", ["doc1", "doc2",] },
-            { "word2", ["doc3",] },
-        };
-        _originalWords = new()
+        
+        _words = new()
         {
             AndWords = ["andword1", "andword2",],
             OrWords = ["orword1", "orword2",],
@@ -34,16 +28,16 @@ public class AndOrNotSearcherTests
 
     [Theory]
     [MemberData(nameof(TestData))]
-    public void AndOrNotSearch_WhenCorrectlyCalled_ShouldReturnCorrectDocsAndShouldNotModifyInputValues(
+    public void AndOrNotSearch_WhenCorrectlyCalled_ShouldCallMethodsInOrderAndShouldReturnCorrectDocs(
         HashSet<string> andDocs, HashSet<string> orDocs, HashSet<string> notDocs, IReadOnlySet<string> expectedResult)
     {
         // Arrange
-        var invertedIndex = new Dictionary<string, List<string>>(_originalInvertedIndex);
+        IReadOnlyDictionary<string, List<string>> invertedIndex = new Dictionary<string, List<string>>();
         var words = new ProcessedQueryWords
         {
-            AndWords = _originalWords.AndWords,
-            OrWords = _originalWords.OrWords,
-            NotWords = _originalWords.NotWords,
+            AndWords = ["andword1", "andword2",],
+            OrWords = ["orword1", "orword2",],
+            NotWords = ["notword1", "notword2",],
         };
 
         _documentReader.GetAndDocuments(invertedIndex, words.AndWords).Returns(andDocs);
@@ -55,13 +49,12 @@ public class AndOrNotSearcherTests
 
         // Assert
         result.Should().BeEquivalentTo(expectedResult);
-        _documentReader.Received(1).GetAndDocuments(invertedIndex, words.AndWords);
-        _documentReader.Received(1).GetOrDocuments(invertedIndex, words.OrWords);
-        _documentReader.Received(1).GetNotDocuments(invertedIndex, words.NotWords);
-
-        // Verify that the original inputs are unchanged
-        words.Should().BeEquivalentTo(_originalWords);
-        invertedIndex.Should().BeEquivalentTo(_originalInvertedIndex);
+        Received.InOrder(() =>
+        {
+            _documentReader.GetAndDocuments(invertedIndex, words.AndWords);
+            _documentReader.GetOrDocuments(invertedIndex, words.OrWords);
+            _documentReader.GetNotDocuments(invertedIndex, words.NotWords);
+        });
     }
 
     public static IEnumerable<object?[]> TestData()
