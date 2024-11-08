@@ -4,6 +4,6 @@ namespace FullTextSearch.Application.InvertedIndex.Abstractions;
 
 internal interface ISearchExecutor
 {
-    void Construct(Dictionary<string, List<string>> invertedIndex);
+    void Construct(IReadOnlyDictionary<string, List<string>> invertedIndex);
     IReadOnlySet<string> ExecuteSearch(ProcessedQueryWords processedWords);
 }

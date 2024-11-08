@@ -12,7 +12,7 @@ internal sealed class QuerySearcher(IWordsProcessor wordsProcessor, ISearchExecu
     private          bool            _isConstructed;
     private          string[]        _queryWords = null!;
 
-    public void Construct(Dictionary<string, List<string>> invertedIndex)
+    public void Construct(IReadOnlyDictionary<string, List<string>> invertedIndex)
     {
         _searchExecutor.Construct(invertedIndex);
         _isConstructed = true;

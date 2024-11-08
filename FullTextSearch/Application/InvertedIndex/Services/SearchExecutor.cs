@@ -7,11 +7,11 @@ namespace FullTextSearch.Application.InvertedIndex.Services;
 
 internal class SearchExecutor(ISearcher searcher) : ISearchExecutor
 {
-    private readonly ISearcher                         _searcher = searcher ?? throw new ArgumentNullException(nameof(searcher));
-    private          Dictionary<string, List<string>>? _invertedIndex;
-    private          bool                              _isConstructed;
+    private readonly ISearcher                                  _searcher = searcher ?? throw new ArgumentNullException(nameof(searcher));
+    private          IReadOnlyDictionary<string, List<string>>? _invertedIndex;
+    private          bool                                       _isConstructed;
     
-    public void Construct(Dictionary<string, List<string>> invertedIndex)
+    public void Construct(IReadOnlyDictionary<string, List<string>> invertedIndex)
     {
         _invertedIndex = invertedIndex;
         

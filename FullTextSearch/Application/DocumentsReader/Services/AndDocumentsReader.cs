@@ -4,7 +4,7 @@ namespace FullTextSearch.Application.DocumentsReader.Services;
 
 internal sealed class AndDocumentsReader : IAndDocumentsReader
 {
-    public HashSet<string> GetAndDocuments(Dictionary<string, List<string>> invertedIndex, IReadOnlyList<string> andWords)
+    public HashSet<string> GetAndDocuments(IReadOnlyDictionary<string, List<string>> invertedIndex, IReadOnlyList<string> andWords)
     {
         var allAndWordsExist = andWords.All(invertedIndex.ContainsKey);
         if (!allAndWordsExist) return [];

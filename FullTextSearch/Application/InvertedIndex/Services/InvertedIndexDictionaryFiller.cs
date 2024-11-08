@@ -9,7 +9,7 @@ internal sealed class InvertedIndexDictionaryFiller(IStringToWordsProcessor stri
     private readonly IStringToWordsProcessor          _toWordsProcessor = stringToWordsProcessor
                                                                        ?? throw new ArgumentNullException(nameof(stringToWordsProcessor));
 
-    public Dictionary<string, List<string>> Build(string filepath)
+    public IReadOnlyDictionary<string, List<string>> Build(string filepath)
     {
         var files = Directory.GetFiles(filepath);
 
