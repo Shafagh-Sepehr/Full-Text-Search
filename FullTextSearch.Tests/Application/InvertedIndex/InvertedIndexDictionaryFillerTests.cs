@@ -89,15 +89,15 @@ public class InvertedIndexDictionaryFillerTests
     public void Construct_WhenCorrectlyCalled_ShouldNotModifyInputValue()
     {
         // Arrange
-        IEnumerable<string> banned = new List<string> { "val1" };
-        var bannedCopy = new List<string>(banned);
+        IReadOnlyList<string> bannedWords = new List<string> { "val1" };
+        var bannedWordsCopy = new List<string>(bannedWords);
 
         // Act
-        _filler.Construct(banned);
+        _filler.Construct(bannedWords);
 
         // Assert
-        _stringToWordsProcessor.Received(1).Construct(banned);
-        banned.Should().BeEquivalentTo(bannedCopy);
+        _stringToWordsProcessor.Received(1).Construct(bannedWords);
+        bannedWords.Should().BeEquivalentTo(bannedWordsCopy);
     }
 
     [Fact]

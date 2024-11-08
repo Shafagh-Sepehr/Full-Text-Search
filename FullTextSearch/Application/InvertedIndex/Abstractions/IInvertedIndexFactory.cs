@@ -2,5 +2,5 @@ namespace FullTextSearch.Application.InvertedIndex.Abstractions;
 
 public interface IInvertedIndexFactory
 {
-    IInvertedIndexDictionary Create(string path, IEnumerable<string>? banned);
+    IInvertedIndexDictionary Create(string path, IReadOnlyList<string>? bannedWords);
 }

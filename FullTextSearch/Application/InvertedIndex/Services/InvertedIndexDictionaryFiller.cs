@@ -18,9 +18,9 @@ internal sealed class InvertedIndexDictionaryFiller(IStringToWordsProcessor stri
         return _invertedIndex;
     }
 
-    public void Construct(IEnumerable<string>? banned)
+    public void Construct(IReadOnlyList<string>? bannedWords)
     {
-        _toWordsProcessor.Construct(banned);
+        _toWordsProcessor.Construct(bannedWords);
     }
 
     private void FillInvertedIndexFromFile(string[] files)

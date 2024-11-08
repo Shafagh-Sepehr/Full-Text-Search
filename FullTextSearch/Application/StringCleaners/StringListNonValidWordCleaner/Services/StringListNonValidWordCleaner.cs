@@ -6,10 +6,10 @@ internal class StringListNonValidWordCleaner : IStringListNonValidWordCleaner
 {
     private readonly List<string> _banned = AppSettings.BannedWords.ToList();
 
-    public void Construct(IEnumerable<string>? banned)
+    public void Construct(IReadOnlyList<string>? bannedWords)
     {
-        if (banned != null)
-            _banned.AddRange(banned);
+        if (bannedWords != null)
+            _banned.AddRange(bannedWords);
     }
 
     public IEnumerable<string> Clean(IEnumerable<string> value) => value.Where(IsValid);

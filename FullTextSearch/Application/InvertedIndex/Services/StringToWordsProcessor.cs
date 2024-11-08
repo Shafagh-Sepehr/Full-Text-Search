@@ -39,9 +39,9 @@ internal sealed class StringToWordsProcessor(
         return result.Distinct();
     }
     
-    public void Construct(IEnumerable<string>? banned)
+    public void Construct(IReadOnlyList<string>? bannedWords)
     {
-        if (banned != null)
-            _stringListNonValidWordCleaner.Construct(banned);
+        if (bannedWords != null)
+            _stringListNonValidWordCleaner.Construct(bannedWords);
     }
 }

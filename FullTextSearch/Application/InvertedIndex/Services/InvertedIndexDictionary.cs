@@ -14,9 +14,9 @@ internal sealed class InvertedIndexDictionary(
     private readonly IQuerySearcher _searcher = querySearcher ?? throw new ArgumentNullException(nameof(querySearcher));
     private          bool           _isConstructed;
 
-    public void Construct(string path, IEnumerable<string>? banned = null)
+    public void Construct(string path, IReadOnlyList<string>? bannedWords = null)
     {
-        _indexDictionaryFiller.Construct(banned);
+        _indexDictionaryFiller.Construct(bannedWords);
         var invertedIndex = _indexDictionaryFiller.Build(path);
         _searcher.Construct(invertedIndex);
 

@@ -2,6 +2,6 @@ namespace FullTextSearch.Application.StringCleaners.StringListNonValidWordCleane
 
 internal interface IStringListNonValidWordCleaner
 {
-    void Construct(IEnumerable<string>? banned);
+    void Construct(IReadOnlyList<string>? bannedWords);
     IEnumerable<string> Clean(IEnumerable<string> value);
 }

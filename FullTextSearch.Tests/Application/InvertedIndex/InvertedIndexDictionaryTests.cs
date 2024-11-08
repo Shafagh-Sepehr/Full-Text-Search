@@ -25,22 +25,22 @@ public class InvertedIndexDictionaryTests
         // Arrange
         const string path = "path";
         var pathCopy = new string(path);
-        IEnumerable<string>? banned = new List<string> { "banned", };
-        var bannedCopy = new List<string>(banned);
+        IReadOnlyList<string> bannedWords = new List<string> { "bannedWords", };
+        var bannedWordsCopy = new List<string>(bannedWords);
         var invertedIndex = new Dictionary<string, List<string>> { { "val", ["key",] }, };
         var invertedIndexCopy = new Dictionary<string, List<string>> (invertedIndex);
 
         _invertedIndexDictionaryFiller.Build(path).Returns(invertedIndex);
 
         // Act
-        _invertedIndexDictionary.Construct(path,banned);
+        _invertedIndexDictionary.Construct(path,bannedWords);
         // Assert
 
-        _invertedIndexDictionaryFiller.Received(1).Construct(banned);
+        _invertedIndexDictionaryFiller.Received(1).Construct(bannedWords);
         _invertedIndexDictionaryFiller.Received(1).Build(path);
         _querySearcher.Received(1).Construct(invertedIndex);
 
-        banned.Should().BeEquivalentTo(bannedCopy);
+        bannedWords.Should().BeEquivalentTo(bannedWordsCopy);
         invertedIndex.Should().BeEquivalentTo(invertedIndexCopy);
         path.Should().BeEquivalentTo(pathCopy);
     }

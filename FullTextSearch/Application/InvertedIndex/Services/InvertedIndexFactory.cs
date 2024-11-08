@@ -5,13 +5,13 @@ namespace FullTextSearch.Application.InvertedIndex.Services;
 
 public sealed class InvertedIndexFactory : IInvertedIndexFactory
 {
-    public IInvertedIndexDictionary Create(string path, IEnumerable<string>? banned)
+    public IInvertedIndexDictionary Create(string path, IReadOnlyList<string>? bannedWords)
     {
         var serviceProvider = FullTextSearch.ServiceCollection.ServiceProvider;
         
         var invertedIndex = serviceProvider.GetService<IInvertedIndexDictionary>();
         ArgumentNullException.ThrowIfNull(invertedIndex);
-        invertedIndex.Construct(path, banned);
+        invertedIndex.Construct(path, bannedWords);
 
         return invertedIndex;
     }
