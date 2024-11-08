@@ -11,7 +11,7 @@ public class ConfigurationServiceTests
         // Arrange
         IConfigurationBuilder configurationBuilder = null!;
 
-        // Act & Assert
+        // Act
         Action act = () => new FullTextSearch.ConfigurationService.Services.ConfigurationService(configurationBuilder);
 
         // Assert
