@@ -12,9 +12,9 @@ public class DocumentReaderTests
     private readonly INotDocumentsReader _notDocumentsReader;
     private readonly IOrDocumentsReader  _orDocumentsReader;
 
-    private readonly Dictionary<string, List<string>> _originalInvertedIndex;
-    private readonly List<string>                     _originalWords;
-    private readonly HashSet<string>                  _originalExpectedDocuments;
+    private readonly IReadOnlyDictionary<string, List<string>> _invertedIndex;
+    private readonly IReadOnlyList<string>                     _words;
+    private readonly HashSet<string>                           _originalExpectedDocuments;
 
     public DocumentReaderTests()
     {
@@ -23,82 +23,67 @@ public class DocumentReaderTests
         _notDocumentsReader = Substitute.For<INotDocumentsReader>();
         _documentReader = new(_andDocumentsReader, _orDocumentsReader, _notDocumentsReader);
 
-        _originalInvertedIndex = new()
+        _invertedIndex = new Dictionary<string, List<string>>
         {
             { "word1", ["doc1", "doc2",] },
-            { "word2", ["doc3",] }
+            { "word2", ["doc3",] },
         };
-        _originalWords = ["word1", "word2",];
+        _words = ["word1", "word2",];
         _originalExpectedDocuments = ["doc1", "doc2",];
     }
 
     [Fact]
-    public void GetAndDocuments_WhenCorrectlyCalled_ShouldNotModifyInputAndReturnValues()
+    public void GetAndDocuments_WhenCorrectlyCalled_ShouldNotModifyReturnValues()
     {
         // Arrange
-        var invertedIndex = new Dictionary<string, List<string>>(_originalInvertedIndex);
-        var andWords = new List<string>(_originalWords);
         var expectedDocuments = new HashSet<string>(_originalExpectedDocuments);
-        
-        _andDocumentsReader.GetAndDocuments(invertedIndex, andWords).Returns(expectedDocuments);
+        _andDocumentsReader.GetAndDocuments(_invertedIndex, _words).Returns(expectedDocuments);
         
         // Act
-        var result = _documentReader.GetAndDocuments(invertedIndex, andWords);
+        var result = _documentReader.GetAndDocuments(_invertedIndex, _words);
         
         // Assert
         result.Should().BeEquivalentTo(expectedDocuments);
-        _andDocumentsReader.Received(1).GetAndDocuments(invertedIndex, andWords); 
+        _andDocumentsReader.Received(1).GetAndDocuments(_invertedIndex, _words);
         
-        // Verify that the original inputs are unchanged
-        invertedIndex.Should().BeEquivalentTo(_originalInvertedIndex);
-        andWords.Should().BeEquivalentTo(_originalWords);
+        // Verify that the original values are unchanged
         expectedDocuments.Should().BeEquivalentTo(_originalExpectedDocuments);
     }
 
     [Fact]
-    public void GetOrDocuments_WhenCorrectlyCalled_ShouldNotModifyInputAndReturnValues()
+    public void GetOrDocuments_WhenCorrectlyCalled_ShouldNotModifyReturnValues()
     {
         // Arrange
-        var invertedIndex = new Dictionary<string, List<string>>(_originalInvertedIndex);
-        var orWords = new List<string>(_originalWords);
         var expectedDocuments = new HashSet<string>(_originalExpectedDocuments);
-        
-        _orDocumentsReader.GetOrDocuments(invertedIndex, orWords).Returns(expectedDocuments);
+        _orDocumentsReader.GetOrDocuments(_invertedIndex, _words).Returns(expectedDocuments);
         
         // Act
-        var result = _documentReader.GetOrDocuments(invertedIndex, orWords);
+        var result = _documentReader.GetOrDocuments(_invertedIndex, _words);
         
         // Assert
         result.Should().BeEquivalentTo(expectedDocuments);
-        _orDocumentsReader.Received(1).GetOrDocuments(invertedIndex, orWords);
+        _orDocumentsReader.Received(1).GetOrDocuments(_invertedIndex, _words);
         
-        // Verify that the original inputs are unchanged
-        invertedIndex.Should().BeEquivalentTo(_originalInvertedIndex);
-        orWords.Should().BeEquivalentTo(_originalWords);
+        // Verify that the original values are unchanged
         expectedDocuments.Should().BeEquivalentTo(_originalExpectedDocuments);
     }
 
     [Fact]
-    public void GetNotDocuments_WhenCorrectlyCalled_ShouldNotModifyInputAndReturnValues()
+    public void GetNotDocuments_WhenCorrectlyCalled_ShouldNotModifyReturnValues()
     {
         // Arrange
-        var invertedIndex = new Dictionary<string, List<string>>(_originalInvertedIndex);
-        var notWords = new List<string>(_originalWords);
         var expectedDocuments = new HashSet<string>(_originalExpectedDocuments);
-        
-        _notDocumentsReader.GetNotDocuments(invertedIndex, notWords).Returns(expectedDocuments);
+        _notDocumentsReader.GetNotDocuments(_invertedIndex, _words).Returns(expectedDocuments);
         
         // Act
-        var result = _documentReader.GetNotDocuments(invertedIndex, notWords);
+        var result = _documentReader.GetNotDocuments(_invertedIndex, _words);
         
         
         // Assert
         result.Should().BeEquivalentTo(expectedDocuments);
-        _notDocumentsReader.Received(1).GetNotDocuments(invertedIndex, notWords);
+        _notDocumentsReader.Received(1).GetNotDocuments(_invertedIndex, _words);
         
-        // Verify that the original inputs are unchanged
-        invertedIndex.Should().BeEquivalentTo(_originalInvertedIndex);
-        notWords.Should().BeEquivalentTo(_originalWords);
+        // Verify that the original values are unchanged
         expectedDocuments.Should().BeEquivalentTo(_originalExpectedDocuments);
     }
 
