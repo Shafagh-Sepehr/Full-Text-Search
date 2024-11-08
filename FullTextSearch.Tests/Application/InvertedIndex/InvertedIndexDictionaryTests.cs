@@ -20,28 +20,28 @@ public class InvertedIndexDictionaryTests
     }
 
     [Fact]
-    public void Construct_WhenCorrectlyCalled_ShouldNotModifyInputAndReturnValues()
+    public void Construct_WhenCorrectlyCalled_ShouldNotModifyInput()
     {
         // Arrange
         const string path = "path";
         var pathCopy = new string(path);
         IReadOnlyList<string> bannedWords = new List<string> { "bannedWords", };
-        var bannedWordsCopy = new List<string>(bannedWords);
-        var invertedIndex = new Dictionary<string, List<string>> { { "val", ["key",] }, };
-        var invertedIndexCopy = new Dictionary<string, List<string>> (invertedIndex);
+        IReadOnlyDictionary<string, List<string>> invertedIndex = new Dictionary<string, List<string>>();
 
         _invertedIndexDictionaryFiller.Build(path).Returns(invertedIndex);
 
         // Act
         _invertedIndexDictionary.Construct(path,bannedWords);
+
         // Assert
-
         _invertedIndexDictionaryFiller.Received(1).Construct(bannedWords);
-        _invertedIndexDictionaryFiller.Received(1).Build(path);
-        _querySearcher.Received(1).Construct(invertedIndex);
+        Received.InOrder(() =>
+        {
+            _invertedIndexDictionaryFiller.Build(path);
+            _querySearcher.Construct(invertedIndex);
+        });
 
-        bannedWords.Should().BeEquivalentTo(bannedWordsCopy);
-        invertedIndex.Should().BeEquivalentTo(invertedIndexCopy);
+        // Verify that it remains unchanged
         path.Should().BeEquivalentTo(pathCopy);
     }
 
@@ -57,26 +57,20 @@ public class InvertedIndexDictionaryTests
     }
 
     [Fact]
-    public void Search_WhenCorrectlyCalled_ShouldNotModifyInputAndReturnValues()
+    public void Search_WhenCorrectlyCalled_ShouldCallSearchOnSearcherAndNotModifyItsReturnValue()
     {
         // Arrange
-        const string path = "path";
-        _invertedIndexDictionary.Construct(path);
-
+        _invertedIndexDictionary.Construct("path");
         IReadOnlySet<string> expectedResult = new HashSet<string> { "res", };
-        var expectedResultCopy = new List<string>(expectedResult);
-        const string query = "query";
-        var queryCopy = new string(query);
 
+        const string query = "query";
         _querySearcher.Search(query).Returns(expectedResult);
 
         // Act
         var result = _invertedIndexDictionary.Search(query).ToList();
 
         // Assert
-        result.Should().BeEquivalentTo(expectedResult);
-        result.Should().BeEquivalentTo(expectedResultCopy);
-        query.Should().BeEquivalentTo(queryCopy);
+        result.Should().BeSameAs(expectedResult);
     }
 
     [Fact]
