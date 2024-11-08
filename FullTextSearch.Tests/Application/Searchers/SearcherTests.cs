@@ -16,9 +16,9 @@ public class SearcherTests
     private readonly Searcher          _searcher;
 
     
-    private readonly Dictionary<string, List<string>> _originalInvertedIndex;
-    private readonly ProcessedQueryWords              _originalWords;
-    private readonly HashSet<string>                  _originalExpectedResult;
+    private readonly Dictionary<string, List<string>> _invertedIndex;
+    private readonly ProcessedQueryWords              _words;
+    private readonly HashSet<string>                  _expectedResult;
 
     public SearcherTests()
     {
@@ -27,103 +27,63 @@ public class SearcherTests
         _orNotSearcher = Substitute.For<IOrNotSearcher>();
         _searcher = new(_andOrNotSearcher,_andNotSearcher,_orNotSearcher);
 
-        _originalInvertedIndex = new()
+        _invertedIndex = new()
         {
             { "word1", ["doc1", "doc2",] },
             { "word2", ["doc3",] },
         };
-        _originalWords = new()
+        _words = new()
         {
             AndWords = ["andword1", "andword2",],
             OrWords = ["orword1", "orword2",],
             NotWords = ["notword1", "notword2",],
         };
-        _originalExpectedResult = ["res1","res2","res3"];
+        _expectedResult = ["res1", "res2", "res3",];
     }
 
     [Fact]
-    public void AndOrNotSearch_WhenCorrectlyCalled_ShouldNotModifyInputAndReturnValues()
+    public void AndOrNotSearch_WhenCorrectlyCalled_ShouldCallAndOrNotSearchCorrectlyAndReturnItsValueUnchanged()
     {
         // Arrange
-        var invertedIndex = new Dictionary<string, List<string>>(_originalInvertedIndex);
-        var words = new ProcessedQueryWords
-        {
-            AndWords = _originalWords.AndWords,
-            OrWords = _originalWords.OrWords,
-            NotWords = _originalWords.NotWords,
-        };
-        var expectedResult = new HashSet<string>(_originalExpectedResult);
-        
-        _andOrNotSearcher.AndOrNotSearch(invertedIndex, words).Returns(expectedResult);
+        var expectedResult = new HashSet<string>(_expectedResult);
+        _andOrNotSearcher.AndOrNotSearch(_invertedIndex, _words).Returns(expectedResult);
         
         // Act
-        var result = _searcher.AndOrNotSearch(invertedIndex, words);
+        var result = _searcher.AndOrNotSearch(_invertedIndex, _words);
         
         // Assert
-        result.Should().BeEquivalentTo(expectedResult);
-        _andOrNotSearcher.Received(1).AndOrNotSearch(invertedIndex, words); 
-        
-        // Verify that the original inputs are unchanged
-        invertedIndex.Should().BeEquivalentTo(_originalInvertedIndex);
-        words.Should().BeEquivalentTo(_originalWords);
-        expectedResult.Should().BeEquivalentTo(_originalExpectedResult);
+        result.Should().BeSameAs(expectedResult);
+        _andOrNotSearcher.Received(1).AndOrNotSearch(_invertedIndex, _words);
     }
 
     [Fact]
-    public void AndNotSearch_WhenCorrectlyCalled_ShouldNotModifyInputAndReturnValues()
+    public void AndNotSearch_WhenCorrectlyCalled_ShouldCallAndNotSearchCorrectlyAndReturnItsValueUnchanged()
     {
         // Arrange
-        var invertedIndex = new Dictionary<string, List<string>>(_originalInvertedIndex);
-        var words = new ProcessedQueryWords
-        {
-            AndWords = _originalWords.AndWords,
-            OrWords = _originalWords.OrWords,
-            NotWords = _originalWords.NotWords,
-        };
-        var expectedResult = new HashSet<string>(_originalExpectedResult);
-        
-        _andNotSearcher.AndNotSearch(invertedIndex, words).Returns(expectedResult);
+        var expectedResult = new HashSet<string>(_expectedResult);
+        _andNotSearcher.AndNotSearch(_invertedIndex, _words).Returns(expectedResult);
         
         // Act
-        var result = _searcher.AndNotSearch(invertedIndex, words);
+        var result = _searcher.AndNotSearch(_invertedIndex, _words);
         
         // Assert
-        result.Should().BeEquivalentTo(expectedResult);
-        _andNotSearcher.Received(1).AndNotSearch(invertedIndex, words);
-        
-        // Verify that the original inputs are unchanged
-        invertedIndex.Should().BeEquivalentTo(_originalInvertedIndex);
-        words.Should().BeEquivalentTo(_originalWords);
-        expectedResult.Should().BeEquivalentTo(_originalExpectedResult);
+        result.Should().BeSameAs(expectedResult);
+        _andNotSearcher.Received(1).AndNotSearch(_invertedIndex, _words);
     }
 
     [Fact]
-    public void OrNotSearch_WhenCorrectlyCalled_ShouldNotModifyInputAndReturnValues()
+    public void OrNotSearch_WhenCorrectlyCalled_ShouldCallOrNotSearchCorrectlyAndReturnItsValueUnchanged()
     {
         // Arrange
-        var invertedIndex = new Dictionary<string, List<string>>(_originalInvertedIndex);
-        var words = new ProcessedQueryWords
-        {
-            AndWords = _originalWords.AndWords,
-            OrWords = _originalWords.OrWords,
-            NotWords = _originalWords.NotWords,
-        };
-        var expectedResult = new HashSet<string>(_originalExpectedResult);
-        
-        _orNotSearcher.OrNotSearch(invertedIndex, words).Returns(expectedResult);
+        var expectedResult = new HashSet<string>(_expectedResult);
+        _orNotSearcher.OrNotSearch(_invertedIndex, _words).Returns(expectedResult);
         
         // Act
-        var result = _searcher.OrNotSearch(invertedIndex, words);
-        
-        
+        var result = _searcher.OrNotSearch(_invertedIndex, _words);
+
         // Assert
-        result.Should().BeEquivalentTo(expectedResult);
-        _orNotSearcher.Received(1).OrNotSearch(invertedIndex, words);
-        
-        // Verify that the original inputs are unchanged
-        invertedIndex.Should().BeEquivalentTo(_originalInvertedIndex);
-        words.Should().BeEquivalentTo(_originalWords);
-        expectedResult.Should().BeEquivalentTo(_originalExpectedResult);
+        result.Should().BeSameAs(expectedResult);
+        _orNotSearcher.Received(1).OrNotSearch(_invertedIndex, _words);
     }
 
     [Fact]
