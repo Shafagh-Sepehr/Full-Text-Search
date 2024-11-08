@@ -16,9 +16,9 @@ public class SearcherTests
     private readonly Searcher          _searcher;
 
     
-    private readonly Dictionary<string, List<string>> _invertedIndex;
-    private readonly ProcessedQueryWords              _words;
-    private readonly HashSet<string>                  _expectedResult;
+    private readonly IReadOnlyDictionary<string, List<string>> _invertedIndex;
+    private readonly ProcessedQueryWords                       _words;
+    private readonly IReadOnlySet<string>                      _expectedResult;
 
     public SearcherTests()
     {
@@ -27,7 +27,7 @@ public class SearcherTests
         _orNotSearcher = Substitute.For<IOrNotSearcher>();
         _searcher = new(_andOrNotSearcher,_andNotSearcher,_orNotSearcher);
 
-        _invertedIndex = new()
+        _invertedIndex = new Dictionary<string, List<string>>()
         {
             { "word1", ["doc1", "doc2",] },
             { "word2", ["doc3",] },
@@ -38,7 +38,7 @@ public class SearcherTests
             OrWords = ["orword1", "orword2",],
             NotWords = ["notword1", "notword2",],
         };
-        _expectedResult = ["res1", "res2", "res3",];
+        _expectedResult = new HashSet<string> {"res1", "res2", "res3",};
     }
 
     [Fact]
