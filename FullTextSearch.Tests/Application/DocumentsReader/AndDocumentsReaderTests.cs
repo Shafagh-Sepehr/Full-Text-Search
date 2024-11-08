@@ -6,7 +6,6 @@ namespace FullTextSearch.Tests.Application.DocumentsReader;
 public class AndDocumentsReaderTests
 {
     private readonly AndDocumentsReader _reader = new();
-
     private readonly Dictionary<string, List<string>> _invertedIndex = new()
     {
         { "green", ["1", "2", "3",] },
@@ -39,7 +38,7 @@ public class AndDocumentsReaderTests
         yield return [new[] { "green", "orange", "purple", }, new HashSet<string> { "2", },];
         yield return [new[] { "green", "orange", "purple", "brown", }, new HashSet<string>(),];
         yield return [new[] { "green", "yellow", }, new HashSet<string>(),];
-        yield return [new[] { "green", }, new HashSet<string>{"1","2","3"},];
+        yield return [new[] { "green", }, new HashSet<string> { "1", "2", "3", },];
         yield return [Array.Empty<string>(), new HashSet<string>(),];
     }
 }

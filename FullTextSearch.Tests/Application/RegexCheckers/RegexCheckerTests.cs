@@ -7,10 +7,10 @@ namespace FullTextSearch.Tests.Application.RegexCheckers;
 
 public class RegexCheckerTests
 {
+    private readonly RegexChecker             _regexChecker;
     private readonly IEmailRegexChecker       _emailRegexChecker;
     private readonly IPhoneNumberRegexChecker _phoneNumberRegexChecker;
     private readonly IUrlRegexChecker         _urlRegexChecker;
-    private readonly RegexChecker             _regexChecker;
 
     private readonly string _trueInput;
     private readonly string _falseInput;
@@ -20,7 +20,7 @@ public class RegexCheckerTests
         _emailRegexChecker = Substitute.For<IEmailRegexChecker>();
         _phoneNumberRegexChecker = Substitute.For<IPhoneNumberRegexChecker>();
         _urlRegexChecker = Substitute.For<IUrlRegexChecker>();
-        _regexChecker = new(_emailRegexChecker, _phoneNumberRegexChecker,_urlRegexChecker);
+        _regexChecker = new(_emailRegexChecker, _phoneNumberRegexChecker, _urlRegexChecker);
 
         _trueInput = " original true input ";
         _falseInput = " original false input ";
@@ -58,8 +58,8 @@ public class RegexCheckerTests
         // Assert
         trueResult.Should().Be(true);
         falseResult.Should().Be(false);
-        _phoneNumberRegexChecker.Received(1).Matches(_trueInput); 
-        _phoneNumberRegexChecker.Received(1).Matches(_falseInput); 
+        _phoneNumberRegexChecker.Received(1).Matches(_trueInput);
+        _phoneNumberRegexChecker.Received(1).Matches(_falseInput);
     }
     
     
@@ -77,7 +77,7 @@ public class RegexCheckerTests
         // Assert
         trueResult.Should().Be(true);
         falseResult.Should().Be(false);
-        _urlRegexChecker.Received(1).Matches(_trueInput); 
+        _urlRegexChecker.Received(1).Matches(_trueInput);
         _urlRegexChecker.Received(1).Matches(_falseInput);
     }
     
@@ -85,14 +85,14 @@ public class RegexCheckerTests
     public void Constructor_WhenADependencyIsNull_ShouldThrowArgumentNullException()
     {
         // Arrange
-        var       emailRegexChecker = Substitute.For<IEmailRegexChecker>();
+        var emailRegexChecker = Substitute.For<IEmailRegexChecker>();
         var phoneNumberRegexChecker = Substitute.For<IPhoneNumberRegexChecker>();
-        var         urlRegexChecker = Substitute.For<IUrlRegexChecker>();
+        var urlRegexChecker = Substitute.For<IUrlRegexChecker>();
 
         // Act
-        Action act1 = () => new RegexChecker(null!,phoneNumberRegexChecker, urlRegexChecker);
-        Action act2 = () => new RegexChecker(emailRegexChecker,null!, urlRegexChecker);
-        Action act3 = () => new RegexChecker(emailRegexChecker,phoneNumberRegexChecker, null!);
+        Action act1 = () => new RegexChecker(null!, phoneNumberRegexChecker, urlRegexChecker);
+        Action act2 = () => new RegexChecker(emailRegexChecker, null!, urlRegexChecker);
+        Action act3 = () => new RegexChecker(emailRegexChecker, phoneNumberRegexChecker, null!);
 
         // Assert
         act1.Should().Throw<ArgumentNullException>();

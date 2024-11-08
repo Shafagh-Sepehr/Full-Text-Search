@@ -10,9 +10,9 @@ namespace FullTextSearch.Tests.Application.InvertedIndex;
 
 public class QuerySearcherTests
 {
+    private readonly QuerySearcher   _querySearcher;
     private readonly ISearchExecutor _searchExecutor;
     private readonly IWordsProcessor _wordsProcessor;
-    private readonly QuerySearcher   _querySearcher;
     
     public QuerySearcherTests()
     {
@@ -20,16 +20,16 @@ public class QuerySearcherTests
         _searchExecutor = Substitute.For<ISearchExecutor>();
         _querySearcher = new(_wordsProcessor, _searchExecutor);
     }
-
+    
     [Fact]
     public void Construct_WhenCorrectlyCalled_ShouldCallConstructMethodOnQuerySearcher()
     {
         // Arrange
         var invertedIndex = new Dictionary<string, List<string>>();
-
+        
         // Act
         _querySearcher.Construct(invertedIndex);
-
+        
         // Assert
         _searchExecutor.Received(1).Construct(invertedIndex);
     }
@@ -56,6 +56,7 @@ public class QuerySearcherTests
         // Assert
         result.Should().BeEmpty();
     }
+    
     public static IEnumerable<object?[]> NullOrWhiteSpaceTestData()
     {
         yield return ["",];
@@ -75,29 +76,29 @@ public class QuerySearcherTests
             { "key2", ["value3", "value4",] },
             { "key3", ["value5", "value6",] },
         };
-
+        
         var andReturns = new List<string> { "key1", "keey1", };
         var orReturns = new List<string> { "key2", "keey2", };
         var notReturns = new List<string> { "key3", "keey3", };
-
+        
         _querySearcher.Construct(invertedIndex);
-
+        
         _wordsProcessor.GetOrWords(Arg.Is<string[]>(x => x.Length == processedQuery.Length && !x.Except(processedQuery).Any())).Returns(orReturns);
         _wordsProcessor.GetAndWords(Arg.Is<string[]>(x => x.Length == processedQuery.Length && !x.Except(processedQuery).Any())).Returns(andReturns);
         _wordsProcessor.GetNotWords(Arg.Is<string[]>(x => x.Length == processedQuery.Length && !x.Except(processedQuery).Any())).Returns(notReturns);
-
+        
         var expectedResult = new HashSet<string> { "res1", "res2", };
         var expectedResultCopy = new HashSet<string>(expectedResult);
-
-
+        
+        
         _searchExecutor.ExecuteSearch(Arg.Is<ProcessedQueryWords>(x =>
             x.AndWords.Count == andReturns.Count && !x.AndWords.Except(andReturns).Any() &&
             x.OrWords.Count == orReturns.Count && !x.OrWords.Except(orReturns).Any() &&
             x.NotWords.Count == notReturns.Count && !x.NotWords.Except(notReturns).Any())).Returns(expectedResult);
-
+        
         // Act
         var result = _querySearcher.Search(query);
-
+        
         // Assert
         result.Should().BeEquivalentTo(expectedResult);
         _wordsProcessor.Received(1).GetOrWords(Arg.Is<string[]>(x => x.Length == processedQuery.Length && !x.Except(processedQuery).Any()));
@@ -122,7 +123,7 @@ public class QuerySearcherTests
         // Act
         Action act1 = () => new QuerySearcher(null!, searcher);
         Action act2 = () => new QuerySearcher(wordsProcessor, null!);
-
+        
         // Assert
         act1.Should().Throw<ArgumentNullException>();
         act2.Should().Throw<ArgumentNullException>();

@@ -7,12 +7,12 @@ public sealed class InvertedIndexFactory : IInvertedIndexFactory
 {
     public IInvertedIndexDictionary Create(string path, IReadOnlyList<string>? bannedWords)
     {
-        var serviceProvider = FullTextSearch.ServiceCollection.ServiceProvider;
+        var serviceProvider = ServiceCollection.ServiceProvider;
         
         var invertedIndex = serviceProvider.GetService<IInvertedIndexDictionary>();
         ArgumentNullException.ThrowIfNull(invertedIndex);
         invertedIndex.Construct(path, bannedWords);
-
+        
         return invertedIndex;
     }
 }

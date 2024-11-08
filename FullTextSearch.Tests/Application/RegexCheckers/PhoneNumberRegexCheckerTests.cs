@@ -5,10 +5,9 @@ namespace FullTextSearch.Tests.Application.RegexCheckers;
 
 public class PhoneNumberRegexCheckerTests
 {
-    
     // Arrange
     private readonly PhoneNumberRegexChecker _phoneNumberRegexChecker = new();
-
+    
     
     [Theory]
     [MemberData(nameof(TrueTestData))]
@@ -20,7 +19,7 @@ public class PhoneNumberRegexCheckerTests
         // Assert
         result.Should().Be(expectedResult);
     }
-
+    
     public static IEnumerable<object?[]> TrueTestData()
     {
         yield return ["+1 234-567-8900", true,];

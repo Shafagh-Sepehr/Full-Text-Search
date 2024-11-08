@@ -13,23 +13,23 @@ public class StringListStemmerTests
     public StringListStemmerTests()
     {
         _stemmer = Substitute.For<IPorter2Stemmer>();
-        _stringListStemmer = new StringListStemmer(_stemmer);
+        _stringListStemmer = new(_stemmer);
     }
     
     [Fact]
     public void Stem_WhenCorrectlyCalled_ShouldReturnStemmedWords()
     {
         // Arrange
-        var input = new List<string> { "running", "jumps", "easily" };
-        _stemmer.Stem("running").Returns(new StemmedWord("run","running"));
-        _stemmer.Stem("jumps").Returns(new StemmedWord("jump","jumps"));
-        _stemmer.Stem("easily").Returns(new StemmedWord("easy","easily"));
+        var input = new List<string> { "running", "jumps", "easily", };
+        _stemmer.Stem("running").Returns(new StemmedWord("run", "running"));
+        _stemmer.Stem("jumps").Returns(new StemmedWord("jump", "jumps"));
+        _stemmer.Stem("easily").Returns(new StemmedWord("easy", "easily"));
         
         // Act
         var result = _stringListStemmer.Stem(input);
-
+        
         // Assert
-        result.Should().BeEquivalentTo(["run","jump","easy",]);
+        result.Should().BeEquivalentTo(["run", "jump", "easy",]);
     }
     
     [Fact]
@@ -40,7 +40,7 @@ public class StringListStemmerTests
         
         // Act
         var result = _stringListStemmer.Stem(input);
-
+        
         // Assert
         result.Should().BeEmpty();
     }
@@ -50,10 +50,10 @@ public class StringListStemmerTests
     {
         // Arrange
         IPorter2Stemmer stemmer = null!;
-
+        
         // Act
         Action act = () => new StringListStemmer(stemmer);
-
+        
         // Assert
         act.Should().Throw<ArgumentNullException>();
     }

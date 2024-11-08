@@ -18,7 +18,7 @@ public class UrlRegexCheckerTests
         // Assert
         result.Should().Be(expectedResult);
     }
-
+    
     public static IEnumerable<object?[]> TrueTestData()
     {
         yield return ["http://192.168.1.1:8080/home", true,];
@@ -47,25 +47,25 @@ public class UrlRegexCheckerTests
         yield return ["google.com/help/support", true,];
         yield return ["https://webauth.iut.ac.ir/cas/login?service=https%3A%2F%2Flogin.iut.ac.ir%2Flogin%2Fcas", true,];
         yield return ["https://dining.iut.ac.ir/#!/UserIndex", true,];
-        yield return ["This is a simple text without a URL.",false];
-        yield return ["Check out my email at example@domain.com!",false];
-        yield return ["The price is $50.",false];
-        yield return ["Just a random string with numbers 123456.",false];
-        yield return ["This string has a hashtag #hashtag but no URL.",false];
-        yield return ["My favorite number is 42.",false];
-        yield return ["Visit us at our office in New York.",false];
-        yield return ["This is a phone number: (123) 456-7890.",false];
-        yield return ["Here is a list: apples, oranges, bananas.",false];
-        yield return ["A quote: \",To be or not to be.\"",false];
-        yield return ["This is a date: 2023-10-01.",false];
-        yield return ["Some special characters: @#$%^&*()!",false];
-        yield return ["A sentence with a period at the end.",false];
-        yield return [@"This is a file path: C:\Users\Name\Documents\file.txt",false];
-        yield return ["A mathematical expression: 2 + 2 = 4",false];
-        yield return ["Random text with no URL: Lorem ipsum dolor sit amet.",false];
-        yield return ["This is a command: git commit -m \",message\"",false];
-        yield return ["A list of items: item1, item2, item3.",false];
-        yield return ["A JSON object: {\",key\": \"value\"}",false];
-        yield return ["This is a code snippet: for (int i = 0; i < 10; i++) {}",false];
+        yield return ["This is a simple text without a URL.", false,];
+        yield return ["Check out my email at example@domain.com!", false,];
+        yield return ["The price is $50.", false,];
+        yield return ["Just a random string with numbers 123456.", false,];
+        yield return ["This string has a hashtag #hashtag but no URL.", false,];
+        yield return ["My favorite number is 42.", false,];
+        yield return ["Visit us at our office in New York.", false,];
+        yield return ["This is a phone number: (123) 456-7890.", false,];
+        yield return ["Here is a list: apples, oranges, bananas.", false,];
+        yield return ["A quote: \",To be or not to be.\"", false,];
+        yield return ["This is a date: 2023-10-01.", false,];
+        yield return ["Some special characters: @#$%^&*()!", false,];
+        yield return ["A sentence with a period at the end.", false,];
+        yield return [@"This is a file path: C:\Users\Name\Documents\file.txt", false,];
+        yield return ["A mathematical expression: 2 + 2 = 4", false,];
+        yield return ["Random text with no URL: Lorem ipsum dolor sit amet.", false,];
+        yield return ["This is a command: git commit -m \",message\"", false,];
+        yield return ["A list of items: item1, item2, item3.", false,];
+        yield return ["A JSON object: {\",key\": \"value\"}", false,];
+        yield return ["This is a code snippet: for (int i = 0; i < 10; i++) {}", false,];
     }
 }

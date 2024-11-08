@@ -6,16 +6,16 @@ namespace FullTextSearch.ConfigurationService.Services;
 internal class ConfigurationService : IConfigurationService
 {
     private readonly IConfigurationRoot _config;
-
+    
     public ConfigurationService(IConfigurationBuilder configurationBuilder)
     {
         ArgumentNullException.ThrowIfNull(configurationBuilder);
-
+        
         _config = configurationBuilder
-             .SetBasePath(Directory.GetCurrentDirectory())
-             .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-             .Build();
+            .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile("appsettings.json", false, true)
+            .Build();
     }
-
+    
     public IConfigurationRoot GetConfig() => _config;
 }

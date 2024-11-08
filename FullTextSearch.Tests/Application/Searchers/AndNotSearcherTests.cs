@@ -10,15 +10,14 @@ public class AndNotSearcherTests
 {
     private readonly AndNotSearcher  _andOrNotSearcher;
     private readonly IDocumentReader _documentReader;
-
+    
     public AndNotSearcherTests()
     {
         _documentReader = Substitute.For<IDocumentReader>();
         _andOrNotSearcher = new(_documentReader);
-
     }
-
-
+    
+    
     [Theory]
     [MemberData(nameof(TestData))]
     public void AndNotSearch_WhenCorrectlyCalled_ShouldCallMethodsInOrderAndShouldReturnCorrectDocs(
@@ -32,13 +31,13 @@ public class AndNotSearcherTests
             OrWords = [],
             NotWords = ["notword1", "notword2",],
         };
-
+        
         _documentReader.GetAndDocuments(invertedIndex, words.AndWords).Returns(andDocs);
         _documentReader.GetNotDocuments(invertedIndex, words.NotWords).Returns(notDocs);
-
+        
         // Act
         var result = _andOrNotSearcher.AndNotSearch(invertedIndex, words);
-
+        
         // Assert
         result.Should().BeEquivalentTo(expectedResult);
         Received.InOrder(() =>
@@ -48,7 +47,7 @@ public class AndNotSearcherTests
         });
         _documentReader.DidNotReceiveWithAnyArgs().GetOrDocuments(default!, default!);
     }
-
+    
     public static IEnumerable<object?[]> TestData()
     {
         yield return [new HashSet<string> { "1", "2", }, new HashSet<string>(), new HashSet<string> { "1", "2", },];
@@ -58,16 +57,16 @@ public class AndNotSearcherTests
         yield return [new HashSet<string> { "1", "2", }, new HashSet<string> { "3", "4", }, new HashSet<string> { "2", "1", },];
         yield return [new HashSet<string> { "1", "2", }, new HashSet<string> { "1", "2", }, new HashSet<string>(),];
     }
-
+    
     [Fact]
     public void Constructor_WhenADependencyIsNull_ShouldThrowArgumentNullException()
     {
         // Arrange
         IDocumentReader documentReader = null!;
-
+        
         // Act
         Action act = () => new AndNotSearcher(documentReader);
-
+        
         // Assert
         act.Should().Throw<ArgumentNullException>();
     }

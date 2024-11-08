@@ -7,8 +7,8 @@ namespace FullTextSearch.Application.Searchers.Services;
 internal sealed class AndNotSearcher(IDocumentReader documentReader) : IAndNotSearcher
 {
     private readonly IDocumentReader _documentReader = documentReader ?? throw new ArgumentNullException(nameof(documentReader));
-
-
+    
+    
     public IReadOnlySet<string> AndNotSearch(IReadOnlyDictionary<string, List<string>> invertedIndex, ProcessedQueryWords processedQueryWords)
     {
         var docsSet = _documentReader.GetAndDocuments(invertedIndex, processedQueryWords.AndWords);

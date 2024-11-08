@@ -7,14 +7,14 @@ namespace FullTextSearch.Tests.Application.WordProcessors;
 
 public class WordsProcessorTests
 {
-    private readonly IAndWordsProcessor _andWordsProcessor;
-    private readonly IOrWordsProcessor  _orWordsProcessor;
-    private readonly INotWordsProcessor _notWordsProcessor;
-    private readonly WordsProcessor     _wordsProcessor;
+    private readonly IAndWordsProcessor    _andWordsProcessor;
+    private readonly IReadOnlyList<string> _expectedResult;
+    private readonly INotWordsProcessor    _notWordsProcessor;
+    private readonly IOrWordsProcessor     _orWordsProcessor;
     
     private readonly IReadOnlyList<string> _query;
-    private readonly IReadOnlyList<string> _expectedResult;
-
+    private readonly WordsProcessor        _wordsProcessor;
+    
     public WordsProcessorTests()
     {
         _andWordsProcessor = Substitute.For<IAndWordsProcessor>();
@@ -25,7 +25,7 @@ public class WordsProcessorTests
         _query = ["word1", "word2",];
         _expectedResult = ["word11", "word12",];
     }
-
+    
     [Fact]
     public void GetAndWords_WhenCorrectlyCalled_ShouldNotModifyInputAndReturnValues()
     {
@@ -39,7 +39,7 @@ public class WordsProcessorTests
         result.Should().BeSameAs(_expectedResult);
         _andWordsProcessor.Received(1).GetAndWords(_query);
     }
-
+    
     [Fact]
     public void GetOrWords_WhenCorrectlyCalled_ShouldNotModifyInputAndReturnValues()
     {
@@ -53,7 +53,7 @@ public class WordsProcessorTests
         result.Should().BeSameAs(_expectedResult);
         _orWordsProcessor.Received(1).GetOrWords(_query);
     }
-
+    
     [Fact]
     public void GetNotWords_WhenCorrectlyCalled_ShouldNotModifyInputAndReturnValues()
     {
@@ -62,25 +62,25 @@ public class WordsProcessorTests
         
         // Act
         var result = _wordsProcessor.GetNotWords(_query);
-
+        
         // Assert
         result.Should().BeSameAs(_expectedResult);
         _notWordsProcessor.Received(1).GetNotWords(_query);
     }
-
+    
     [Fact]
     public void Constructor_WhenADependencyIsNull_ShouldThrowArgumentNullException()
     {
         // Arrange
         var andWordsProcessor = Substitute.For<IAndWordsProcessor>();
-        var  orWordsProcessor  = Substitute.For<IOrWordsProcessor>();
+        var orWordsProcessor = Substitute.For<IOrWordsProcessor>();
         var notWordsProcessor = Substitute.For<INotWordsProcessor>();
-
+        
         // Act
         Action act1 = () => new WordsProcessor(null!, orWordsProcessor, notWordsProcessor);
         Action act2 = () => new WordsProcessor(andWordsProcessor, null!, notWordsProcessor);
         Action act3 = () => new WordsProcessor(andWordsProcessor, orWordsProcessor, null!);
-
+        
         // Assert
         act1.Should().Throw<ArgumentNullException>();
         act2.Should().Throw<ArgumentNullException>();

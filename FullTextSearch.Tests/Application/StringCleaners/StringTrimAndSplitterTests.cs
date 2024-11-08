@@ -6,18 +6,18 @@ namespace FullTextSearch.Tests.Application.StringCleaners;
 public class StringTrimAndSplitterTests
 {
     private readonly StringTrimAndSplitter _stringTrimAndSplitter = new();
-
+    
     [Theory]
     [MemberData(nameof(TestData))]
     public void TrimAndSplit_WhenCorrectlyCalled_ShouldReturnListOfTrimmedSplitedString(string input, IEnumerable<string> expectedResult)
     {
         // Act
         var result = _stringTrimAndSplitter.TrimAndSplit(input);
-
+        
         // Assert
         result.Should().BeEquivalentTo(expectedResult);
     }
-
+    
     public static IEnumerable<object?[]> TestData()
     {
         yield return ["", new List<string> { "", },];

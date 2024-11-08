@@ -6,7 +6,6 @@ namespace FullTextSearch.Tests.Application.DocumentsReader;
 public class OrDocumentsReaderTests
 {
     private readonly OrDocumentsReader _reader = new();
-
     private readonly Dictionary<string, List<string>> _invertedIndex = new()
     {
         { "green", ["1", "2", "3",] },

@@ -10,9 +10,9 @@ public class AndOrNotSearcherTests
 {
     private readonly AndOrNotSearcher _andOrNotSearcher;
     private readonly IDocumentReader  _documentReader;
-
-    private readonly ProcessedQueryWords              _words;
-
+    
+    private readonly ProcessedQueryWords _words;
+    
     public AndOrNotSearcherTests()
     {
         _documentReader = Substitute.For<IDocumentReader>();
@@ -25,7 +25,7 @@ public class AndOrNotSearcherTests
             NotWords = ["notword1", "notword2",],
         };
     }
-
+    
     [Theory]
     [MemberData(nameof(TestData))]
     public void AndOrNotSearch_WhenCorrectlyCalled_ShouldCallMethodsInOrderAndShouldReturnCorrectDocs(
@@ -39,14 +39,14 @@ public class AndOrNotSearcherTests
             OrWords = ["orword1", "orword2",],
             NotWords = ["notword1", "notword2",],
         };
-
+        
         _documentReader.GetAndDocuments(invertedIndex, words.AndWords).Returns(andDocs);
         _documentReader.GetOrDocuments(invertedIndex, words.OrWords).Returns(orDocs);
         _documentReader.GetNotDocuments(invertedIndex, words.NotWords).Returns(notDocs);
-
+        
         // Act
         var result = _andOrNotSearcher.AndOrNotSearch(invertedIndex, words);
-
+        
         // Assert
         result.Should().BeEquivalentTo(expectedResult);
         Received.InOrder(() =>
@@ -56,7 +56,7 @@ public class AndOrNotSearcherTests
             _documentReader.GetNotDocuments(invertedIndex, words.NotWords);
         });
     }
-
+    
     public static IEnumerable<object?[]> TestData()
     {
         yield return [new HashSet<string> { "1", }, new HashSet<string> { "2", }, new HashSet<string>(), new HashSet<string>(),];
@@ -90,16 +90,16 @@ public class AndOrNotSearcherTests
             new HashSet<string> { "1", "2", "4", "6", },
         ];
     }
-
+    
     [Fact]
     public void Constructor_WhenADependencyIsNull_ShouldThrowArgumentNullException()
     {
         // Arrange
         IDocumentReader documentReader = null!;
-
+        
         // Act
         Action act = () => new AndOrNotSearcher(documentReader);
-
+        
         // Assert
         act.Should().Throw<ArgumentNullException>();
     }

@@ -20,14 +20,14 @@ internal sealed class StringToWordsProcessor(
     private readonly IStringListNoiseCleaner _stringListNoiseCleaner =
         stringListNoiseCleaner ?? throw new ArgumentNullException(nameof(stringListNoiseCleaner));
     
+    private readonly IStringListNonValidWordCleaner _stringListNonValidWordCleaner =
+        stringListNonValidWordCleaner ?? throw new ArgumentNullException(nameof(stringListNonValidWordCleaner));
+    
     private readonly IStringListStemmer _stringListStemmer =
         stringListStemmer ?? throw new ArgumentNullException(nameof(stringListStemmer));
     
     private readonly IStringTrimAndSplitter _stringTrimAndSplitter =
         stringTrimAndSplitter ?? throw new ArgumentNullException(nameof(stringTrimAndSplitter));
-
-    private readonly IStringListNonValidWordCleaner _stringListNonValidWordCleaner =
-        stringListNonValidWordCleaner ?? throw new ArgumentNullException(nameof(stringListNonValidWordCleaner));
     
     public IEnumerable<string> TrimSplitAndStemString(string source)
     {

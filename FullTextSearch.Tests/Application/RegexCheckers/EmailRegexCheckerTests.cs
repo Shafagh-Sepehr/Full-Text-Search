@@ -18,7 +18,7 @@ public class EmailRegexCheckerTests
         // Assert
         result.Should().Be(expectedResult);
     }
-
+    
     public static IEnumerable<object?[]> TrueTestData()
     {
         yield return ["test.email@example.com", true,];

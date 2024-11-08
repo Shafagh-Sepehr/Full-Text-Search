@@ -11,33 +11,33 @@ internal sealed class QuerySearcher(IWordsProcessor wordsProcessor, ISearchExecu
     private readonly IWordsProcessor _wordsProcessor = wordsProcessor ?? throw new ArgumentNullException(nameof(wordsProcessor));
     private          bool            _isConstructed;
     private          string[]        _queryWords = null!;
-
-    public void Construct(IReadOnlyDictionary<string, List<string>> invertedIndex)
-    {
-        _searchExecutor.Construct(invertedIndex);
-        _isConstructed = true;
-    }
-
-    private void AssertConstructMethodCalled()
-    {
-        if (!_isConstructed) throw new ConstructMethodNotCalledException();
-    }
-
-    public IReadOnlySet<string> Search(string query)
-    {
-        AssertConstructMethodCalled();
-        if (string.IsNullOrWhiteSpace(query)) return new HashSet<string>();
-
-        SetQueryWords(query);
-        return _searchExecutor.ExecuteSearch(ProcessedQueryWords);
-    }
-
+    
     private ProcessedQueryWords ProcessedQueryWords => new()
     {
         AndWords = _wordsProcessor.GetAndWords(_queryWords),
         OrWords = _wordsProcessor.GetOrWords(_queryWords),
         NotWords = _wordsProcessor.GetNotWords(_queryWords),
     };
-
+    
+    public void Construct(IReadOnlyDictionary<string, List<string>> invertedIndex)
+    {
+        _searchExecutor.Construct(invertedIndex);
+        _isConstructed = true;
+    }
+    
+    public IReadOnlySet<string> Search(string query)
+    {
+        AssertConstructMethodCalled();
+        if (string.IsNullOrWhiteSpace(query)) return new HashSet<string>();
+        
+        SetQueryWords(query);
+        return _searchExecutor.ExecuteSearch(ProcessedQueryWords);
+    }
+    
+    private void AssertConstructMethodCalled()
+    {
+        if (!_isConstructed) throw new ConstructMethodNotCalledException();
+    }
+    
     private void SetQueryWords(string query) => _queryWords = query.Trim().Split();
 }

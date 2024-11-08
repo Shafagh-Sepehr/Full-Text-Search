@@ -28,7 +28,7 @@ public class StringToWordsProcessorTests
         _stringListNonValidWordCleaner = Substitute.For<IStringListNonValidWordCleaner>();
 
         _stringToWordsProcessor = new(_stringListNoiseCleaner, _stringTrimAndSplitter, _stringListCleaner, _stringListStemmer,
-                                      _stringListNonValidWordCleaner);
+            _stringListNonValidWordCleaner);
     }
 
     [Fact]

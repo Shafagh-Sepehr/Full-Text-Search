@@ -10,12 +10,11 @@ namespace FullTextSearch.Tests.Application.Searchers;
 
 public class SearcherTests
 {
+    private readonly Searcher          _searcher;
     private readonly IAndOrNotSearcher _andOrNotSearcher;
     private readonly IAndNotSearcher   _andNotSearcher;
     private readonly IOrNotSearcher    _orNotSearcher;
-    private readonly Searcher          _searcher;
 
-    
     private readonly IReadOnlyDictionary<string, List<string>> _invertedIndex;
     private readonly ProcessedQueryWords                       _words;
     private readonly IReadOnlySet<string>                      _expectedResult;
@@ -25,9 +24,9 @@ public class SearcherTests
         _andOrNotSearcher = Substitute.For<IAndOrNotSearcher>();
         _andNotSearcher = Substitute.For<IAndNotSearcher>();
         _orNotSearcher = Substitute.For<IOrNotSearcher>();
-        _searcher = new(_andOrNotSearcher,_andNotSearcher,_orNotSearcher);
+        _searcher = new(_andOrNotSearcher, _andNotSearcher, _orNotSearcher);
 
-        _invertedIndex = new Dictionary<string, List<string>>()
+        _invertedIndex = new Dictionary<string, List<string>>
         {
             { "word1", ["doc1", "doc2",] },
             { "word2", ["doc3",] },
@@ -38,7 +37,7 @@ public class SearcherTests
             OrWords = ["orword1", "orword2",],
             NotWords = ["notword1", "notword2",],
         };
-        _expectedResult = new HashSet<string> {"res1", "res2", "res3",};
+        _expectedResult = new HashSet<string> { "res1", "res2", "res3", };
     }
 
     [Fact]

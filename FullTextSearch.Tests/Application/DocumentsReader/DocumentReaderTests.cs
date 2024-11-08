@@ -7,8 +7,8 @@ namespace FullTextSearch.Tests.Application.DocumentsReader;
 
 public class DocumentReaderTests
 {
-    private readonly IAndDocumentsReader _andDocumentsReader;
     private readonly DocumentReader      _documentReader;
+    private readonly IAndDocumentsReader _andDocumentsReader;
     private readonly INotDocumentsReader _notDocumentsReader;
     private readonly IOrDocumentsReader  _orDocumentsReader;
 

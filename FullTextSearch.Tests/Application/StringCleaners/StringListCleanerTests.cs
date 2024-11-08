@@ -6,18 +6,18 @@ namespace FullTextSearch.Tests.Application.StringCleaners;
 public class StringListCleanerTests
 {
     private readonly StringListCleaner _stringListCleaner = new();
-
+    
     [Theory]
     [MemberData(nameof(TestData))]
     public void Clean_WhenInputIsProvided_ShouldReturnExpectedResults(IEnumerable<string> input, IEnumerable<string> expectedResult)
     {
         // Act
         var result = _stringListCleaner.Clean(input).ToList();
-
+        
         // Assert
         result.Should().BeEquivalentTo(expectedResult);
     }
-
+    
     public static IEnumerable<object?[]> TestData()
     {
         yield return [new List<string> { ")(*&^%Hello!@#", "World123", "Test$%^&", }, new List<string> { "Hello", "World", "Test", },];

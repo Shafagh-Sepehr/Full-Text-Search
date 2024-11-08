@@ -11,5 +11,4 @@ internal class RegexChecker(IEmailRegexChecker emailChecker, IPhoneNumberRegexCh
     public bool HasEmail(string value) => _emailChecker.Matches(value);
     public bool HasPhoneNumber(string value) => _phoneNumberChecker.Matches(value);
     public bool HasUrl(string value) => _urlChecker.Matches(value);
-    
 }

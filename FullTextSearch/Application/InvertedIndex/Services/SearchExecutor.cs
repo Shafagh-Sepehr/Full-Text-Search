@@ -21,7 +21,7 @@ internal class SearchExecutor(ISearcher searcher) : ISearchExecutor
     public IReadOnlySet<string> ExecuteSearch(ProcessedQueryWords processedWords)
     {
         AssertConstructMethodCalled();
-
+        
         
         if (AreAllWordTypesPresent(processedWords))
             return _searcher.AndOrNotSearch(_invertedIndex!, processedWords);

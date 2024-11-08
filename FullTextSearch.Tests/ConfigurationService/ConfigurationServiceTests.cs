@@ -10,10 +10,10 @@ public class ConfigurationServiceTests
     {
         // Arrange
         IConfigurationBuilder configurationBuilder = null!;
-
+        
         // Act
         Action act = () => new FullTextSearch.ConfigurationService.Services.ConfigurationService(configurationBuilder);
-
+        
         // Assert
         act.Should().Throw<ArgumentNullException>();
     }

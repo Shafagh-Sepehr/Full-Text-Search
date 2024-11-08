@@ -17,7 +17,7 @@ internal static class Program
     {
         var serviceProvider = ServiceCollection.ServiceProvider;
         var config = serviceProvider.GetService<IConfigurationService>();
-
+        
         if (config == null)
         {
             throw new ArgumentNullException(nameof(config));
@@ -27,7 +27,7 @@ internal static class Program
         var bannedWords = config.GetConfig().GetSection("BannedWords").Get<string[]>();
         if (documentsPath == null)
         {
-            throw new ArgumentNullException(nameof(documentsPath),"can't be null");
+            throw new ArgumentNullException(nameof(documentsPath), "can't be null");
         }
         
         IInvertedIndexFactory invertedIndexFactory = new InvertedIndexFactory();
@@ -43,6 +43,4 @@ internal static class Program
         
         foreach (var doc in result) Output.WriteLine(doc);
     }
-    
-    
 }
