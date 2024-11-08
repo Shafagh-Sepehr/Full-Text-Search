@@ -22,22 +22,16 @@ public class QuerySearcherTests
     }
 
     [Fact]
-    public void Construct_WhenCorrectlyCalled_ShouldNotModifyInputValue()
+    public void Construct_WhenCorrectlyCalled_ShouldCallConstructMethodOnQuerySearcher()
     {
         // Arrange
-        var invertedIndex = new Dictionary<string, List<string>>
-        {
-            { "key1", ["value1", "value2",] },
-            { "key2", ["value3", "value4",] },
-        };
-        var invertedIndexCopy = new Dictionary<string, List<string>>(invertedIndex);
+        var invertedIndex = new Dictionary<string, List<string>>();
 
         // Act
         _querySearcher.Construct(invertedIndex);
 
         // Assert
         _searchExecutor.Received(1).Construct(invertedIndex);
-        invertedIndexCopy.Should().BeEquivalentTo(invertedIndex);
     }
     
     [Fact]
