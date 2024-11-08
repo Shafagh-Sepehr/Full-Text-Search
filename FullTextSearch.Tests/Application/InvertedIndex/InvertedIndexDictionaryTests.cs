@@ -67,7 +67,7 @@ public class InvertedIndexDictionaryTests
         _querySearcher.Search(query).Returns(expectedResult);
 
         // Act
-        var result = _invertedIndexDictionary.Search(query).ToList();
+        var result = _invertedIndexDictionary.Search(query);
 
         // Assert
         result.Should().BeSameAs(expectedResult);
