@@ -40,7 +40,7 @@ public class SearchExecutorTests
     }
 
     [Fact]
-    public void ExecuteSearch_WhenAllWordsPresent_ShouldCallAndOrNotSearchAndShouldNotModifyInputAndReturnValues()
+    public void ExecuteSearch_WhenAllWordsPresent_ShouldCallAndOrNotSearchWithCorrectInputs()
     {
         // Arrange
         var words = new ProcessedQueryWords
@@ -63,7 +63,7 @@ public class SearchExecutorTests
     }
 
     [Fact]
-    public void ExecuteSearch_WhenAndWordsPresent_ShouldCallAndNotSearchAndShouldNotModifyInputAndReturnValues()
+    public void ExecuteSearch_WhenAndWordsPresent_ShouldCallAndNotSearchWithCorrectInputs()
     {
         // Arrange
         var words = new ProcessedQueryWords
@@ -86,7 +86,7 @@ public class SearchExecutorTests
     }
 
     [Fact]
-    public void ExecuteSearch_WhenOrWordsPresent_ShouldCallOrNotSearchAndShouldNotModifyInputAndReturnValues()
+    public void ExecuteSearch_WhenOrWordsPresent_ShouldCallOrNotSearchWithCorrectInputs()
     {
         // Arrange
         var words = new ProcessedQueryWords
