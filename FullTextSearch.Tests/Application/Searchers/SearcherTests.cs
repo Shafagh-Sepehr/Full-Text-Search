@@ -89,14 +89,14 @@ public class SearcherTests
     public void Constructor_WhenADependencyIsNull_ShouldThrowArgumentNullException()
     {
         // Arrange
-        var nullAndReader = Substitute.For<IAndDocumentsReader>();
-        var nullOrReader = Substitute.For<IOrDocumentsReader>();
-        var nullNotReader = Substitute.For<INotDocumentsReader>();
+        var andOrNotSearcher = Substitute.For<IAndOrNotSearcher>();
+        var andNotSearcher = Substitute.For<IAndNotSearcher>();
+        var orNotSearcher = Substitute.For<IOrNotSearcher>();
 
         // Act
-        Action act1 = () => new DocumentReader(null!, nullOrReader, nullNotReader);
-        Action act2 = () => new DocumentReader(nullAndReader, null!, nullNotReader);
-        Action act3 = () => new DocumentReader(nullAndReader, nullOrReader, null!);
+        Action act1 = () => new Searcher(null!, andNotSearcher, orNotSearcher);
+        Action act2 = () => new Searcher(andOrNotSearcher, null!, orNotSearcher);
+        Action act3 = () => new Searcher(andOrNotSearcher, andNotSearcher, null!);
 
         // Assert
         act1.Should().Throw<ArgumentNullException>();
