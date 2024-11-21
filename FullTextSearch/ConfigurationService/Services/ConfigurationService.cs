@@ -13,7 +13,7 @@ internal class ConfigurationService : IConfigurationService
         
         _config = configurationBuilder
             .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile("appsettings.json", false, true)
+            .AddJsonFile("inverted_index_appsettings.json", false, true)
             .Build();
     }
     
