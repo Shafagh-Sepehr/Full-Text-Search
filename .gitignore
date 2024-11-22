@@ -85,3 +85,9 @@ fabric.properties
 # Android studio 3.1+ serialized cache file
 .idea/caches/build_file_checksums.ser
 
+/FullTextSearch/bin/
+/FullTextSearch/obj/
+FullTextSearch.Tests/bin/
+FullTextSearch.Tests/obj/
+/CodeStar2.sln.DotSettings.user
+/FullTextSearch.sln.DotSettings.user
