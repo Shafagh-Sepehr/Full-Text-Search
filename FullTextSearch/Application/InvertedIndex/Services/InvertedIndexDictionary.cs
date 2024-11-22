@@ -1,36 +1,41 @@
 using FullTextSearch.Application.InvertedIndex.Abstractions;
-using FullTextSearch.Exceptions;
+using FullTextSearch.ConfigurationService.Abstractions;
+using Microsoft.Extensions.Configuration;
 
 namespace FullTextSearch.Application.InvertedIndex.Services;
 
-internal sealed class InvertedIndexDictionary(
-    IQuerySearcher querySearcher,
-    IInvertedIndexDictionaryFiller invertedIndexDictionaryFiller)
-    : IInvertedIndexDictionary
+internal sealed class InvertedIndexDictionary : IInvertedIndexDictionary
 {
-    private readonly IInvertedIndexDictionaryFiller _indexDictionaryFiller =
-        invertedIndexDictionaryFiller ?? throw new ArgumentNullException(nameof(invertedIndexDictionaryFiller));
-    
-    private readonly IQuerySearcher _searcher = querySearcher ?? throw new ArgumentNullException(nameof(querySearcher));
-    private          bool           _isConstructed;
-    
-    public void Construct(string path, IReadOnlyList<string>? bannedWords = null)
+    private readonly IInvertedIndexDictionaryFiller _indexDictionaryFiller;
+    private readonly IConfigurationService          _configurationService;
+    private readonly IQuerySearcher                 _searcher;
+
+    public InvertedIndexDictionary(IQuerySearcher querySearcher,
+                                   IInvertedIndexDictionaryFiller invertedIndexDictionaryFiller,
+                                   IConfigurationService configurationService)
     {
-        _indexDictionaryFiller.Construct(bannedWords);
-        var invertedIndex = _indexDictionaryFiller.Build(path);
+        _indexDictionaryFiller = invertedIndexDictionaryFiller ?? throw new ArgumentNullException(nameof(invertedIndexDictionaryFiller));
+        _configurationService = configurationService ?? throw new ArgumentNullException(nameof(configurationService));
+        _searcher = querySearcher ?? throw new ArgumentNullException(nameof(querySearcher));
+
+        ConstructLowerLevelServices();
+    }
+
+
+    private void ConstructLowerLevelServices()
+    {
+        _indexDictionaryFiller.Construct(GetBannedWords());
+        var invertedIndex = _indexDictionaryFiller.Build(GetDocumentsPath());
         _searcher.Construct(invertedIndex);
-        
-        _isConstructed = true;
     }
-    
-    public IEnumerable<string> Search(string query)
+
+    public IEnumerable<string> Search(string query) => _searcher.Search(query);
+
+    private IReadOnlyList<string>? GetBannedWords() => _configurationService.GetConfig().GetSection("BannedWords").Get<IReadOnlyList<string>>();
+    private string GetDocumentsPath()
     {
-        AssertConstructMethodCalled();
-        return _searcher.Search(query);
-    }
-    
-    private void AssertConstructMethodCalled()
-    {
-        if (!_isConstructed) throw new ConstructMethodNotCalledException();
+        var documentsPath = _configurationService.GetConfig()["DocumentsPath"];
+        ArgumentNullException.ThrowIfNull(documentsPath,"document path");
+        return documentsPath;
     }
 }

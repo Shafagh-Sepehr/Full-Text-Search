@@ -1,6 +1,7 @@
 using FluentAssertions;
 using FullTextSearch.Application.InvertedIndex.Abstractions;
 using FullTextSearch.Application.InvertedIndex.Services;
+using FullTextSearch.ConfigurationService.Abstractions;
 using FullTextSearch.Exceptions;
 using NSubstitute;
 
@@ -10,53 +11,22 @@ public class InvertedIndexDictionaryTests
 {
     private readonly InvertedIndexDictionary        _invertedIndexDictionary;
     private readonly IInvertedIndexDictionaryFiller _invertedIndexDictionaryFiller;
+    private readonly IConfigurationService          _configurationService;
     private readonly IQuerySearcher                 _querySearcher;
     
     public InvertedIndexDictionaryTests()
     {
         _querySearcher = Substitute.For<IQuerySearcher>();
         _invertedIndexDictionaryFiller = Substitute.For<IInvertedIndexDictionaryFiller>();
-        _invertedIndexDictionary = new(_querySearcher, _invertedIndexDictionaryFiller);
+        _configurationService = Substitute.For<IConfigurationService>();
+        _invertedIndexDictionary = new(_querySearcher, _invertedIndexDictionaryFiller,_configurationService);
     }
-    
-    [Fact]
-    public void Construct_WhenCorrectlyCalled_ShouldCallMethodsInOrderWithCorrectInputs()
-    {
-        // Arrange
-        const string path = "path";
-        IReadOnlyList<string> bannedWords = new List<string> { "bannedWords", };
-        IReadOnlyDictionary<string, List<string>> invertedIndex = new Dictionary<string, List<string>>();
-        
-        _invertedIndexDictionaryFiller.Build(path).Returns(invertedIndex);
-        
-        // Act
-        _invertedIndexDictionary.Construct(path, bannedWords);
-        
-        // Assert
-        _invertedIndexDictionaryFiller.Received(1).Construct(bannedWords);
-        Received.InOrder(() =>
-        {
-            _invertedIndexDictionaryFiller.Build(path);
-            _querySearcher.Construct(invertedIndex);
-        });
-    }
-    
-    
-    [Fact]
-    public void Search_WhenConstructMethodIsNotCalled_ShouldThrowException()
-    {
-        // Act
-        Action act = () => _invertedIndexDictionary.Search("sth");
-        
-        // Assert
-        act.Should().Throw<ConstructMethodNotCalledException>();
-    }
+
     
     [Fact]
     public void Search_WhenCorrectlyCalled_ShouldCallSearchOnSearcherReturnItsReturnValue()
     {
         // Arrange
-        _invertedIndexDictionary.Construct("path");
         IReadOnlySet<string> expectedResult = new HashSet<string> { "res", };
         
         const string query = "query";
@@ -75,13 +45,16 @@ public class InvertedIndexDictionaryTests
         // Arrange
         var querySearcher = Substitute.For<IQuerySearcher>();
         var invertedIndexDictionaryFiller = Substitute.For<IInvertedIndexDictionaryFiller>();
-        
+        var configurationService = Substitute.For<IConfigurationService>();
+
         // Act
-        Action act1 = () => new InvertedIndexDictionary(null!, invertedIndexDictionaryFiller);
-        Action act2 = () => new InvertedIndexDictionary(querySearcher, null!);
-        
+        Action act1 = () => new InvertedIndexDictionary(null!, invertedIndexDictionaryFiller,configurationService);
+        Action act2 = () => new InvertedIndexDictionary(querySearcher, null!,configurationService);
+        Action act3 = () => new InvertedIndexDictionary(querySearcher, invertedIndexDictionaryFiller,null!);
+
         // Assert
         act1.Should().Throw<ArgumentNullException>();
         act2.Should().Throw<ArgumentNullException>();
+        act3.Should().Throw<ArgumentNullException>();
     }
 }
