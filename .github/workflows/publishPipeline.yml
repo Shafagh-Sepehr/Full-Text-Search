@@ -11,10 +11,20 @@ jobs:
         steps:
             - uses: actions/checkout@v4
 
+            - name: Check Installed .NET SDKs
+              id: check-dotnet
+              run: |
+                if dotnet --list-sdks; then
+                    echo "DOTNET_INSTALLED=true" >> $GITHUB_ENV
+                else
+                    echo "DOTNET_INSTALLED=false" >> $GITHUB_ENV
+                fi
+
             - name: Setup .NET
+              if: env.DOTNET_INSTALLED == 'false'
               uses: actions/setup-dotnet@v4
               with:
-                  dotnet-version: 8.0.403
+                  dotnet-version: 8.0.x
     
             - name: Get current release version
               id: version
