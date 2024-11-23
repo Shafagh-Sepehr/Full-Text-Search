@@ -1,4 +1,6 @@
 {
-  "DocumentsPath": "/home/shafagh/Desktop/EnglishData",
-  "BannedWords": ["will"]
+  "AppSettings":{
+    "DocumentsPath": "/home/shafagh/Desktop/EnglishData",
+    "BannedWords": ["will"]
+  }
 }

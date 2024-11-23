@@ -2,7 +2,7 @@ using System.Text.RegularExpressions;
 
 namespace FullTextSearch;
 
-internal static partial class AppSettings
+internal partial class AppSettings : IAppSettings
 {
     public static readonly string[] BannedWords =
     [
@@ -36,4 +36,7 @@ internal static partial class AppSettings
             @"^(?:\+?\d{1,3}[-.\s]?)?(?:$\d{1,4}$[-\s]?|\d{1,4}[-.\s]?)?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}(?:\s?(?:ext|x|extension|#)?\.?\s?\d{1,5})?;?$")]
         public static partial Regex PhoneNumberRegex();
     }
+    
+    public required string                 documentsPath { get; init; }
+    public          IReadOnlyList<string>? bannedWords   { get; init; }
 }

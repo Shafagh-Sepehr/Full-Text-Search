@@ -1,8 +1,6 @@
 using FluentAssertions;
 using FullTextSearch.Application.InvertedIndex.Abstractions;
 using FullTextSearch.Application.InvertedIndex.Services;
-using FullTextSearch.ConfigurationService.Abstractions;
-using FullTextSearch.Exceptions;
 using NSubstitute;
 
 namespace FullTextSearch.Tests.Application.InvertedIndex;
@@ -11,15 +9,15 @@ public class InvertedIndexDictionaryTests
 {
     private readonly InvertedIndexDictionary        _invertedIndexDictionary;
     private readonly IInvertedIndexDictionaryFiller _invertedIndexDictionaryFiller;
-    private readonly IConfigurationService          _configurationService;
+    private readonly IAppSettings                   _appSettings;
     private readonly IQuerySearcher                 _querySearcher;
     
     public InvertedIndexDictionaryTests()
     {
         _querySearcher = Substitute.For<IQuerySearcher>();
         _invertedIndexDictionaryFiller = Substitute.For<IInvertedIndexDictionaryFiller>();
-        _configurationService = Substitute.For<IConfigurationService>();
-        _invertedIndexDictionary = new(_querySearcher, _invertedIndexDictionaryFiller,_configurationService);
+        _appSettings = Substitute.For<IAppSettings>();
+        _invertedIndexDictionary = new(_querySearcher, _invertedIndexDictionaryFiller, _appSettings);
     }
 
     
@@ -45,11 +43,11 @@ public class InvertedIndexDictionaryTests
         // Arrange
         var querySearcher = Substitute.For<IQuerySearcher>();
         var invertedIndexDictionaryFiller = Substitute.For<IInvertedIndexDictionaryFiller>();
-        var configurationService = Substitute.For<IConfigurationService>();
+        var appSettings = Substitute.For<IAppSettings>();
 
         // Act
-        Action act1 = () => new InvertedIndexDictionary(null!, invertedIndexDictionaryFiller,configurationService);
-        Action act2 = () => new InvertedIndexDictionary(querySearcher, null!,configurationService);
+        Action act1 = () => new InvertedIndexDictionary(null!, invertedIndexDictionaryFiller,appSettings);
+        Action act2 = () => new InvertedIndexDictionary(querySearcher, null!,appSettings);
         Action act3 = () => new InvertedIndexDictionary(querySearcher, invertedIndexDictionaryFiller,null!);
 
         // Assert

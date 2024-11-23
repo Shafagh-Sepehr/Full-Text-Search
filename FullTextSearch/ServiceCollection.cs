@@ -18,7 +18,6 @@ using FullTextSearch.Application.StringCleaners.StringTrimAndSplitter.Abstractio
 using FullTextSearch.Application.StringCleaners.StringTrimAndSplitter.Services;
 using FullTextSearch.Application.WordsProcessors.Abstractions;
 using FullTextSearch.Application.WordsProcessors.Services;
-using FullTextSearch.ConfigurationService.Abstractions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Porter2Stemmer;
@@ -69,9 +68,19 @@ internal static class ServiceCollection
         serviceCollector.AddSingleton<IStringListCleaner, StringListCleaner>();
         serviceCollector.AddSingleton<IStringListStemmer, StringListStemmer>();
         serviceCollector.AddSingleton<IStringListNonValidWordCleaner, StringListNonValidWordCleaner>();
-        
-        serviceCollector.AddTransient<IConfigurationBuilder, ConfigurationBuilder>();
-        serviceCollector.AddTransient<IConfigurationService, ConfigurationService.Services.ConfigurationService>();
+
+        serviceCollector.AddSingleton<IConfiguration>(new ConfigurationBuilder()
+            .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+            .AddJsonFile("inverted_index_appsettings.json", optional: false, reloadOnChange: true)
+            .Build());
+
+        serviceCollector.AddSingleton<IAppSettings>(sp =>
+        {
+            var appSettings = sp.GetRequiredService<IConfiguration>().GetSection("AppSettings").Get<AppSettings>();
+            ArgumentNullException.ThrowIfNull(appSettings);
+            return appSettings;
+        });
+
         
         return serviceCollector.BuildServiceProvider();
     }
