@@ -1,16 +1,19 @@
 using FluentAssertions;
 using FullTextSearch.Application.StringCleaners.StringListNonValidWordCleaner.Services;
+using NSubstitute;
 
 namespace FullTextSearch.Tests.Application.StringCleaners;
 
 public class StringListNonValidWordCleanerTests
 {
     private readonly StringListNonValidWordCleaner _cleaner;
+    private readonly IAppSettings                  _appSettings;
     
     public StringListNonValidWordCleanerTests()
     {
-        _cleaner = new();
-        _cleaner.Construct(["BannedWord", "ForbiddenWord",]);
+        _appSettings = Substitute.For<IAppSettings>();
+        _appSettings.bannedWords.Returns(["BannedWord", "ForbiddenWord",]);
+        _cleaner = new(_appSettings);
     }
     
     [Fact]
@@ -63,5 +66,18 @@ public class StringListNonValidWordCleanerTests
         
         // Assert
         result.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void Constructor_WhenADependencyIsNull_ShouldThrowArgumentNullException()
+    {
+        // Arrange
+        IAppSettings appSettings = null!;
+
+        // Act
+        Action act = () => new StringListNonValidWordCleaner(appSettings);
+
+        // Assert
+        act.Should().Throw<ArgumentNullException>();
     }
 }

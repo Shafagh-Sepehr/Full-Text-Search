@@ -16,10 +16,10 @@ internal sealed class StringToWordsProcessor(
 {
     private readonly IStringListCleaner _stringListCleaner =
         stringListCleaner ?? throw new ArgumentNullException(nameof(stringListCleaner));
-    
+
     private readonly IStringListNoiseCleaner _stringListNoiseCleaner =
         stringListNoiseCleaner ?? throw new ArgumentNullException(nameof(stringListNoiseCleaner));
-    
+
     private readonly IStringListNonValidWordCleaner _stringListNonValidWordCleaner =
         stringListNonValidWordCleaner ?? throw new ArgumentNullException(nameof(stringListNonValidWordCleaner));
     
@@ -37,11 +37,5 @@ internal sealed class StringToWordsProcessor(
         result = _stringListStemmer.Stem(result);
         result = _stringListNonValidWordCleaner.Clean(result);
         return result.Distinct();
-    }
-    
-    public void Construct(IReadOnlyList<string>? bannedWords)
-    {
-        if (bannedWords != null)
-            _stringListNonValidWordCleaner.Construct(bannedWords);
     }
 }

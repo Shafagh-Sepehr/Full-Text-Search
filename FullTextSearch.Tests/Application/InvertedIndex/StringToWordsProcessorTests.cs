@@ -92,33 +92,6 @@ public class StringToWordsProcessorTests
         result.Should().BeEquivalentTo(expectedResult);
     }
 
-    [Fact]
-    public void Construct_WhenInputIsNotNull_ShouldCallConstructOnStringListNonValidWordCleaner()
-    {
-        // Arrange
-        var input = new List<string> { "bannedWord", "bannedWordTwo", };
-        var inputCopy = new List<string>(input);
-
-        // Act
-        _stringToWordsProcessor.Construct(input);
-
-        // Assert
-        _stringListNonValidWordCleaner.Received(1).Construct(input);
-        inputCopy.Should().BeEquivalentTo(input);
-    }
-    
-    [Fact]
-    public void Construct_WhenInputNull_ShouldNotCallConstructOnStringListNonValidWordCleaner()
-    {
-        // Arrange
-        List<string>? input = null;
-
-        // Act
-        _stringToWordsProcessor.Construct(input);
-
-        // Assert
-        _stringListNonValidWordCleaner.Received(0).Construct(input);
-    }
 
     [Fact]
     public void Constructor_WhenADependencyIsNull_ShouldThrowArgumentNullException()

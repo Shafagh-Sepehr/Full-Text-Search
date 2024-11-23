@@ -4,13 +4,19 @@ namespace FullTextSearch.Application.StringCleaners.StringListNonValidWordCleane
 
 internal class StringListNonValidWordCleaner : IStringListNonValidWordCleaner
 {
-    private readonly List<string> _banned = AppSettings.BannedWords.ToList();
-    
-    public void Construct(IReadOnlyList<string>? bannedWords)
+    private readonly List<string> _banned;
+
+    public StringListNonValidWordCleaner(IAppSettings appSettings)
     {
-        if (bannedWords != null)
-            _banned.AddRange(bannedWords);
+        ArgumentNullException.ThrowIfNull(appSettings);
+
+        _banned = AppSettings.BannedWords.ToList();
+        if (appSettings.bannedWords != null)
+        {
+            _banned.AddRange(appSettings.bannedWords);
+        }
     }
+
     
     public IEnumerable<string> Clean(IEnumerable<string> value) => value.Where(IsValid);
     private bool IsValid(string value) => !string.IsNullOrWhiteSpace(value) && IsLongEnough(value) && IsNotBanned(value);

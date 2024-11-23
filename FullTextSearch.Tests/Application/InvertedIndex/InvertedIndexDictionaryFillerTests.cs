@@ -86,19 +86,6 @@ public class InvertedIndexDictionaryFillerTests
     }
     
     [Fact]
-    public void Construct_WhenCorrectlyCalled_ShouldCallConstructOnStringToWordProcessor()
-    {
-        // Arrange
-        IReadOnlyList<string> bannedWords = new List<string> { "val1", };
-        
-        // Act
-        _filler.Construct(bannedWords);
-        
-        // Assert
-        _stringToWordsProcessor.Received(1).Construct(bannedWords);
-    }
-    
-    [Fact]
     public void Constructor_WhenADependencyIsNull_ShouldThrowArgumentNullException()
     {
         // Arrange
